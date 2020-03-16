@@ -1,0 +1,14 @@
+﻿.transparent-label{
+    background-color: rgba(52, 58, 64, 0.7);
+    color: white;
+}
+.card h2{
+    font-size: 18px;
+}
+.corner-ribbon{
+    background: #e43;
+    position: absolute;
+    text-align: center;
+    color: #f0f0f0;
+    transform: rotate(45deg);
+}

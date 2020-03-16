@@ -21,12 +21,7 @@ namespace MarketX.Controllers
 
         public IActionResult Index()
         {
-            var priorizedAdvertisements = context.Advertisements.Where(a => a.IsPriorized).Take(8).ToList();
-            var otherAdvertisements = context.Advertisements.Where(a => !a.IsPriorized)
-                                                            .OrderByDescending(a => a.CreatedDate)
-                                                            .Take(8).ToList();
-            var advertisements = priorizedAdvertisements.Concat(otherAdvertisements);
-            return View(advertisements);
+            return View();
         }
     }
 }

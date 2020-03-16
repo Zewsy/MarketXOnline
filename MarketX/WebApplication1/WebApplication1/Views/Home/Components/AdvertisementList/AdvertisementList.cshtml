@@ -1,0 +1,37 @@
+﻿@model IEnumerable<MarketX.ViewModels.BasicAdvertisementCardViewModel>
+
+    <div class="row row-cols-4">
+        @foreach (var advertisement in Model)
+        {
+            <div class="col-lg-3 mb-3">
+                <div class="card h-100">
+                    <h2 class="ml-2 mt-2 card-title">@advertisement.Title</h2>
+                    @if (advertisement.ImagePath != null)
+                    {
+                        <img class="card-img" src="@Url.Content(advertisement.ImagePath)">
+                    }
+                    else
+                    {
+                        <img class="card-img" src="~/images/image-placeholder.jpg">
+                    }
+                <div class="p-0 card-img-overlay d-flex justify-content-end">
+                    @if (advertisement.AdType == MarketX.ViewModels.AdType.Buying)
+                    {
+                        <div class="corner-ribbon">Keres</div>
+                    }
+                    else
+                    {
+                        <div class="corner-ribbon">Kínál</div>
+                    }
+                </div>
+                    <div class="p-0 card-img-overlay d-flex flex-column justify-content-end">
+                        @if (advertisement.Price != null)
+                        {
+                            <div class="card-text text-right transparent-label">@string.Format("{0:C0}",advertisement.Price)</div>
+                        }
+                        <div class="card-text text-right transparent-label">@advertisement.City</div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>

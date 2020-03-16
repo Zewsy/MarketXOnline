@@ -2,3 +2,17 @@
     ViewData["Title"] = "Home Page";
 }
 
+<h1 class="mb-5">Kiemelt Hirdetések</h1>
+<div>
+    @await Component.InvokeAsync("AdvertisementList", new { advertisementTypeToShow = MarketX.Views.Home.ViewComponents.AdvertisementType.Priorized,
+                                                            numberOfAdvertisementsToShow = 8})
+</div>
+
+<h1 class="mb-5 mt-3">Legfrissebb Hirdetések</h1>
+<div>
+    @await Component.InvokeAsync("AdvertisementList", new
+    {
+        advertisementTypeToShow = MarketX.Views.Home.ViewComponents.AdvertisementType.Latest,
+                                                            numberOfAdvertisementsToShow = 8
+    })
+</div>
