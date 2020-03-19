@@ -1,0 +1,20 @@
+﻿@model Advertisement
+
+<h1>@Model.Title</h1>
+
+<div>
+    <div>@Html.DisplayNameFor(model => model.Price): @string.Format("{0:C0}", @Model.Price)</div>
+    <div>
+        Jellege:
+        @if (Model.Customer != null)
+        {
+            <p>Keres</p>
+        }
+        else
+        {
+            <p>Kínál</p>
+        }
+    </div>
+    <div>@Html.DisplayNameFor(model => model.CreatedDate): @Model.CreatedDate</div>
+
+</div>

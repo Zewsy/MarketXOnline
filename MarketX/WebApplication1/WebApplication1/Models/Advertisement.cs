@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,12 +25,20 @@ namespace MarketX.Models
     {
         public int ID { get; set; }
         public string Title { get; set; }
+
+        [DisplayName("Ár")]
         public int? Price { get; set; }
         public bool IsPriorized { get; set; }
+
+        [DisplayName("Hirdetésfeladás dátuma")]
         public DateTime CreatedDate { get; set; }
         public int DaysToLive { get; set; }
         public DateTime? ClosedAtDate { get; set; }
+
+        [DisplayName("Leírás")]
         public string Description { get; set; }
+
+        [DisplayName("Állapot")]
         public Condition Condition { get; set; }
         public Status Status { get; set; }
         public ICollection<AdvertisementPhoto> AdvertisementPhotos { get; set; }
