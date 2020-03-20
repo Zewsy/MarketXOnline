@@ -8,9 +8,9 @@ namespace MarketX.Models
     public class WrongAdvertisementMark
     {
         public int ID { get; set; }
-        public User MarkingUser { get; set; }
-        public Advertisement Advertisement { get; set; }
+        public virtual User MarkingUser { get; set; }
+        public virtual Advertisement Advertisement { get; set; }
         public string? Note { get; set; }
-        public MarkType MarkType { get; set; }
+        public virtual MarkType MarkType { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace MarketX.Models
         public int ID { get; set; }
         public string Name { get; set; }
         public int? ParentCategoryID { get; set; }
-        public Category? ParentCategory { get; set; }
-        public ICollection<CategoryProperty> CategoryProperties { get; set; }
+        public virtual Category? ParentCategory { get; set; }
+        public virtual ICollection<CategoryProperty> CategoryProperties { get; set; }
     }
 }

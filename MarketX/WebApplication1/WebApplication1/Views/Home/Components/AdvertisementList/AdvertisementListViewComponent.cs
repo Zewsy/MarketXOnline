@@ -30,7 +30,7 @@ namespace MarketX.Views.Home.ViewComponents
             switch (advertisementTypeToShow)
             {
                 case AdvertisementType.Priorized:
-                    advertisements = await context.Advertisements.Where(a => a.IsPriorized)
+                    advertisements = await context.Advertisements.Where(a => a.IsPriorized && a.Status != Status.Closed)
                                                                  .Take(numberOfAdvertisementsToShow)
                                                                  .Select(a => new BasicAdvertisementCardViewModel
                                                                  { 
@@ -43,7 +43,7 @@ namespace MarketX.Views.Home.ViewComponents
                                                                  .ToListAsync();
                     break;
                 case AdvertisementType.Latest:
-                    advertisements = await context.Advertisements.Where(a => !a.IsPriorized)
+                    advertisements = await context.Advertisements.Where(a => !a.IsPriorized && a.Status != Status.Closed)
                                                                  .OrderByDescending(a => a.CreatedDate)
                                                                  .Take(numberOfAdvertisementsToShow)
                                                                  .Select(a => new BasicAdvertisementCardViewModel

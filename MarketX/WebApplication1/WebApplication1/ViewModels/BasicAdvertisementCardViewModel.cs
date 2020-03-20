@@ -16,6 +16,8 @@ namespace MarketX.ViewModels
     {
 
         public string Title { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:C0}")]
         public int? Price { get; set; }
         public string ImagePath { get; set; }
         public string City { get; set; }

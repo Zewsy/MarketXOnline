@@ -1,20 +1,85 @@
 ﻿@model Advertisement
 
-<h1>@Model.Title</h1>
+@section Styles{
+    <link rel="stylesheet" href="~/css/Advertisment.css" />
+}
 
-<div>
-    <div>@Html.DisplayNameFor(model => model.Price): @string.Format("{0:C0}", @Model.Price)</div>
-    <div>
-        Jellege:
-        @if (Model.Customer != null)
-        {
-            <p>Keres</p>
-        }
-        else
-        {
-            <p>Kínál</p>
-        }
+<div class="container">
+    <div class="row">
+        <h1 class="col-12">@Model.Title</h1>
     </div>
-    <div>@Html.DisplayNameFor(model => model.CreatedDate): @Model.CreatedDate</div>
+    <div class="row">
+        <div class="col-3">
+            <div class="row">
+                <img class="img-fluid" src="@Url.Content(Model.AdvertisementPhotos.First().ImagePath)" />
+            </div>
+            <div class="row justify-content-center">
+                @foreach (var image in Model.AdvertisementPhotos)
+                {
+                    <img class="img-fluid col-4" src="@Url.Content(image.ImagePath)" />
+                }
+            </div>
+        </div>
+        <div class="col-9">
+            <div>@Html.DisplayNameFor(model => model.Price): @Html.DisplayFor(model => model.Price)</div>
 
+            @if (Model.Status != Status.Closed)
+            {
+                <div> Jellege: @(Model.Customer == null ? "Kínál" : "Keres") </div>
+            }
+
+            <div>@Html.DisplayNameFor(model => model.CreatedDate): @Html.DisplayFor(model => model.CreatedDate)</div>
+            <div>@Html.DisplayNameFor(model => model.Condition): @(Model.Condition == Condition.New ? "Új" : "Használt")</div>
+
+            @foreach (var property in Model.AdvertisementProperties)
+            {
+                if (property.Property.isImportant)
+                {
+                    <div>
+                        @property.Property.Name: @property.ValueAsString
+                    </div>
+                }
+            }
+            <div>Hely: @Html.DisplayFor(model => model.City.County.Name) , @Html.DisplayFor(model => model.City.Name)</div>
+        </div>
+    </div>
+    <div class="row">
+        <div>
+            <h2>@Html.DisplayNameFor(model => model.Description)</h2>
+            @Html.DisplayFor(model => model.Description)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <div>
+                <h2>További tulajdonságok</h2>
+                @foreach (var property in Model.AdvertisementProperties)
+                {
+                    if (!property.Property.isImportant)
+                    {
+                        <div>
+                            @property.Property.Name: @property.ValueAsString
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+        <div class="col-8">
+            <h2>Eladó</h2>
+            <div class="row">
+                <div class="col-3">
+                    <a>@Html.DisplayFor(model => model.Seller.LastName) @Html.DisplayFor(model => model.Seller.FirstName)</a>
+                    <div>@Html.DisplayNameFor(model => model.Seller.PhoneNumber): @Html.DisplayFor(model => model.Seller.PhoneNumber)</div>
+                    <div>@Html.DisplayNameFor(model => model.Seller.Email): @Html.DisplayFor(model => model.Seller.Email)</div>
+                    <div>@Html.DisplayNameFor(model => model.Seller.RegistrationDate): @Html.DisplayFor(model => model.Seller.RegistrationDate)</div>
+                </div>
+                <div class="col-3">
+                    <img class="img-fluid mb-2" src="@Url.Content(Model.Seller.ProfilePicturePath)" />
+                    <button type="button" class="btn btn-primary btn-block">Email</button>
+                    <button type="button" class="btn btn-primary btn-block">Üzenetküldés az oldalon</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>

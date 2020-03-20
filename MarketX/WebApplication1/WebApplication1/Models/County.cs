@@ -10,7 +10,7 @@ namespace MarketX.Models
         public int ID { get; set; }
         public string Name { get; set; }
 
-        public ICollection<City> Cities { get; set; }
-        public ICollection<User> UsersLiveInTheCounty { get; set; }
+        public virtual ICollection<City> Cities { get; set; }
+        public virtual ICollection<User> UsersLiveInTheCounty { get; set; }
     }
 }

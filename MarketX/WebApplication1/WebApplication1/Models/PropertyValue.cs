@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace MarketX.Models
 {
-    public class MarkType
+    public class PropertyValue
     {
         public int ID { get; set; }
-        public string Name { get; set; }
-
-        public virtual ICollection<WrongAdvertisementMark> WrongAdvertisementMarks { get; set; }
+        public int PropertyID { get; set; }
+        public virtual Property Property { get; set; }
+        public string Value { get; set; }
     }
 }

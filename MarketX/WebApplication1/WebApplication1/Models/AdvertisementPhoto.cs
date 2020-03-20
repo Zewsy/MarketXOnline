@@ -12,6 +12,6 @@ namespace MarketX.Models
         public string ImagePath { get; set; }
 
         public int AdvertisementID { get; set; }
-        public Advertisement Advertisement { get; set; }
+        public virtual Advertisement Advertisement { get; set; }
     }
 }

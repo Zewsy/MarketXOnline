@@ -27,7 +27,7 @@
                     <div class="p-0 card-img-overlay d-flex flex-column justify-content-end">
                         @if (advertisement.Price != null)
                         {
-                            <div class="card-text text-right transparent-label">@string.Format("{0:C0}",advertisement.Price)</div>
+                            <div class="card-text text-right transparent-label">@Html.DisplayFor(modelItem => advertisement.Price)</div>
                         }
                         <div class="card-text text-right transparent-label">@advertisement.City</div>
                     </div>

@@ -28,6 +28,7 @@ namespace MarketX.Data
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<WrongAdvertisementMark> WrongAdvertisementMarks { get; set; }
+        public DbSet<PropertyValue> PropertyValues { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

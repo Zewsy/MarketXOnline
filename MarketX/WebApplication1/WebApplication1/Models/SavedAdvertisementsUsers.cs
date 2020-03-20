@@ -10,7 +10,7 @@ namespace MarketX.Models
         public int UserID { get; set; }
         public int AdvertisementID { get; set; }
 
-        public User User { get; set; }
-        public Advertisement Advertisement { get; set; }
+        public virtual User User { get; set; }
+        public virtual Advertisement Advertisement { get; set; }
     }
 }

@@ -259,6 +259,16 @@ namespace MarketX.Data
                     },
                     new AdvertisementPhoto
                     {
+                        ImagePath = "~/images/advertisementPhotos/audi_2.jpg",
+                        AdvertisementID = context.Advertisements.Single(a => a.Title == "Audi A6").ID
+                    },
+                    new AdvertisementPhoto
+                    {
+                        ImagePath = "~/images/advertisementPhotos/audi_3.jpg",
+                        AdvertisementID = context.Advertisements.Single(a => a.Title == "Audi A6").ID
+                    },
+                    new AdvertisementPhoto
+                    {
                         ImagePath = "~/images/advertisementPhotos/turabakancs.jpg",
                         AdvertisementID = context.Advertisements.Single(a => a.Title == "Eladó túrabakancs").ID
                     },
@@ -281,6 +291,148 @@ namespace MarketX.Data
                     {
                         ImagePath = "~/images/advertisementPhotos/asus.jpg",
                         AdvertisementID = context.Advertisements.Single(a => a.Title == "Asus Rog").ID
+                    }
+                );
+
+                context.SaveChanges();
+
+                context.Properties.AddRange(
+                    new Property
+                    {
+                        Name = "Gyártás éve",
+                        ValueType = PropertyValueType.Integer,
+                        isImportant = true
+                    },
+                    new Property
+                    {
+                        Name = "Üzemanyag",
+                        ValueType = PropertyValueType.SelectableFromList,
+                        isImportant = true
+                    },
+                    new Property
+                    {
+                        Name = "Kilométeróra állása",
+                        ValueType = PropertyValueType.Integer,
+                        isImportant = true
+                    },
+                    new Property
+                    {
+                        Name = "Ajtók száma",
+                        ValueType = PropertyValueType.Integer,
+                        isImportant = false
+                    },
+                    new Property
+                    {
+                        Name = "ABS",
+                        ValueType = PropertyValueType.Bool,
+                        isImportant = false
+                    },
+                    new Property
+                    {
+                        Name = "Ködlámpa",
+                        ValueType = PropertyValueType.Bool,
+                        isImportant = false
+                    }
+                );
+
+                context.SaveChanges();
+
+                context.CategoryProperties.AddRange(
+                    new CategoryProperty
+                    {
+                        CategoryID = context.Categories.Single(c => c.Name == "Személygépkocsi").ID,
+                        PropertyID = context.Properties.Single(p => p.Name == "Gyártás éve").ID
+                    },
+                    new CategoryProperty
+                    {
+                        CategoryID = context.Categories.Single(c => c.Name == "Személygépkocsi").ID,
+                        PropertyID = context.Properties.Single(p => p.Name == "Üzemanyag").ID
+                    },
+                    new CategoryProperty
+                    {
+                        CategoryID = context.Categories.Single(c => c.Name == "Személygépkocsi").ID,
+                        PropertyID = context.Properties.Single(p => p.Name == "Kilométeróra állása").ID
+                    },
+                    new CategoryProperty
+                    {
+                        CategoryID = context.Categories.Single(c => c.Name == "Személygépkocsi").ID,
+                        PropertyID = context.Properties.Single(p => p.Name == "Ajtók száma").ID
+                    },
+                    new CategoryProperty
+                    {
+                        CategoryID = context.Categories.Single(c => c.Name == "Személygépkocsi").ID,
+                        PropertyID = context.Properties.Single(p => p.Name == "ABS").ID
+                    },
+                    new CategoryProperty
+                    {
+                        CategoryID = context.Categories.Single(c => c.Name == "Személygépkocsi").ID,
+                        PropertyID = context.Properties.Single(p => p.Name == "Ködlámpa").ID
+                    }
+                );
+
+                context.SaveChanges();
+
+                context.PropertyValues.AddRange(
+                    new PropertyValue
+                    {
+                        PropertyID = context.Properties.Single(p => p.Name == "Üzemanyag").ID,
+                        Value = "Benzin"
+                    },
+                    new PropertyValue
+                    {
+                        PropertyID = context.Properties.Single(p => p.Name == "Üzemanyag").ID,
+                        Value = "Dízel"
+                    },
+                    new PropertyValue
+                    {
+                        PropertyID = context.Properties.Single(p => p.Name == "Üzemanyag").ID,
+                        Value = "LPG"
+                    },
+                    new PropertyValue
+                    {
+                        PropertyID = context.Properties.Single(p => p.Name == "Üzemanyag").ID,
+                        Value = "Elektromos"
+                    }
+                );
+
+                context.SaveChanges();
+
+                context.AdvertisementProperties.AddRange(
+                    new AdvertisementProperty
+                    {
+                        AdvertisementID = context.Advertisements.Single(a => a.Title == "Audi A6").ID,
+                        PropertyID = context.Properties.Single(p => p.Name == "Gyártás éve").ID,
+                        ValueAsString = "2012"
+                    },
+                    new AdvertisementProperty
+                    {
+                        AdvertisementID = context.Advertisements.Single(a => a.Title == "Audi A6").ID,
+                        PropertyID = context.Properties.Single(p => p.Name == "Üzemanyag").ID,
+                        ValueAsString = "Dízel"
+                    },
+                    new AdvertisementProperty
+                    {
+                        AdvertisementID = context.Advertisements.Single(a => a.Title == "Audi A6").ID,
+                        PropertyID = context.Properties.Single(p => p.Name == "Kilométeróra állása").ID,
+                        ValueAsString = "144500"
+                    },
+                    new AdvertisementProperty
+                    {
+                        AdvertisementID = context.Advertisements.Single(a => a.Title == "Audi A6").ID,
+                        PropertyID = context.Properties.Single(p => p.Name == "Ajtók száma").ID,
+                        ValueAsString = "4"
+                    },
+                    new AdvertisementProperty
+                    {
+                        AdvertisementID = context.Advertisements.Single(a => a.Title == "Audi A6").ID,
+                        PropertyID = context.Properties.Single(p => p.Name == "ABS").ID,
+                        ValueAsString = "true"
+                    },
+                    new AdvertisementProperty
+                    {
+                        AdvertisementID = context.Advertisements.Single(a => a.Title == "Audi A6").ID,
+                        PropertyID = context.Properties.Single(p => p.Name == "Ködlámpa").ID,
+                        ValueAsString = "true"
                     }
                 );
 

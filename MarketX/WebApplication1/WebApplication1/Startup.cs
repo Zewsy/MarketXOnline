@@ -27,7 +27,7 @@ namespace MarketX
         {
             services.AddControllersWithViews();
             services.AddDbContext<MarketXContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("MarketXContext")));
+                options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("MarketXContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

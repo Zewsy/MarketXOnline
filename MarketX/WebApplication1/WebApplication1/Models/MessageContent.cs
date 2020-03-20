@@ -12,7 +12,7 @@ namespace MarketX.Models
         public string Content { get; set; }
         public DateTime CreatedDate { get; set; }
 
-        public ICollection<MessageHeader> MessageHeaders { get; set; }
+        public virtual ICollection<MessageHeader> MessageHeaders { get; set; }
 
     }
 }

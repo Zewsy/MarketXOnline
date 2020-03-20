@@ -11,8 +11,8 @@ namespace MarketX.Models
         public int ID { get; set; }
         public string Name { get; set; }
         public int CountyID { get; set; }
-        public County County { get; set; }
-        public ICollection<User> UsersLiveInTheCity { get; set; }
-        public ICollection<Advertisement> Advertisements { get; set; }
+        public virtual County County { get; set; }
+        public virtual ICollection<User> UsersLiveInTheCity { get; set; }
+        public virtual ICollection<Advertisement> Advertisements { get; set; }
     }
 }

@@ -10,8 +10,8 @@ namespace MarketX.Models
         public int ID { get; set; }
         public int AdvertisementID { get; set; }
         public int PropertyID { get; set; }
-        public Advertisement Advertisement { get; set; }
-        public Property Property { get; set; }
+        public virtual Advertisement Advertisement { get; set; }
+        public virtual Property Property { get; set; }
         public string ValueAsString { get; set; }
     }
 }
