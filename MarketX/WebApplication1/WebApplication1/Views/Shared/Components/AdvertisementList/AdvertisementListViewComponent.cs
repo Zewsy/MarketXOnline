@@ -14,7 +14,8 @@ namespace MarketX.Views.Home.ViewComponents
     public enum AdvertisementType
     {
         Priorized,
-        Latest
+        Latest,
+        Similar
     }
     public class AdvertisementListViewComponent : ViewComponent
     {
@@ -24,7 +25,7 @@ namespace MarketX.Views.Home.ViewComponents
             context = _context;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(AdvertisementType advertisementTypeToShow, int numberOfAdvertisementsToShow)
+        public async Task<IViewComponentResult> InvokeAsync(AdvertisementType advertisementTypeToShow, int numberOfAdvertisementsToShow, Advertisement? similarAdvertisement)
         {
             var advertisements = new List<BasicAdvertisementCardViewModel>();
             switch (advertisementTypeToShow)
@@ -34,6 +35,7 @@ namespace MarketX.Views.Home.ViewComponents
                                                                  .Take(numberOfAdvertisementsToShow)
                                                                  .Select(a => new BasicAdvertisementCardViewModel
                                                                  { 
+                                                                     ID = a.ID,
                                                                      Title = a.Title,
                                                                      Price = a.Price,
                                                                      ImagePath = a.AdvertisementPhotos.First().ImagePath,
@@ -48,6 +50,26 @@ namespace MarketX.Views.Home.ViewComponents
                                                                  .Take(numberOfAdvertisementsToShow)
                                                                  .Select(a => new BasicAdvertisementCardViewModel
                                                                  {
+                                                                     ID = a.ID,
+                                                                     Title = a.Title,
+                                                                     Price = a.Price,
+                                                                     ImagePath = a.AdvertisementPhotos.First().ImagePath,
+                                                                     City = a.City.Name,
+                                                                     AdType = a.Seller == null ? AdType.Buying : AdType.Selling
+                                                                 })
+                                                                 .ToListAsync();
+                    break;
+                case AdvertisementType.Similar:
+                    //TODO: PriceRange
+                    //TODO: Similarities
+                    if (similarAdvertisement == null) throw new NullReferenceException();
+                    advertisements = await context.Advertisements.Where(a => a.Category.Name == similarAdvertisement.Category.Name
+                                                                                                && a.ID != similarAdvertisement.ID
+                                                                                                && a.Status != Status.Closed)
+                                                                 .Take(numberOfAdvertisementsToShow)
+                                                                 .Select(a => new BasicAdvertisementCardViewModel
+                                                                 {
+                                                                     ID = a.ID,
                                                                      Title = a.Title,
                                                                      Price = a.Price,
                                                                      ImagePath = a.AdvertisementPhotos.First().ImagePath,

@@ -14,7 +14,7 @@ namespace MarketX.ViewModels
     }
     public class BasicAdvertisementCardViewModel
     {
-
+        public int ID { get; set; }
         public string Title { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:C0}")]

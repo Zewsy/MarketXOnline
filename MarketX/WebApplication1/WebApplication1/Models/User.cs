@@ -29,6 +29,7 @@ namespace MarketX.Models
         public string? PhoneNumber { get; set; }
 
         [Required]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
         [DisplayName("Regisztráció ideje")]
         public DateTime RegistrationDate { get; set; }
 

@@ -291,6 +291,11 @@ namespace MarketX.Data
                     {
                         ImagePath = "~/images/advertisementPhotos/asus.jpg",
                         AdvertisementID = context.Advertisements.Single(a => a.Title == "Asus Rog").ID
+                    },
+                    new AdvertisementPhoto
+                    {
+                        ImagePath = "~/images/image-placeholder.jpg",
+                        AdvertisementID = context.Advertisements.Single(a => a.Title == "Lakást keresek").ID
                     }
                 );
 
@@ -426,13 +431,13 @@ namespace MarketX.Data
                     {
                         AdvertisementID = context.Advertisements.Single(a => a.Title == "Audi A6").ID,
                         PropertyID = context.Properties.Single(p => p.Name == "ABS").ID,
-                        ValueAsString = "true"
+                        ValueAsString = "van"
                     },
                     new AdvertisementProperty
                     {
                         AdvertisementID = context.Advertisements.Single(a => a.Title == "Audi A6").ID,
                         PropertyID = context.Properties.Single(p => p.Name == "Ködlámpa").ID,
-                        ValueAsString = "true"
+                        ValueAsString = "van"
                     }
                 );
 

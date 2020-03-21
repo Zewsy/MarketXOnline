@@ -22,6 +22,7 @@ namespace MarketX
                 try
                 {
                     var context = services.GetRequiredService<MarketXContext>();
+                    //context.Database.EnsureDeleted();
                     context.Database.EnsureCreated();
                     SeedData.Initialize(services);
                 }
