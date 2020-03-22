@@ -1,0 +1,31 @@
+﻿@model User
+
+    <div class="row">
+        <div class="col-7 pr-0">
+            <a>@Html.DisplayFor(model => model.LastName) @Html.DisplayFor(model => model.FirstName)</a>
+
+            <div class="row mt-2">
+                <div class="col-5 font-weight-bold">@Html.DisplayNameFor(model => model.PhoneNumber):</div>
+                <div class="col-5">
+                    <button id="btn-phone" type="button" class="btn btn-dark">Mutat</button>
+                    <div id="phone-number" data-id="@Model.ID"></div>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-5 font-weight-bold">@Html.DisplayNameFor(model => model.Email):</div>
+                <div class="col-5">@Html.DisplayFor(model => model.Email)</div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-5 font-weight-bold">@Html.DisplayNameFor(model => model.RegistrationDate):</div>
+                <div class="col-5">@Html.DisplayFor(model => model.RegistrationDate)</div>
+            </div>
+        </div>
+
+        <div class="col-3 p-0">
+            <img class="img-fluid mb-2" src="@Url.Content(Model.ProfilePicturePath)" />
+            <button type="button" class="btn btn-primary btn-block">Email</button>
+            <button type="button" class="btn btn-primary btn-block">Üzenetküldés az oldalon</button>
+        </div>
+    </div>

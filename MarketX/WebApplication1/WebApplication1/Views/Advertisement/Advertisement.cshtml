@@ -113,60 +113,12 @@
             @if (Model.Seller != null)
             {
                 <h2>Eladó</h2>
-                <div class="row">
-                    <div class="col-7 pr-0">
-                        <a>@Html.DisplayFor(model => model.Seller.LastName) @Html.DisplayFor(model => model.Seller.FirstName)</a>
-                        <div class="row mt-2">
-                            <div class="col-5 font-weight-bold">
-                                <div class="pb-2">@Html.DisplayNameFor(model => model.Seller.PhoneNumber):</div>
-                                <div class="pb-2">@Html.DisplayNameFor(model => model.Seller.Email):</div>
-                                <div class="pb-2">@Html.DisplayNameFor(model => model.Seller.RegistrationDate):</div>
-                            </div>
-                            <div class="col-5">
-                                <div class="pb-2">
-                                    <button id="btn-phone-seller" type="button" class="btn btn-dark">Mutat</button>
-                                    <div id="seller-phone" class="pb-2">@Html.DisplayFor(model => model.Seller.PhoneNumber)</div>
-                                </div>
-                                <div class="pb-2">@Html.DisplayFor(model => model.Seller.Email)</div>
-                                <div class="pb-2">@Html.DisplayFor(model => model.Seller.RegistrationDate)</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-3 p-0">
-                        <img class="img-fluid mb-2" src="@Url.Content(Model.Seller.ProfilePicturePath)" />
-                        <button type="button" class="btn btn-primary btn-block">Email</button>
-                        <button type="button" class="btn btn-primary btn-block">Üzenetküldés az oldalon</button>
-                    </div>
-                </div>
+                @await Component.InvokeAsync("UserSection", new { user = Model.Seller })
             }
             else
             {
                 <h2>Vevő</h2>
-                <div class="row">
-                    <div class="col-7 pr-0">
-                        <a>@Html.DisplayFor(model => model.Customer.LastName) @Html.DisplayFor(model => model.Customer.FirstName)</a>
-                        <div class="row mt-2">
-                            <div class="col-5 font-weight-bold">
-                                <div class="pb-2">@Html.DisplayNameFor(model => model.Customer.PhoneNumber):</div>
-                                <div class="pb-2">@Html.DisplayNameFor(model => model.Customer.Email):</div>
-                                <div class="pb-2">@Html.DisplayNameFor(model => model.Customer.RegistrationDate):</div>
-                            </div>
-                            <div class="col-5">
-                                <div class="pb-2">
-                                    <button id="btn-phone-customer" type="button" class="btn btn-dark">Mutat</button>
-                                    <div id="customer-phone" class="pb-2">@Html.DisplayFor(model => model.Customer.PhoneNumber)</div>
-                                </div>
-                                <div class="pb-2">@Html.DisplayFor(model => model.Customer.Email)</div>
-                                <div class="pb-2">@Html.DisplayFor(model => model.Customer.RegistrationDate)</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-3 p-0">
-                        <img class="img-fluid mb-2" src="@Url.Content(Model.Customer.ProfilePicturePath)" />
-                        <button type="button" class="btn btn-primary btn-block">Email</button>
-                        <button type="button" class="btn btn-primary btn-block">Üzenetküldés az oldalon</button>
-                    </div>
-                </div>
+                @await Component.InvokeAsync("UserSection", new { user = Model.Customer })
             }
 
         </div>

@@ -27,5 +27,11 @@ namespace MarketX.Controllers
 
             return NotFound();
         }
+
+        [HttpGet("UserPhoneNumber/{id}")]
+        public string UserPhoneNumber(int id)
+        {
+            return context.Users.Where(u => u.ID == id).Select(u => u.PhoneNumber).FirstOrDefault();
+        }
     }
 }

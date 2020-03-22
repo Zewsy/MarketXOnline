@@ -1,14 +1,17 @@
 ﻿$(() => {
-    $("#customer-phone").hide();
-    $("#seller-phone").hide();
+    $("#phone-number").hide();
 
-    $("#btn-phone-seller").click(() => {
-        $("#btn-phone-seller").hide();
-        $("#seller-phone").show();
-    });
+    $("#btn-phone").click(() => {
+        $("#btn-phone").hide();
+        $("#phone-number").show();
 
-    $("#btn-phone-customer").click(() => {
-        $("#btn-phone-customer").hide();
-        $("#customer-phone").show();
+        var id = $("#phone-number").data('id');
+        $.ajax({
+            type: "GET",
+            url: '/Advertisement/UserPhoneNumber/' + id,
+            success: (number) => {
+                $("#phone-number").append(number);
+            }
+        })
     });
 });

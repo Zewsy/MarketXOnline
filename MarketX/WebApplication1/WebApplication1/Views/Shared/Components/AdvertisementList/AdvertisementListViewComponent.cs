@@ -25,7 +25,7 @@ namespace MarketX.Views.Home.ViewComponents
             context = _context;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(AdvertisementType advertisementTypeToShow, int numberOfAdvertisementsToShow, Advertisement? similarAdvertisement)
+        public async Task<IViewComponentResult> InvokeAsync(AdvertisementType advertisementTypeToShow, int numberOfAdvertisementsToShow, Models.Advertisement? similarAdvertisement)
         {
             var advertisements = new List<BasicAdvertisementCardViewModel>();
             switch (advertisementTypeToShow)
