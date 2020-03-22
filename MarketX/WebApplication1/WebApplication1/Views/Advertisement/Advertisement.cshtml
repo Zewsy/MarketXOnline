@@ -94,21 +94,24 @@
         </div>
     </div>
     <div class="row pb-5">
-        <div class="col-4">
-            <div>
-                <h2>További tulajdonságok</h2>
-                @foreach (var property in Model.AdvertisementProperties)
-                {
-                    if (!property.Property.isImportant)
+        @if (Model.AdvertisementProperties.Any())
+        {
+            <div class="col-4">
+                <div>
+                    <h2>További tulajdonságok</h2>
+                    @foreach (var property in Model.AdvertisementProperties)
                     {
-                        <div class="row pb-2">
-                            <span class="font-weight-bold col-6">@property.Property.Name:</span>
-                            <span class="col-6">@property.ValueAsString</span>
-                        </div>
+                        if (!property.Property.isImportant)
+                        {
+                            <div class="row pb-2">
+                                <span class="font-weight-bold col-6">@property.Property.Name:</span>
+                                <span class="col-6">@property.ValueAsString</span>
+                            </div>
+                        }
                     }
-                }
+                </div>
             </div>
-        </div>
+        }
         <div class="col-8">
             @if (Model.Seller != null)
             {

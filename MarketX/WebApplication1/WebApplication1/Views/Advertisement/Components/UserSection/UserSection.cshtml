@@ -4,13 +4,16 @@
         <div class="col-7 pr-0">
             <a>@Html.DisplayFor(model => model.LastName) @Html.DisplayFor(model => model.FirstName)</a>
 
-            <div class="row mt-2">
-                <div class="col-5 font-weight-bold">@Html.DisplayNameFor(model => model.PhoneNumber):</div>
-                <div class="col-5">
-                    <button id="btn-phone" type="button" class="btn btn-dark">Mutat</button>
-                    <div id="phone-number" data-id="@Model.ID"></div>
+            @if (Model.PhoneNumber != null)
+            {
+                <div class="row mt-2">
+                    <div class="col-5 font-weight-bold">@Html.DisplayNameFor(model => model.PhoneNumber):</div>
+                    <div class="col-5">
+                        <button id="btn-phone" type="button" class="btn btn-dark">Mutat</button>
+                        <div id="phone-number" data-id="@Model.ID"></div>
+                    </div>
                 </div>
-            </div>
+            }
 
             <div class="row mt-2">
                 <div class="col-5 font-weight-bold">@Html.DisplayNameFor(model => model.Email):</div>
