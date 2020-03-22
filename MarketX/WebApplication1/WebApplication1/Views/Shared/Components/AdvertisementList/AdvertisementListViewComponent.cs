@@ -60,13 +60,15 @@ namespace MarketX.Views.Home.ViewComponents
                                                                  .ToListAsync();
                     break;
                 case AdvertisementType.Similar:
-                    //TODO: PriceRange
+                    const int rangeMultiplicator = 5;
                     //TODO: Similarities
                     if (similarAdvertisement == null) throw new NullReferenceException();
                     advertisements = await context.Advertisements.Where(a => a.Category.Name == similarAdvertisement.Category.Name
                                                                                                 && a.ID != similarAdvertisement.ID
-                                                                                                && a.Status != Status.Closed)
-                                                                 .Take(numberOfAdvertisementsToShow)
+                                                                                                && a.Status != Status.Closed
+                                                                                                && a.Price >= similarAdvertisement.Price / rangeMultiplicator
+                                                                                                && a.Price <= similarAdvertisement.Price * rangeMultiplicator
+                                                                                                )
                                                                  .Select(a => new BasicAdvertisementCardViewModel
                                                                  {
                                                                      ID = a.ID,
@@ -76,6 +78,7 @@ namespace MarketX.Views.Home.ViewComponents
                                                                      City = a.City.Name,
                                                                      AdType = a.Seller == null ? AdType.Buying : AdType.Selling
                                                                  })
+                                                                 .Take(numberOfAdvertisementsToShow)
                                                                  .ToListAsync();
                     break;
             }
