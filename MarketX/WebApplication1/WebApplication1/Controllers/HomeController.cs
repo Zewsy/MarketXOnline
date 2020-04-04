@@ -23,5 +23,17 @@ namespace MarketX.Controllers
         {
             return View();
         }
+
+        public IActionResult ChooseCategory(string CategoryName)
+        {
+            var props = context.CategoryProperties.Where(cp => cp.Category.Name == CategoryName).Select(cp => cp.Property).ToList();
+            return PartialView("_Properties", props);
+        }
+
+        public IActionResult ChooseCounty(string CountyName)
+        {
+            var cities = context.Counties.Where(c => c.Name == CountyName).Select(c => c.Cities).FirstOrDefault();
+            return PartialView("/Views/Shared/Components/CityCountySelect/_CitySelect.cshtml", cities);
+        }
     }
 }

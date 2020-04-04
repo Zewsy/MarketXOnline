@@ -1,0 +1,115 @@
+﻿@model List<Category>
+
+        <form>
+            <div class="form-row pb-2">
+                <div class="col-3">
+                    <input class="form-control" type="text" placeholder="Termék keresése..." />
+                </div>
+                <div class="col-3">
+                    <select class="form-control">
+                        <option value="" selected disabled hidden>Főkategória</option>
+                        @foreach (var category in Model)
+                        {
+                            <option value="@category.ID">@category.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-1 pl-5 custom-control custom-radio">
+                    <input class="custom-control-input" id="sellingRadio" name="customRadio" type="radio" />
+                    <label class="custom-control-label" for="sellingRadio">Kínál</label>
+                </div>
+                <div class="col-1 pl-5 custom-control custom-radio">
+                    <input class="custom-control-input" id="buyingRadio" name="customRadio" type="radio" />
+                    <label class="custom-control-label" for="buyingRadio">Keres</label>
+                </div>
+                <div class="col-2 pl-5">
+                    <button type="button" class="btn btn-primary">Keres</button>
+                </div>
+            </div>
+            <div class="form-row">
+                <button class="btn btn-light col-12" type="button" data-toggle="collapse" data-target="#details" aria-expanded="false" aria-controls="collapseExample">
+                    Részletes keresés
+                </button>
+            </div>
+            <div class="collapse form-group border border-light bg-light" id="details">
+                <div class="form-row pt-2">
+                    <div class="col-2 pl-4">
+                        <label class="font-weight-bold">Ár:</label>
+                    </div>
+                    <div class="col-3 form-group form-inline">
+                        <input id="priceFrom" type="number" class="form-control" min="0" />
+                        <label class="pl-2 font-weight-bold" for="priceFrom">Ft-tól</label>
+                    </div>
+                    <div class="col-3 form-group form-inline">
+                        <input id="priceTo" type="number" class="form-control" min="0" />
+                        <label class="pl-2 font-weight-bold" for="priceFrom">Ft-ig</label>
+                    </div>
+                </div>
+                <div class="form-row pb-3">
+                    <div class="col-2 pl-4">
+                        <label class="font-weight-bold">Kategória:</label>
+                    </div>
+                    <div class="col-2">
+                        <span class="font-italic" id="chosenCategory">Kiválasztott kategória</span>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#categoriesModal">Választás</button>
+                        <div class="modal fade" id="categoriesModal" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h2 class="modal-title">Kategória választása</h2>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div id="treeview">
+                                            @await Html.PartialAsync("_CategoryTree", Model)
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button id="btnChooseCategory" type="button" class="btn btn-primary">OK</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div id="properties" class="col">
+                    </div>
+                </div>
+                <div class="form-row pb-3">
+                    <div class="col-2 pl-4">
+                        <label class="font-weight-bold">Hely:</label>
+                    </div>
+                    @await Component.InvokeAsync("CityCountySelect")
+                </div>
+                <div class="form-row">
+                    <div class="col-2 pl-4">
+                        <label class="font-weight-bold">Állapot:</label>
+                    </div>
+                    <div class="col-1 pl-4 custom-control custom-checkbox">
+                        <input type="checkbox" id="newCheck" class="custom-control-input">
+                        <label class="custom-control-label" for="newCheck">Új</label>
+                    </div>
+                    <div class="col-1 custom-control custom-checkbox">
+                        <input type="checkbox" id="oldCheck" class="custom-control-input">
+                        <label class="custom-control-label" for="oldCheck">Használt</label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-2 pl-4">
+                        <label class="font-weight-bold">Adott eladó:</label>
+                    </div>
+                    <div class="col">
+                        <input type="text" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-3 pl-5 custom-control custom-checkbox">
+                        <input type="checkbox" id="onlyPhotoCheck" class="custom-control-input">
+                        <label class="custom-control-label" for="onlyPhotoCheck">Csak fényképes hirdetések</label>
+                    </div>
+                </div>
+            </div>
+        </form>

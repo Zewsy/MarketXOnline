@@ -1,0 +1,16 @@
+﻿@model ICollection<County>
+
+<div class="col-4">
+    <select id="countySelect" class="form-control">
+        <option value="" selected disabled hidden>Megye</option>
+        @foreach(var county in Model)
+        {
+            <option value="@county.Name">@county.Name</option>
+        }
+    </select>
+</div>
+<div class="col-4">
+    <select id="citySelect" class="form-control">
+        <option value="" selected disabled hidden>Város</option>
+    </select>
+</div>

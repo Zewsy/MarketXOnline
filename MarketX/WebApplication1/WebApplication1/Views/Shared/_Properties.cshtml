@@ -1,0 +1,33 @@
+﻿@model ICollection<Property>
+
+<div class="font-weight-bold pl-3">Tulajdonságok:</div>
+@{ var props = Model.OrderBy(p => p.ValueType); }
+@foreach (var prop in props)
+{
+<div class="pl-5">
+    <label class="font-weight-bold" for="@prop.Name">@prop.Name:</label>
+    @switch (prop.ValueType)
+    {
+        case PropertyValueType.Bool:
+            <input id="@prop.Name" type="checkbox" />
+            break;
+
+        case PropertyValueType.Integer:
+            <input id="@prop.Name" type="number" />
+            break;
+
+        case PropertyValueType.String:
+            <input id="@prop.Name" type="text" />
+            break;
+
+        case PropertyValueType.SelectableFromList:
+            <select id="@prop.Name">
+                @foreach (var val in prop.PropertyValues)
+                {
+                    <option>@val.Value</option>
+                }
+            </select>
+            break;
+    }
+</div>
+}
