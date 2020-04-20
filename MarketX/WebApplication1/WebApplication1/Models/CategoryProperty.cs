@@ -9,7 +9,7 @@ namespace MarketX.Models
     {
         public int CategoryID { get; set; }
         public int PropertyID { get; set; }
-        public virtual Category Category { get; set; }
-        public virtual Property Property { get; set; }
+        public virtual Category Category { get; set; } = null!;
+        public virtual Property Property { get; set; } = null!;
     }
 }

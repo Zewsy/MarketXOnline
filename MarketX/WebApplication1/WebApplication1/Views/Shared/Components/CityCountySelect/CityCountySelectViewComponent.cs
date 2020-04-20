@@ -1,4 +1,5 @@
 ﻿using MarketX.Data;
+using MarketX.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -13,11 +14,12 @@ namespace MarketX.Views.Shared.Components.CityCountySelect
             context = _context;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync(bool isRequired = false)
         {
             var counties = await context.Counties.ToListAsync();
+            MarketX.ViewModels.CityCountySelect model = new MarketX.ViewModels.CityCountySelect(counties) { IsRequired = isRequired };
 
-            return View("CityCountySelect", counties);
+            return View("CityCountySelect", model);
         }
     }
 }

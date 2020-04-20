@@ -1,0 +1,17 @@
+﻿@model MarketX.ViewModels.ResultsWithSearchFormModel
+
+@section Styles{
+    <link rel="stylesheet" href="@Url.Content("~/css/AdvertisementCard.css")" />
+}
+
+@await Component.InvokeAsync("Search", false)
+
+<div class="container row pt-5">
+    <div class="col-4">
+        @await Component.InvokeAsync("Filter", Model.SearchFormModel)
+    </div>
+
+    <div class="col-8 border border-dark">
+        <partial name="_ResultList" model="Model" />
+    </div>
+</div>

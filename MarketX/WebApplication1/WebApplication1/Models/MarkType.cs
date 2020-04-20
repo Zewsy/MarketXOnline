@@ -7,6 +7,11 @@ namespace MarketX.Models
 {
     public class MarkType
     {
+        public MarkType(string name)
+        {
+            Name = name;
+            WrongAdvertisementMarks = new List<WrongAdvertisementMark>();
+        }
         public int ID { get; set; }
         public string Name { get; set; }
 

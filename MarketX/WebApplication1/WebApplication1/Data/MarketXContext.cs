@@ -14,21 +14,21 @@ namespace MarketX.Data
         {
         }
 
-        public DbSet<Advertisement> Advertisements { get; set; }
-        public DbSet<AdvertisementPhoto> AdvertisementPhotos { get; set; }
-        public DbSet<AdvertisementProperty> AdvertisementProperties { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<CategoryProperty> CategoryProperties { get; set; }
-        public DbSet<City> Cities { get; set; }
-        public DbSet<County> Counties { get; set; }
-        public DbSet<MarkType> MarkTypes { get; set; }
-        public DbSet<MessageContent> MessageContents { get; set; }
-        public DbSet<MessageHeader> MessageHeaders { get; set; }
-        public DbSet<Property> Properties { get; set; }
-        public DbSet<Rating> Ratings { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<WrongAdvertisementMark> WrongAdvertisementMarks { get; set; }
-        public DbSet<PropertyValue> PropertyValues { get; set; }
+        public DbSet<Advertisement> Advertisements { get; set; } = null!;
+        public DbSet<AdvertisementPhoto> AdvertisementPhotos { get; set; } = null!;
+        public DbSet<AdvertisementProperty> AdvertisementProperties { get; set; } = null!;
+        public DbSet<Category> Categories { get; set; } = null!;
+        public DbSet<CategoryProperty> CategoryProperties { get; set; } = null!;
+        public DbSet<City> Cities { get; set; } = null!;
+        public DbSet<County> Counties { get; set; } = null!;
+        public DbSet<MarkType> MarkTypes { get; set; } = null!;
+        public DbSet<MessageContent> MessageContents { get; set; } = null!;
+        public DbSet<MessageHeader> MessageHeaders { get; set; } = null!;
+        public DbSet<Property> Properties { get; set; } = null!;
+        public DbSet<Rating> Ratings { get; set; } = null!;
+        public DbSet<User> Users { get; set; } = null!;
+        public DbSet<WrongAdvertisementMark> WrongAdvertisementMarks { get; set; } = null!;
+        public DbSet<PropertyValue> PropertyValues { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

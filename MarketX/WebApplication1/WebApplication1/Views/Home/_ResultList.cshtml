@@ -1,0 +1,74 @@
+﻿@model MarketX.ViewModels.ResultsWithSearchFormModel
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+
+<div class="row pb-2">
+    <h1 class="col-7">Találatok listája</h1>
+    <div class="col-3 pt-3">
+        <div class="font-weight-bold">Rendezés:</div>
+        <form name="OrderForm" asp-route="@Url.Action("Results", new
+                                             {
+                                                 Model.SearchFormModel.Name,
+                                                 Model.SearchFormModel.Category,
+                                                 Model.SearchFormModel.City,
+                                                 Model.SearchFormModel.County,
+                                                 Model.SearchFormModel.FromPrice,
+                                                 Model.SearchFormModel.IsBuying,
+                                                 Model.SearchFormModel.IsNew,
+                                                 Model.SearchFormModel.IsUsed,
+                                                 Model.SearchFormModel.IsWithPhoto,
+                                                 Model.SearchFormModel.PropertyInputs,
+                                                 Model.SearchFormModel.ToPrice,
+                                                 Model.SearchFormModel.UserName
+                                             })">
+            <select id="orderSelect" asp-for="SearchFormModel.SortOrder">
+                <option value="@MarketX.Controllers.SortOrder.DescendingByPrice">Ár szerint csökkenő</option>
+                <option value="@MarketX.Controllers.SortOrder.AscendingByPrice">Ár szerint növekvő</option>
+                <option value="@MarketX.Controllers.SortOrder.Latest">Legújabbak elől</option>
+                <option value="@MarketX.Controllers.SortOrder.AscendingByABC">Név alapján ABC sorrendben</option>
+            </select>
+        </form>
+    </div>
+</div>
+
+@{ bool isPriorized = false; }
+@if (Model.Results.Any())
+{
+    @if (Model.Results[0].IsPriorized)
+    {
+        <h2>Kiemelt hirdetések</h2>
+        isPriorized = true;
+    }
+
+    @foreach (var ad in Model.Results)
+    {
+        @if (isPriorized && !ad.IsPriorized)
+        {
+            <h2>További hirdetések</h2>
+            isPriorized = false;
+        }
+        <partial name="_ResultAdvertisementCard" model="ad" />
+    }
+
+    @Html.PagedListPager(Model.Results, page => Url.Action("Results", new
+    {
+        Model.SearchFormModel.Name,
+        Model.SearchFormModel.Category,
+        Model.SearchFormModel.City,
+        Model.SearchFormModel.County,
+        Model.SearchFormModel.FromPrice,
+        Model.SearchFormModel.IsBuying,
+        Model.SearchFormModel.IsNew,
+        Model.SearchFormModel.IsUsed,
+        Model.SearchFormModel.IsWithPhoto,
+        Model.SearchFormModel.PropertyInputs,
+        Model.SearchFormModel.ToPrice,
+        Model.SearchFormModel.UserName,
+        Model.SearchFormModel.SortOrder,
+        page
+    }))
+}
+else
+{
+    <div>Nincs találat.</div>
+}

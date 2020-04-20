@@ -24,7 +24,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Kezdőlap</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Hirdetésfeladás</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Advertisement" asp-action="CreateAdvertisement">Hirdetésfeladás</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Rólunk</a>
@@ -39,7 +39,6 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
-            @await Component.InvokeAsync("DetailedSearch")
             @RenderBody()
         </main>
     </div>

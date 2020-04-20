@@ -1,16 +1,12 @@
 ﻿$(() => {
     $("#btnChooseCategory").click(() => {
         $("#categoriesModal").modal("hide");
-        var radios = document.getElementsByName('chosenCategoryRadio');
+    })
 
-        for (var i = 0; i < radios.length; i++) {
-            if (radios[i].checked) {
-                var CategoryName = radios[i].id;
-                $("#chosenCategory").text(CategoryName);
-                $("#properties").load('/Home/ChooseCategory', { CategoryName: CategoryName });
-                break;
-            }
-        }
+    $('input[name="chosenCategoryRadio"]').change(() => {
+        var CategoryName = event.target.id;
+        $("#properties").load('/Home/ChooseCategory', { CategoryName: CategoryName });
+        $("#chosenCategory").val(CategoryName);
     })
 
     $("#countySelect").change(() => {
@@ -18,4 +14,11 @@
 
         $("#citySelect").load('/Home/ChooseCounty', { CountyName: CountyName });
     })
+
+    $("#orderSelect").change(() => {
+        var order = $("#orderSelect").val();
+        document.forms["OrderForm"].submit();
+    })
+
+    $('input[name="chosenCategoryRadio"]:checked').parents('ul').addClass("show");
 });

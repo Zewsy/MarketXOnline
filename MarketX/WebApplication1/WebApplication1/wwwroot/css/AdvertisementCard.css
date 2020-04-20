@@ -5,8 +5,16 @@
 .card h2{
     font-size: 18px;
 }
-.corner-ribbon{
-    background: #e43;
+.corner-ribbon-green{
+    background: green;
+    position: absolute;
+    text-align: center;
+    color: #f0f0f0;
+    transform: rotate(45deg);
+}
+
+.corner-ribbon-red {
+    background: red;
     position: absolute;
     text-align: center;
     color: #f0f0f0;

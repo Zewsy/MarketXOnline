@@ -10,6 +10,23 @@ namespace MarketX.Models
 {
     public class User
     {
+        public User(string firstName, string lastName, string email, string password, DateTime registrationDate)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
+            Password = password;
+            RegistrationDate = registrationDate;
+            WrongAdvertisementMarks = new List<WrongAdvertisementMark>();
+            GivenRatings = new List<Rating>();
+            SentMessages = new List<MessageHeader>();
+            ReceivedMessages = new List<MessageHeader>();
+            OwnMessages = new List<MessageHeader>();
+            SavedAdvertisementsUsers = new List<SavedAdvertisementsUsers>();
+            SellingAdvertisements = new List<Advertisement>();
+            BuyingAdvertisements = new List<Advertisement>();
+        }
+
         public int ID { get; set; }
 
         [Required]
@@ -37,8 +54,8 @@ namespace MarketX.Models
 
         public int? CountyID { get; set; }
         public int? CityID { get; set; }
-        public virtual County? County { get; set; }
-        public virtual City? City { get; set; }
+        public virtual County County { get; set; } = null!;
+        public virtual City City { get; set; } = null!;
         public virtual ICollection<WrongAdvertisementMark> WrongAdvertisementMarks { get; set; }
         public virtual ICollection<Rating> GivenRatings { get; set; }
         public virtual ICollection<MessageHeader> SentMessages { get; set; }

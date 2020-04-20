@@ -7,6 +7,12 @@ namespace MarketX.Models
 {
     public class County
     {
+        public County(string name)
+        {
+            Name = name;
+            Cities = new List<City>();
+            UsersLiveInTheCounty = new List<User>();
+        }
         public int ID { get; set; }
         public string Name { get; set; }
 

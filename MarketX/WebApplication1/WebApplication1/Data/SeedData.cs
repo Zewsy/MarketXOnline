@@ -20,36 +20,24 @@ namespace MarketX.Data
                     return;
 
                 context.Counties.AddRange(
-                    new County
-                    {
-                        Name = "Budapest"
-                    },
-                    new County
-                    {
-                        Name = "Pest megye"
-                    },
-                    new County
-                    {
-                        Name = "Jász-Nagykun-Szolnok megye"
-                    }
+                    new County(name: "Budapest"),
+                    new County(name: "Pest megye"),
+                    new County(name: "Jász-Nagykun-Szolnok megye")
                 );
 
                 context.SaveChanges();
 
                 context.Cities.AddRange(
-                    new City
+                    new City(name: "XI. Kerület")
                     {
-                        Name = "XI. Kerület",
                         CountyID = context.Counties.Single(c => c.Name == "Budapest").ID
                     },
-                    new City
+                    new City(name: "Maglód")
                     {
-                        Name = "Maglód",
                         CountyID = context.Counties.Single(c => c.Name == "Pest megye").ID
                     },
-                    new City
+                    new City(name: "Jászárokszállás")
                     {
-                        Name = "Jászárokszállás",
                         CountyID = context.Counties.Single(c => c.Name == "Jász-Nagykun-Szolnok megye").ID
                     }
                 );
@@ -58,36 +46,42 @@ namespace MarketX.Data
 
                 context.Users.AddRange(
                     new User
+                    (
+                        firstName: "János",
+                        lastName: "Kovács",
+                        email: "kovacsjanos@asd.hu",
+                        password: "12345",
+                        registrationDate: new DateTime(1990, 03, 10)
+                    )
                     {
-                        FirstName = "János",
-                        LastName = "Kovács",
-                        Email = "kovacsjanos@asd.hu",
-                        Password = "12345",
                         PhoneNumber = "+36705556666",
-                        RegistrationDate = new DateTime(1990, 03, 10),
                         CountyID = context.Counties.Single(c => c.Name == "Jász-Nagykun-Szolnok megye").ID,
                         CityID = context.Cities.Single(c => c.Name == "Jászárokszállás").ID,
                         ProfilePicturePath = "~/images/profilePictures/KovacsJanos.jpg"
                     },
                     new User
+                    (
+                        firstName: "Ferenc",
+                        lastName: "Kis",
+                        email: "kisferenc@asd.hu",
+                        password: "kisferike5",
+                        registrationDate: new DateTime(1998, 07, 19)
+                    )
                     {
-                        FirstName = "Ferenc",
-                        LastName = "Kis",
-                        Email = "kisferenc@asd.hu",
-                        Password = "kisferike5",
                         PhoneNumber = "+36101112222",
-                        RegistrationDate = new DateTime(1998, 07, 19),
                         CountyID = context.Counties.Single(c => c.Name == "Budapest").ID,
                         CityID = context.Cities.Single(c => c.Name == "XI. Kerület").ID,
                         ProfilePicturePath = "~/images/profilePictures/KisFerenc.jpg"
                     },
                     new User
+                    (
+                        firstName: "Mirjam",
+                        lastName: "Lippai",
+                        email: "andika@asd.hu",
+                        password: "asd123",
+                        registrationDate: new DateTime(1999, 02, 10)
+                    )
                     {
-                        FirstName = "Mirjam",
-                        LastName = "Lippai",
-                        Email = "andika@asd.hu",
-                        Password = "asd123",
-                        RegistrationDate = new DateTime(1999, 02, 10),
                         CountyID = context.Counties.Single(c => c.Name == "Pest megye").ID,
                         CityID = context.Cities.Single(c => c.Name == "Maglód").ID
                     }
@@ -96,54 +90,37 @@ namespace MarketX.Data
                 context.SaveChanges();
 
                 context.Categories.AddRange(
-                    new Category
-                    {
-                        Name = "Ruházat"
-                    },                   
-                    new Category
-                    {
-                        Name = "Autó, motor, alkatrész"
-                    },
-                    new Category
-                    {
-                        Name = "Ingatlan"
-                    },
-                    new Category
-                    {
-                        Name = "Számítástechnika"
-                    }                   
+                    new Category(name: "Ruházat"),                   
+                    new Category(name: "Autó, motor, alkatrész"),
+                    new Category(name: "Ingatlan"),
+                    new Category(name: "Számítástechnika")                 
                 );
 
                 context.SaveChanges();
 
                 context.AddRange(
-                    new Category
+                    new Category(name: "Uniszex ruházat")
                     {
-                        Name = "Uniszex ruházat",
                         ParentCategoryID = context.Categories.Single(c => c.Name=="Ruházat").ID
                     }, 
-                    new Category
+                    new Category(name: "Személygépkocsi")
                     {
-                        Name = "Személygépkocsi",
                         ParentCategoryID = context.Categories.Single(c => c.Name == "Autó, motor, alkatrész").ID
                     },
-                    new Category
+                    new Category(name: "Lakás")
                     {
-                        Name = "Lakás",
                         ParentCategoryID = context.Categories.Single(c => c.Name == "Ingatlan").ID
                     },
-                     new Category
+                     new Category(name: "Laptop, notebook")
                      {
-                         Name = "Laptop, notebook",
                          ParentCategoryID = context.Categories.Single(c => c.Name == "Számítástechnika").ID
                      }
                  );
 
                 context.SaveChanges();
 
-                context.Categories.Add(new Category
+                context.Categories.Add(new Category(name: "Uniszex cipő")
                 {
-                    Name = "Uniszex cipő",
                     ParentCategoryID = context.Categories.Single(c => c.Name == "Uniszex ruházat").ID
                 });
 
@@ -151,191 +128,324 @@ namespace MarketX.Data
 
                 context.Advertisements.AddRange(
                     new Advertisement
+                    (
+                        title: "Eladó túrabakancs",
+                        isPriorized: true,
+                        createdDate: new DateTime(2020, 03, 11),
+                        daysToLive: 30,
+                        description: "Kihasználatlanság miatt eladó egy egyszer felvett, tehát gyakorlatilag új, profi túrabakancs.",
+                        condition: Condition.New,
+                        status: Status.Active,
+                        cityID: context.Cities.Single(c => c.Name == "Maglód").ID,
+                        categoryID: context.Categories.Single(c => c.Name == "Uniszex cipő").ID
+                    )
                     {
-                        Title = "Eladó túrabakancs",
                         Price = 20000,
-                        IsPriorized = true,
-                        CreatedDate = new DateTime(2020, 03, 11),
-                        DaysToLive = 30,
-                        Description = "Kihasználatlanság miatt eladó egy egyszer felvett, tehát gyakorlatilag új, profi túrabakancs.",
-                        Condition = Condition.New,
-                        Status = Status.Active,
-                        SellerID = context.Users.Single(u => u.FirstName=="János").ID,
-                        CityID = context.Cities.Single(c => c.Name == "Maglód").ID,
-                        CategoryID = context.Categories.Single(c => c.Name == "Uniszex cipő").ID
+                        SellerID = context.Users.Single(u => u.FirstName == "János").ID,
                     },
                     new Advertisement
+                    (
+                        title: "Audi A6",
+                        isPriorized: false,
+                        createdDate: new DateTime(2020, 03, 13),
+                        daysToLive: 60,
+                        description: "Balesetmentes, garázsban tartott, szakszervízben szervizelt, szervízszámlákkal és szervízkönyvvel, tökéletes állapotban.",
+                        condition: Condition.Used,
+                        status: Status.Active,
+                        cityID: context.Cities.Single(c => c.Name == "XI. Kerület").ID,
+                        categoryID: context.Categories.Single(c => c.Name == "Személygépkocsi").ID
+                    )
                     {
-                        Title = "Audi A6",
                         Price = 5500000,
-                        IsPriorized = false,
-                        CreatedDate = new DateTime(2020, 03, 13),
-                        DaysToLive = 60,
-                        Description = "Balesetmentes, garázsban tartott, szakszervízben szervizelt, szervízszámlákkal és szervízkönyvvel, tökéletes állapotban.",
-                        Condition = Condition.Used,
-                        Status = Status.Active,
-                        SellerID = context.Users.Single(u => u.FirstName == "János").ID,
-                        CityID = context.Cities.Single(c => c.Name == "XI. Kerület").ID,
-                        CategoryID = context.Categories.Single(c => c.Name == "Személygépkocsi").ID
+                        SellerID = context.Users.Single(u => u.FirstName == "János").ID
                     },
                     new Advertisement
+                    (
+                        title: "Lakást keresek",
+                        isPriorized: false,
+                        createdDate: new DateTime(2020, 03, 12),
+                        daysToLive: 30,
+                        description: "Lakást keresek a XI. kerület és környékén.",
+                        condition: Condition.Used,
+                        status: Status.Active,
+                        cityID: context.Cities.Single(c => c.Name == "XI. Kerület").ID,
+                        categoryID: context.Categories.Single(c => c.Name == "Lakás").ID
+                    )
                     {
-                        Title = "Lakást keresek",
-                        IsPriorized = false,
-                        CreatedDate = new DateTime(2020, 03, 12),
-                        DaysToLive = 30,
-                        Description = "Lakást keresek a XI. kerület és környékén.",
-                        Condition = Condition.Used,
-                        Status = Status.Active,
-                        CustomerID = context.Users.Single(u => u.FirstName == "Ferenc").ID,
-                        CityID = context.Cities.Single(c => c.Name == "XI. Kerület").ID,
-                        CategoryID = context.Categories.Single(c => c.Name == "Lakás").ID
+                        CustomerID = context.Users.Single(u => u.FirstName == "Ferenc").ID
                     },
                     new Advertisement
+                    (
+                        title: "Lakás eladó",
+                        isPriorized: false,
+                        createdDate: new DateTime(2020, 03, 12),
+                        daysToLive: 30,
+                        description: "Lakás eladó a XI. kerületben.",
+                        condition: Condition.Used,
+                        status: Status.Active,
+                        cityID: context.Cities.Single(c => c.Name == "XI. Kerület").ID,
+                        categoryID: context.Categories.Single(c => c.Name == "Lakás").ID
+                    )
                     {
-                        Title = "Lakás eladó",
-                        Price = 60000000,
-                        IsPriorized = false,
-                        CreatedDate = new DateTime(2020, 03, 12),
-                        DaysToLive = 30,
-                        Description = "Lakás eladó a XI. kerületben.",
-                        Condition = Condition.Used,
-                        Status = Status.Active,
-                        SellerID = context.Users.Single(u => u.FirstName == "János").ID,
-                        CityID = context.Cities.Single(c => c.Name == "XI. Kerület").ID,
-                        CategoryID = context.Categories.Single(c => c.Name == "Lakás").ID
+                        Price = 60000000,  
+                        SellerID = context.Users.Single(u => u.FirstName == "János").ID
                     },
                     new Advertisement
+                    (
+                        title: "Opel Insignia eladó",
+                        isPriorized: false,
+                        createdDate: new DateTime(2020, 03, 12),
+                        daysToLive: 30,
+                        description: "Balesetmentes, garázsban tartott, szakszervízben szervizelt, szervízszámlákkal és szervízkönyvvel, tökéletes állapotban.",
+                        condition: Condition.Used,
+                        status: Status.Active,
+                        cityID: context.Cities.Single(c => c.Name == "Jászárokszállás").ID,
+                        categoryID: context.Categories.Single(c => c.Name == "Személygépkocsi").ID
+                    )
                     {
-                        Title = "Opel Insignia eladó",
                         Price = 9000000,
-                        IsPriorized = false,
-                        CreatedDate = new DateTime(2020, 03, 12),
-                        DaysToLive = 30,
-                        Description = "Balesetmentes, garázsban tartott, szakszervízben szervizelt, szervízszámlákkal és szervízkönyvvel, tökéletes állapotban.",
-                        Condition = Condition.Used,
-                        Status = Status.Active,
-                        SellerID = context.Users.Single(u => u.FirstName == "Mirjam").ID,
-                        CityID = context.Cities.Single(c => c.Name == "Jászárokszállás").ID,
-                        CategoryID = context.Categories.Single(c => c.Name == "Személygépkocsi").ID
+                        SellerID = context.Users.Single(u => u.FirstName == "Mirjam").ID
                     },
                     new Advertisement
+                    (
+                        title: "Opel Insignia eladó2",
+                        isPriorized: false,
+                        createdDate: new DateTime(2020, 03, 12),
+                        daysToLive: 30,
+                        description: "Balesetmentes, garázsban tartott, szakszervízben szervizelt, szervízszámlákkal és szervízkönyvvel, tökéletes állapotban.",
+                        condition: Condition.Used,
+                        status: Status.Active,
+                        cityID: context.Cities.Single(c => c.Name == "Jászárokszállás").ID,
+                        categoryID: context.Categories.Single(c => c.Name == "Személygépkocsi").ID
+                    )
                     {
-                        Title = "Acer Predator",
+                        Price = 9000000,
+                        SellerID = context.Users.Single(u => u.FirstName == "Mirjam").ID
+                    },
+                    new Advertisement
+                    (
+                        title: "Opel Insignia eladó3",
+                        isPriorized: false,
+                        createdDate: new DateTime(2020, 03, 12),
+                        daysToLive: 30,
+                        description: "Balesetmentes, garázsban tartott, szakszervízben szervizelt, szervízszámlákkal és szervízkönyvvel, tökéletes állapotban.",
+                        condition: Condition.Used,
+                        status: Status.Active,
+                        cityID: context.Cities.Single(c => c.Name == "Jászárokszállás").ID,
+                        categoryID: context.Categories.Single(c => c.Name == "Személygépkocsi").ID
+                    )
+                    {
+                        Price = 9000000,
+                        SellerID = context.Users.Single(u => u.FirstName == "Mirjam").ID
+                    },
+                    new Advertisement
+                    (
+                        title: "Opel Insignia eladó4",
+                        isPriorized: false,
+                        createdDate: new DateTime(2020, 03, 12),
+                        daysToLive: 30,
+                        description: "Balesetmentes, garázsban tartott, szakszervízben szervizelt, szervízszámlákkal és szervízkönyvvel, tökéletes állapotban.",
+                        condition: Condition.Used,
+                        status: Status.Active,
+                        cityID: context.Cities.Single(c => c.Name == "Jászárokszállás").ID,
+                        categoryID: context.Categories.Single(c => c.Name == "Személygépkocsi").ID
+                    )
+                    {
+                        Price = 9000000,
+                        SellerID = context.Users.Single(u => u.FirstName == "Mirjam").ID
+                    },
+                    new Advertisement
+                    (
+                        title: "Opel Insignia eladó5",
+                        isPriorized: false,
+                        createdDate: new DateTime(2020, 03, 12),
+                        daysToLive: 30,
+                        description: "Balesetmentes, garázsban tartott, szakszervízben szervizelt, szervízszámlákkal és szervízkönyvvel, tökéletes állapotban.",
+                        condition: Condition.Used,
+                        status: Status.Active,
+                        cityID: context.Cities.Single(c => c.Name == "Jászárokszállás").ID,
+                        categoryID: context.Categories.Single(c => c.Name == "Személygépkocsi").ID
+                    )
+                    {
+                        Price = 9000000,
+                        SellerID = context.Users.Single(u => u.FirstName == "Mirjam").ID
+                    },
+                    new Advertisement
+                    (
+                        title: "Opel Insignia eladó6",
+                        isPriorized: false,
+                        createdDate: new DateTime(2020, 03, 12),
+                        daysToLive: 30,
+                        description: "Balesetmentes, garázsban tartott, szakszervízben szervizelt, szervízszámlákkal és szervízkönyvvel, tökéletes állapotban.",
+                        condition: Condition.Used,
+                        status: Status.Active,
+                        cityID: context.Cities.Single(c => c.Name == "Jászárokszállás").ID,
+                        categoryID: context.Categories.Single(c => c.Name == "Személygépkocsi").ID
+                    )
+                    {
+                        Price = 9000000,
+                        SellerID = context.Users.Single(u => u.FirstName == "Mirjam").ID
+                    },
+                    new Advertisement
+                    (
+                        title: "Mercedes Benz",
+                        isPriorized: false,
+                        createdDate: new DateTime(2020, 04, 10),
+                        daysToLive: 30,
+                        description: "Balesetmentes, garázsban tartott, szakszervízben szervizelt, szervízszámlákkal és szervízkönyvvel, tökéletes állapotban.",
+                        condition: Condition.Used,
+                        status: Status.Active,
+                        cityID: context.Cities.Single(c => c.Name == "XI. Kerület").ID,
+                        categoryID: context.Categories.Single(c => c.Name == "Személygépkocsi").ID
+                    )
+                    {
+                        Price = 8000000,
+                        SellerID = context.Users.Single(u => u.FirstName == "Mirjam").ID
+                    },
+                    new Advertisement
+                    (
+                        title: "Nissan X-Trail",
+                        isPriorized: false,
+                        createdDate: new DateTime(2020, 03, 12),
+                        daysToLive: 30,
+                        description: "Balesetmentes, garázsban tartott, szakszervízben szervizelt, szervízszámlákkal és szervízkönyvvel, tökéletes állapotban.",
+                        condition: Condition.Used,
+                        status: Status.Active,
+                        cityID: context.Cities.Single(c => c.Name == "Maglód").ID,
+                        categoryID: context.Categories.Single(c => c.Name == "Személygépkocsi").ID
+                    )
+                    {
+                        Price = 7000000,
+                        SellerID = context.Users.Single(u => u.FirstName == "Mirjam").ID
+                    },
+                    new Advertisement
+                    (
+                        title: "Ford Fiesta",
+                        isPriorized: false,
+                        createdDate: new DateTime(2020, 03, 12),
+                        daysToLive: 30,
+                        description: "Balesetmentes, garázsban tartott, szakszervízben szervizelt, szervízszámlákkal és szervízkönyvvel, tökéletes állapotban.",
+                        condition: Condition.Used,
+                        status: Status.Active,
+                        cityID: context.Cities.Single(c => c.Name == "XI. Kerület").ID,
+                        categoryID: context.Categories.Single(c => c.Name == "Személygépkocsi").ID
+                    )
+                    {
+                        Price = 4000000,
+                        SellerID = context.Users.Single(u => u.FirstName == "Mirjam").ID
+                    },
+                    new Advertisement
+                    (
+                        title: "Acer Predator",
+                        isPriorized: false,
+                        createdDate: new DateTime(2020, 03, 12),
+                        daysToLive: 30,
+                        description: "Új laptop eladó.",
+                        condition: Condition.New,
+                        status: Status.Active,
+                        cityID: context.Cities.Single(c => c.Name == "Maglód").ID,
+                        categoryID: context.Categories.Single(c => c.Name == "Laptop, notebook").ID
+                    )
+                    {                      
                         Price = 800000,
-                        IsPriorized = false,
-                        CreatedDate = new DateTime(2020, 03, 12),
-                        DaysToLive = 30,
-                        Description = "Új laptop eladó.",
-                        Condition = Condition.New,
-                        Status = Status.Active,
-                        SellerID = context.Users.Single(u => u.FirstName == "János").ID,
-                        CityID = context.Cities.Single(c => c.Name == "Maglód").ID,
-                        CategoryID = context.Categories.Single(c => c.Name == "Laptop, notebook").ID
+                        SellerID = context.Users.Single(u => u.FirstName == "János").ID
                     },
                     new Advertisement
+                    (
+                        title: "Asus Rog",
+                        isPriorized: false,
+                        createdDate: new DateTime(2020, 03, 12),
+                        daysToLive: 30,
+                        description: "Új laptop eladó.",
+                        condition: Condition.New,
+                        status: Status.Active,
+                        cityID: context.Cities.Single(c => c.Name == "XI. Kerület").ID,
+                        categoryID: context.Categories.Single(c => c.Name == "Laptop, notebook").ID
+                    )
                     {
-                        Title = "Asus Rog",
-                        Price = 600000,
-                        IsPriorized = false,
-                        CreatedDate = new DateTime(2020, 03, 12),
-                        DaysToLive = 30,
-                        Description = "Új laptop eladó.",
-                        Condition = Condition.New,
-                        Status = Status.Active,
+                        Price = 600000,                        
                         SellerID = context.Users.Single(u => u.FirstName == "Mirjam").ID,
-                        CityID = context.Cities.Single(c => c.Name == "XI. Kerület").ID,
-                        CategoryID = context.Categories.Single(c => c.Name == "Laptop, notebook").ID
                     }
                 );
 
                 context.SaveChanges();
 
                 context.AdvertisementPhotos.AddRange(
-                    new AdvertisementPhoto
+                    new AdvertisementPhoto(imagePath: "~/images/advertisementPhotos/audi.jpg")
                     {
-                        ImagePath = "~/images/advertisementPhotos/audi.jpg",
                         AdvertisementID = context.Advertisements.Single(a => a.Title== "Audi A6").ID
                     },
-                    new AdvertisementPhoto
+                    new AdvertisementPhoto(imagePath: "~/images/advertisementPhotos/audi_2.jpg")
                     {
-                        ImagePath = "~/images/advertisementPhotos/audi_2.jpg",
                         AdvertisementID = context.Advertisements.Single(a => a.Title == "Audi A6").ID
                     },
-                    new AdvertisementPhoto
+                    new AdvertisementPhoto(imagePath: "~/images/advertisementPhotos/audi_3.jpg")
                     {
-                        ImagePath = "~/images/advertisementPhotos/audi_3.jpg",
                         AdvertisementID = context.Advertisements.Single(a => a.Title == "Audi A6").ID
                     },
-                    new AdvertisementPhoto
+                    new AdvertisementPhoto(imagePath: "~/images/advertisementPhotos/turabakancs.jpg")
                     {
-                        ImagePath = "~/images/advertisementPhotos/turabakancs.jpg",
                         AdvertisementID = context.Advertisements.Single(a => a.Title == "Eladó túrabakancs").ID
                     },
-                    new AdvertisementPhoto
+                    new AdvertisementPhoto(imagePath: "~/images/advertisementPhotos/flat.jpg")
                     {
-                        ImagePath = "~/images/advertisementPhotos/flat.jpg",
                         AdvertisementID = context.Advertisements.Single(a => a.Title == "Lakás eladó").ID
                     },
-                    new AdvertisementPhoto
+                    new AdvertisementPhoto(imagePath: "~/images/advertisementPhotos/opel.jpg")
                     {
-                        ImagePath = "~/images/advertisementPhotos/opel.jpg",
                         AdvertisementID = context.Advertisements.Single(a => a.Title == "Opel Insignia eladó").ID
                     },
-                    new AdvertisementPhoto
+                    new AdvertisementPhoto(imagePath: "~/images/advertisementPhotos/acer.jpg")
                     {
-                        ImagePath = "~/images/advertisementPhotos/acer.jpg",
                         AdvertisementID = context.Advertisements.Single(a => a.Title == "Acer Predator").ID
                     },
-                    new AdvertisementPhoto
+                    new AdvertisementPhoto(imagePath: "~/images/advertisementPhotos/asus.jpg")
                     {
-                        ImagePath = "~/images/advertisementPhotos/asus.jpg",
                         AdvertisementID = context.Advertisements.Single(a => a.Title == "Asus Rog").ID
                     },
-                    new AdvertisementPhoto
+                    new AdvertisementPhoto(imagePath: "~/images/advertisementPhotos/opel.jpg")
                     {
-                        ImagePath = "~/images/image-placeholder.jpg",
-                        AdvertisementID = context.Advertisements.Single(a => a.Title == "Lakást keresek").ID
+                        AdvertisementID = context.Advertisements.Single(a => a.Title == "Opel Insignia eladó2").ID
+                    }, new AdvertisementPhoto(imagePath: "~/images/advertisementPhotos/opel.jpg")
+                    {
+                        AdvertisementID = context.Advertisements.Single(a => a.Title == "Opel Insignia eladó3").ID
+                    }, new AdvertisementPhoto(imagePath: "~/images/advertisementPhotos/opel.jpg")
+                    {
+                        AdvertisementID = context.Advertisements.Single(a => a.Title == "Opel Insignia eladó4").ID
+                    }, new AdvertisementPhoto(imagePath: "~/images/advertisementPhotos/opel.jpg")
+                    {
+                        AdvertisementID = context.Advertisements.Single(a => a.Title == "Opel Insignia eladó5").ID
+                    }, new AdvertisementPhoto(imagePath: "~/images/advertisementPhotos/opel.jpg")
+                    {
+                        AdvertisementID = context.Advertisements.Single(a => a.Title == "Opel Insignia eladó6").ID
                     }
                 );
 
                 context.SaveChanges();
 
                 context.Properties.AddRange(
-                    new Property
+                    new Property(name: "Gyártás éve", valueType: PropertyValueType.Integer)
                     {
-                        Name = "Gyártás éve",
-                        ValueType = PropertyValueType.Integer,
                         isImportant = true
                     },
-                    new Property
+                    new Property(name: "Üzemanyag", valueType: PropertyValueType.SelectableFromList)
                     {
-                        Name = "Üzemanyag",
-                        ValueType = PropertyValueType.SelectableFromList,
                         isImportant = true
                     },
-                    new Property
+                    new Property(name: "Kilométeróra állása", valueType: PropertyValueType.Integer)
                     {
-                        Name = "Kilométeróra állása",
-                        ValueType = PropertyValueType.Integer,
                         isImportant = true
                     },
-                    new Property
+                    new Property(name: "Ajtók száma", valueType: PropertyValueType.Integer)
                     {
-                        Name = "Ajtók száma",
-                        ValueType = PropertyValueType.Integer,
                         isImportant = false
                     },
-                    new Property
+                    new Property(name: "ABS", valueType: PropertyValueType.Bool)
                     {
-                        Name = "ABS",
-                        ValueType = PropertyValueType.Bool,
                         isImportant = false
                     },
-                    new Property
+                    new Property(name: "Ködlámpa", valueType: PropertyValueType.Bool)
                     {
-                        Name = "Ködlámpa",
-                        ValueType = PropertyValueType.Bool,
                         isImportant = false
                     }
                 );
@@ -378,66 +488,56 @@ namespace MarketX.Data
                 context.SaveChanges();
 
                 context.PropertyValues.AddRange(
-                    new PropertyValue
+                    new PropertyValue(value: "Benzin")
                     {
-                        PropertyID = context.Properties.Single(p => p.Name == "Üzemanyag").ID,
-                        Value = "Benzin"
+                        PropertyID = context.Properties.Single(p => p.Name == "Üzemanyag").ID
                     },
-                    new PropertyValue
+                    new PropertyValue(value: "Dízel")
                     {
-                        PropertyID = context.Properties.Single(p => p.Name == "Üzemanyag").ID,
-                        Value = "Dízel"
+                        PropertyID = context.Properties.Single(p => p.Name == "Üzemanyag").ID
                     },
-                    new PropertyValue
+                    new PropertyValue(value: "LPG")
                     {
-                        PropertyID = context.Properties.Single(p => p.Name == "Üzemanyag").ID,
-                        Value = "LPG"
+                        PropertyID = context.Properties.Single(p => p.Name == "Üzemanyag").ID
                     },
-                    new PropertyValue
+                    new PropertyValue(value: "Elektromos")
                     {
-                        PropertyID = context.Properties.Single(p => p.Name == "Üzemanyag").ID,
-                        Value = "Elektromos"
+                        PropertyID = context.Properties.Single(p => p.Name == "Üzemanyag").ID
                     }
                 );
 
                 context.SaveChanges();
 
                 context.AdvertisementProperties.AddRange(
-                    new AdvertisementProperty
+                    new AdvertisementProperty(valueAsString: "2012")
                     {
                         AdvertisementID = context.Advertisements.Single(a => a.Title == "Audi A6").ID,
-                        PropertyID = context.Properties.Single(p => p.Name == "Gyártás éve").ID,
-                        ValueAsString = "2012"
+                        PropertyID = context.Properties.Single(p => p.Name == "Gyártás éve").ID
                     },
-                    new AdvertisementProperty
+                    new AdvertisementProperty(valueAsString: "Dízel")
                     {
                         AdvertisementID = context.Advertisements.Single(a => a.Title == "Audi A6").ID,
-                        PropertyID = context.Properties.Single(p => p.Name == "Üzemanyag").ID,
-                        ValueAsString = "Dízel"
+                        PropertyID = context.Properties.Single(p => p.Name == "Üzemanyag").ID
                     },
-                    new AdvertisementProperty
+                    new AdvertisementProperty(valueAsString: "144500")
                     {
                         AdvertisementID = context.Advertisements.Single(a => a.Title == "Audi A6").ID,
-                        PropertyID = context.Properties.Single(p => p.Name == "Kilométeróra állása").ID,
-                        ValueAsString = "144500"
+                        PropertyID = context.Properties.Single(p => p.Name == "Kilométeróra állása").ID
                     },
-                    new AdvertisementProperty
+                    new AdvertisementProperty(valueAsString: "4")
                     {
                         AdvertisementID = context.Advertisements.Single(a => a.Title == "Audi A6").ID,
-                        PropertyID = context.Properties.Single(p => p.Name == "Ajtók száma").ID,
-                        ValueAsString = "4"
+                        PropertyID = context.Properties.Single(p => p.Name == "Ajtók száma").ID
                     },
-                    new AdvertisementProperty
+                    new AdvertisementProperty(valueAsString: "van")
                     {
                         AdvertisementID = context.Advertisements.Single(a => a.Title == "Audi A6").ID,
-                        PropertyID = context.Properties.Single(p => p.Name == "ABS").ID,
-                        ValueAsString = "van"
+                        PropertyID = context.Properties.Single(p => p.Name == "ABS").ID
                     },
-                    new AdvertisementProperty
+                    new AdvertisementProperty(valueAsString: "van")
                     {
                         AdvertisementID = context.Advertisements.Single(a => a.Title == "Audi A6").ID,
-                        PropertyID = context.Properties.Single(p => p.Name == "Ködlámpa").ID,
-                        ValueAsString = "van"
+                        PropertyID = context.Properties.Single(p => p.Name == "Ködlámpa").ID
                     }
                 );
 

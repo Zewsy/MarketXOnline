@@ -14,6 +14,15 @@ namespace MarketX.Models
     }
     public class Property
     {
+        public Property(string name, PropertyValueType valueType)
+        {
+            Name = name;
+            ValueType = valueType;
+            AdvertisementProperties = new List<AdvertisementProperty>();
+            CategoryProperties = new List<CategoryProperty>();
+            PropertyValues = new List<PropertyValue>();
+            isImportant = false;
+        }
         public int ID { get; set; }
         public string Name { get; set; }
         public PropertyValueType ValueType { get; set; }

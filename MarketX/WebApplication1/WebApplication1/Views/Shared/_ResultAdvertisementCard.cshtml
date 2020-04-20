@@ -1,0 +1,38 @@
+﻿@model MarketX.ViewModels.ResultAdvertisementCard
+    <div class="card">
+        <a class="text-decoration-none text-body" asp-controller="Advertisement" asp-action="Advertisement" asp-route-id="@Model.ID">
+            <div class="card-body row">
+                <div class="col-3 d-flex flex-column justify-content-center">
+                    <img class="card-img" src="@Url.Content(Model.ImagePath)" />
+                    <div class="p-0 card-img-overlay d-flex justify-content-end">
+                        @if (Model.AdType == MarketX.ViewModels.AdType.Buying)
+                        {
+                            <div class="corner-ribbon-green">Keres</div>
+                        }
+                        else
+                        {
+                            <div class="corner-ribbon-red">Kínál</div>
+                        }
+                    </div>
+                </div>
+                <div class="col-6">
+                    <h3 class="card-title">@Model.Title</h3>
+                    <div class="card-text row">
+                        <div class="font-weight-bold col-4">@Html.DisplayNameFor(model => model.Condition):</div>
+                        <div class="col-8">@(Model.Condition == Condition.New ? "Új" : "Használt")</div>
+                    </div>
+                    <div class="card-text row">
+                        <div class="font-weight-bold col-4">@(Model.AdType == MarketX.ViewModels.AdType.Buying ? "Vásárló" : "Eladó"):</div>
+                        <div class="col-8">@Model.UserName</div>
+                    </div>
+                    <div class="card-text row">
+                        <div class="font-weight-bold col-4">Hely:</div>
+                        <div class="col-8">@Model.County, @Model.City</div>
+                    </div>
+                </div>
+                <div class="col-3 d-flex flex-column justify-content-center">
+                    <div class="font-weight-bold">@Html.DisplayFor(model => model.Price)</div>
+                </div>
+            </div>
+        </a>
+    </div>

@@ -1,0 +1,9 @@
+﻿@model MarketX.ViewModels.CategoryListWithChosenCategory
+
+    <ul class="list-unstyled">
+        @foreach (var category in Model.Categories)
+        {
+            if (category.ParentCategoryID == null)
+            {<partial name="/Views/Shared/Components/CategoryTree/_SubCategoryTree.cshtml" model="new MarketX.ViewModels.CategoryWithChosenCategory { Category = category, ChosenCategoryName = Model.ChosenCategoryName }" />}
+        }
+    </ul>

@@ -2,7 +2,6 @@
 
     <div class="row">
         <div class="col-7 pr-0">
-            <a>@Html.DisplayFor(model => model.LastName) @Html.DisplayFor(model => model.FirstName)</a>
 
             @if (Model.PhoneNumber != null)
             {
@@ -27,6 +26,11 @@
         </div>
 
         <div class="col-3 p-0">
+            <a class="text-center">
+                <h3>
+                    @Html.DisplayFor(model => model.LastName) @Html.DisplayFor(model => model.FirstName)
+                </h3>
+            </a>
             <img class="img-fluid mb-2" src="@Url.Content(Model.ProfilePicturePath)" />
             <button type="button" class="btn btn-primary btn-block">Email</button>
             <button type="button" class="btn btn-primary btn-block">Üzenetküldés az oldalon</button>

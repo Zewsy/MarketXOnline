@@ -1,0 +1,143 @@
+﻿@model MarketX.ViewModels.CreateAdvertisementForm
+
+@section Styles{
+    <link rel="stylesheet" href="@Url.Content("~/css/createAd.css")" />
+}
+
+<h1>Hirdetésfeladás</h1>
+<form enctype="multipart/form-data" asp-controller="Advertisement" asp-action="CreateAdvertisement" method="post">
+    <div class="form-row">
+        <div class="col-2">
+            <label for="Title" class="font-weight-bold">* Termék neve:</label>
+        </div>
+        <div class="col-3">
+            <input required asp-for="Title" type="text" id="Title" />
+            <span asp-validation-for="Title"></span>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-2">
+            <label for="Price" class="font-weight-bold">Ár:</label>
+        </div>
+        <div class="col-3">
+            <input asp-for="Price" type="number" id="Price" /> Ft
+            <span asp-validation-for="Price"></span>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-2">
+            <label for="AdType" class="font-weight-bold">* Hirdetés típusa:</label>
+        </div>
+        <div id="AdType" class="col-10 row">
+            <div class="col-2">
+                <div class="custom-control custom-radio">
+                    <input required asp-for="IsBuying" value="true" class="custom-control-input" type="radio" id="IsBuying" />
+                    <label class="custom-control-label" for="IsBuying">Keres</label>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="custom-control custom-radio">
+                    <input required asp-for="IsBuying" value="false" class="custom-control-input" type="radio" id="IsSelling" />
+                    <label class="custom-control-label" for="IsSelling">Kínál</label>
+                </div>
+            </div>
+            <span asp-validation-for="IsBuying"></span>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-2">
+            <label class="font-weight-bold">* Termék állapota:</label>
+        </div>
+        <div id="AdStatus" class="col-10 row">
+            <div class="col-2">
+                <div class="custom-control custom-radio">
+                    <input required asp-for="IsUsed" value="true" class="custom-control-input" type="radio" id="IsUsed" />
+                    <label class="custom-control-label" for="IsUsed">Használt</label>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="custom-control custom-radio">
+                    <input required asp-for="IsUsed" value="false" class="custom-control-input" type="radio" id="IsNew" />
+                    <label class="custom-control-label" for="IsNew">Új</label>
+                </div>
+            </div>
+            <span asp-validation-for="IsUsed"></span>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-2">
+            <label for="Category" class="font-weight-bold">* Kategória:</label>
+        </div>
+        <div id="Category">
+            <input type="hidden" asp-for="Category" id="chosenCategory" />
+            <vc:category-tree chosen-category-name="" is-required="true"></vc:category-tree>
+        </div>
+        <span asp-validation-for="Category"></span>
+    </div>
+    <div class="form-row">
+        <div class="col" id="properties">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-2">
+            <label for="Description" class="font-weight-bold">* Leírás:</label>
+        </div>
+        <div class="col-4">
+            <textarea required minlength="20" rows="15" cols="75" asp-for="Description" id="Description" placeholder="Minimum 20 karakter hosszú"></textarea>
+            <span asp-validation-for="Description"></span>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-2">
+            <label for="Images" class="font-weight-bold">Képek:</label>
+        </div>
+        <div class="col-10" id="Images">
+            <div class="form-row custom-file">
+                <label for="imgInput-multi" class="btn btn-dark">Képek kiválasztása</label>
+                <span>(Maximum 10)</span>
+                <input asp-for="Images" id="imgInput-multi" type="file" class="custom-file-input" multiple />
+            </div>
+            <div class="form-row row-cols-5">
+                @for (int i = 0; i < 10; i++)
+                {
+                    <div class="col p-2">
+                        <div class="imgContainer d-flex justify-content-center">
+                            <img id="img-@i" src="~/images/image-placeholder.jpg" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-2">
+            <label class="font-weight-bold">* Termék helye:</label>
+        </div>
+        <div id="Place">
+            <vc:city-county-select is-required="true"></vc:city-county-select>
+        </div>
+        <span asp-validation-for="City"></span>
+    </div>
+    <div class="form-row">
+        <div class="col-2">
+            <label for="TimeToLive" class="font-weight-bold">* Időtartam</label>
+        </div>
+        <div class="col-2">
+            <select required asp-for="DaysToLive" id="TimeToLive">
+                <option value="15">15 nap</option>
+                <option value="30">30 nap</option>
+                <option value="60">60 nap</option>
+                <option value="90">90 nap</option>
+                <option value="120">120 nap</option>
+            </select>
+            <span asp-validation-for="DaysToLive"></span>
+        </div>
+    </div>
+    <div class="form-row">
+        <button type="submit" class="btn btn-success">Küldés</button>
+    </div>
+</form>
+
+@section Scripts{
+    <script src="~/js/createAd.js"></script>
+}
