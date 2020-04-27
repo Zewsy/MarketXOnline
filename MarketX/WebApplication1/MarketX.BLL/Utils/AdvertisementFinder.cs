@@ -30,7 +30,8 @@ namespace MarketX.BLL.Utils
 
         private static IQueryable<DAL.Entities.Advertisement> CheckConditions(this IQueryable<DAL.Entities.Advertisement> advertisements, SearchModel searchModel)
         {
-            return advertisements.CheckIsPriorized(searchModel.IsPriorized)
+            return advertisements.CheckStatus()
+                                 .CheckIsPriorized(searchModel.IsPriorized)
                                  .CheckName(searchModel.Name)
                                  .CheckCityCounty(searchModel.CountyId, searchModel.CityId)
                                  .CheckIsBuying(searchModel.IsBuying)

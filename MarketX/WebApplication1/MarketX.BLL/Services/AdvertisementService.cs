@@ -63,7 +63,7 @@ namespace MarketX.BLL.Services
         public async Task<Advertisement> InsertAdvertisementAsync(Advertisement advertisement)
         {
             DAL.Entities.Advertisement dbAdvertisement = _mapper.Map<DAL.Entities.Advertisement>(advertisement);
-            _context.AdvertisementProperties.AttachRange(dbAdvertisement.AdvertisementProperties);
+            //_context.AdvertisementProperties.AttachRange(dbAdvertisement.AdvertisementProperties);
             _context.Advertisements.Add(dbAdvertisement);
             
             await _context.SaveChangesAsync();

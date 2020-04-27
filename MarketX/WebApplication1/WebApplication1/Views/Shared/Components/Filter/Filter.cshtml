@@ -34,11 +34,9 @@
                <vc:category-tree chosen-category-id="@Model.CategoryId" is-required="false"></vc:category-tree>
            </div>             
         </div>
-        <div class="form-row">
-            <div id="properties" class="col">
+            <div id="properties" class="pr-2">
                 <partial name="_Properties" model="@new MarketX.ViewModels.PropertyInputList {PropertyInputs = Model.PropertyInputs }" />
             </div>
-        </div>
         <div class="form-row">
             <div class="col-2 pl-5">
                 <label class="font-weight-bold">Állapot:</label>

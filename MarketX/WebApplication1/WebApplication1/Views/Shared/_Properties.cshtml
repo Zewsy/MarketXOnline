@@ -7,8 +7,8 @@
 }
 @for (var i = 0; i < Model.PropertyInputs.Count; i++)
 {
-<div class="pl-5">
-    <label class="font-weight-bold" for="@Model.PropertyInputs[i].Property.Name">@Model.PropertyInputs[i].Property.Name:</label>
+<div class="row pl-5 pt-2">
+    <label class="font-weight-bold col-6" for="@Model.PropertyInputs[i].Property.Name">@Model.PropertyInputs[i].Property.Name:</label>
     <input type="hidden" asp-for="PropertyInputs[i].Property.Id" value="@Model.PropertyInputs[i].Property.Id" />
     <input type="hidden" asp-for="PropertyInputs[i].Property.Name" value="@Model.PropertyInputs[i].Property.Name" />
     <input type="hidden" asp-for="PropertyInputs[i].Property.ValueType" value="@Model.PropertyInputs[i].Property.ValueType" />
@@ -16,29 +16,31 @@
     {
         <input type="hidden" asp-for="PropertyInputs[i].Property.PropertyValues[j].Value" value=@Model.PropertyInputs[i].Property.PropertyValues[j].Value />
     }
-    @switch (Model.PropertyInputs[i].Property.ValueType)
-    {
-        case PropertyValueType.Bool:
-            <input asp-for="PropertyInputs[i].Value" id="@Model.PropertyInputs[i].Property.Name" type="checkbox" />
-            break;
+    <div class="col-6 d-flex justify-content-center align-items-center">
+        @switch (Model.PropertyInputs[i].Property.ValueType)
+        {
+            case PropertyValueType.Bool:
+                <input class="form-control h-50 w-50" asp-for="PropertyInputs[i].Value" id="@Model.PropertyInputs[i].Property.Name" type="checkbox" />
+                break;
 
-        case PropertyValueType.Integer:
-            <input asp-f asp-for="PropertyInputs[i].Value" id="@Model.PropertyInputs[i].Property.Name" type="number" />
-            break;
+            case PropertyValueType.Integer:
+                <input class="form-control" asp-for="PropertyInputs[i].Value" id="@Model.PropertyInputs[i].Property.Name" type="number" />
+                break;
 
-        case PropertyValueType.String:
-            <input asp-for="PropertyInputs[i].Value" id="@Model.PropertyInputs[i].Property.Name" type="text" />
-            break;
+            case PropertyValueType.String:
+                <input class="form-control" asp-for="PropertyInputs[i].Value" id="@Model.PropertyInputs[i].Property.Name" type="text" />
+                break;
 
-        case PropertyValueType.SelectableFromList:
-            <select asp-for="PropertyInputs[i].Value" id="@Model.PropertyInputs[i].Property.Name">
-                <option value="" selected disabled hidden>Válassz</option>
-                @foreach (var val in Model.PropertyInputs[i].Property.PropertyValues)
-                {
-                    <option>@val.Value</option>
-                }
-            </select>
-            break;
-    }
-</div>
+            case PropertyValueType.SelectableFromList:
+                <select class="form-control" asp-for="PropertyInputs[i].Value" id="@Model.PropertyInputs[i].Property.Name">
+                    <option value="" selected disabled hidden>Válassz</option>
+                    @foreach (var val in Model.PropertyInputs[i].Property.PropertyValues)
+                    {
+                        <option>@val.Value</option>
+                    }
+                </select>
+                break;
+        }
+    </div>
+    </div>
 }
