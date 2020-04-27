@@ -1,23 +1,23 @@
-﻿using MarketX.Data;
-using MarketX.ViewModels;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+
 using System.Threading.Tasks;
+using MarketX.BLL.Interfaces;
+using System.Linq;
 
 namespace MarketX.Views.Shared.Components.CityCountySelect
 {
     public class CityCountySelectViewComponent : ViewComponent
     {
-        private readonly MarketXContext context;
-        public CityCountySelectViewComponent(MarketXContext _context)
+        private readonly ICityCountyService _cityCountyService;
+        public CityCountySelectViewComponent(ICityCountyService cityCountyService)
         {
-            context = _context;
+            _cityCountyService = cityCountyService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync(bool isRequired = false)
         {
-            var counties = await context.Counties.ToListAsync();
-            MarketX.ViewModels.CityCountySelect model = new MarketX.ViewModels.CityCountySelect(counties) { IsRequired = isRequired };
+            var counties = await _cityCountyService.GetCountiesAsync();
+            ViewModels.CityCountySelect model = new ViewModels.CityCountySelect(counties.ToList()) { IsRequired = isRequired };
 
             return View("CityCountySelect", model);
         }

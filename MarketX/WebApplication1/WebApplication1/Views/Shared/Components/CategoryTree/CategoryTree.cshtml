@@ -3,7 +3,7 @@
     <ul class="list-unstyled">
         @foreach (var category in Model.Categories)
         {
-            if (category.ParentCategoryID == null)
-            {<partial name="/Views/Shared/Components/CategoryTree/_SubCategoryTree.cshtml" model="new MarketX.ViewModels.CategoryWithChosenCategory { Category = category, ChosenCategoryName = Model.ChosenCategoryName }" />}
+            if (category.ParentCategoryId == null)
+            {<partial name="/Views/Shared/Components/CategoryTree/_SubCategoryTree.cshtml" model="new MarketX.ViewModels.CategoryWithChosenCategory { Category = category, ChosenCategoryId = Model.ChosenCategoryId }" />}
         }
     </ul>

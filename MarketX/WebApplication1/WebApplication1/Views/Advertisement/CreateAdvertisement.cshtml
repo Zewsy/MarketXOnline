@@ -7,29 +7,30 @@
 <h1>Hirdetésfeladás</h1>
 <form enctype="multipart/form-data" asp-controller="Advertisement" asp-action="CreateAdvertisement" method="post">
     <div class="form-row">
-        <div class="col-2">
+        <div class="col-2 d-flex flex-column justify-content-center">
             <label for="Title" class="font-weight-bold">* Termék neve:</label>
         </div>
-        <div class="col-3">
-            <input required asp-for="Title" type="text" id="Title" />
-            <span asp-validation-for="Title"></span>
+        <div class="col-6 row">
+            <input class="form-control col-8" required asp-for="Title" type="text" id="Title" />
+            <div class="col-4" asp-validation-for="Title"></div>
         </div>
     </div>
-    <div class="form-row">
-        <div class="col-2">
+    <div class="form-row pt-2">
+        <div class="col-2 d-flex flex-column justify-content-center">
             <label for="Price" class="font-weight-bold">Ár:</label>
         </div>
-        <div class="col-3">
-            <input asp-for="Price" type="number" id="Price" /> Ft
-            <span asp-validation-for="Price"></span>
+        <div class="col-6 row">
+            <input class="form-control col-4" asp-for="Price" type="number" id="Price" />
+            <div class="col-4 d-flex flex-column justify-content-center">Ft</div>
+            <div class="col-4" asp-validation-for="Price"></div>
         </div>
     </div>
-    <div class="form-row">
+    <div class="form-row pt-2">
         <div class="col-2">
             <label for="AdType" class="font-weight-bold">* Hirdetés típusa:</label>
         </div>
-        <div id="AdType" class="col-10 row">
-            <div class="col-2">
+        <div id="AdType" class="col-10 row pl-1">
+            <div class="col-2 pl-0">
                 <div class="custom-control custom-radio">
                     <input required asp-for="IsBuying" value="true" class="custom-control-input" type="radio" id="IsBuying" />
                     <label class="custom-control-label" for="IsBuying">Keres</label>
@@ -41,15 +42,15 @@
                     <label class="custom-control-label" for="IsSelling">Kínál</label>
                 </div>
             </div>
-            <span asp-validation-for="IsBuying"></span>
+            <div class="col-4" asp-validation-for="IsBuying"></div>
         </div>
     </div>
     <div class="form-row">
         <div class="col-2">
             <label class="font-weight-bold">* Termék állapota:</label>
         </div>
-        <div id="AdStatus" class="col-10 row">
-            <div class="col-2">
+        <div id="AdStatus" class="col-10 row pl-1">
+            <div class="col-2 pl-0">
                 <div class="custom-control custom-radio">
                     <input required asp-for="IsUsed" value="true" class="custom-control-input" type="radio" id="IsUsed" />
                     <label class="custom-control-label" for="IsUsed">Használt</label>
@@ -68,11 +69,11 @@
         <div class="col-2">
             <label for="Category" class="font-weight-bold">* Kategória:</label>
         </div>
-        <div id="Category">
-            <input type="hidden" asp-for="Category" id="chosenCategory" />
-            <vc:category-tree chosen-category-name="" is-required="true"></vc:category-tree>
+        <div id="Category" class="pl-1">
+            <input type="hidden" asp-for="CategoryId" id="chosenCategory" />
+            <vc:category-tree chosen-category-id=null is-required="true"></vc:category-tree>
         </div>
-        <span asp-validation-for="Category"></span>
+        <span asp-validation-for="CategoryId"></span>
     </div>
     <div class="form-row">
         <div class="col" id="properties">
@@ -82,55 +83,64 @@
         <div class="col-2">
             <label for="Description" class="font-weight-bold">* Leírás:</label>
         </div>
-        <div class="col-4">
-            <textarea required minlength="20" rows="15" cols="75" asp-for="Description" id="Description" placeholder="Minimum 20 karakter hosszú"></textarea>
-            <span asp-validation-for="Description"></span>
+        <div class="col-6 row">
+            <textarea class="form-control col-8" required minlength="20" rows="15" cols="75" asp-for="Description" id="Description" placeholder="Minimum 20 karakter hosszú"></textarea>
+            <div class="col-4" asp-validation-for="Description"></div>
         </div>
     </div>
-    <div class="form-row">
-        <div class="col-2">
-            <label for="Images" class="font-weight-bold">Képek:</label>
-        </div>
-        <div class="col-10" id="Images">
-            <div class="form-row custom-file">
-                <label for="imgInput-multi" class="btn btn-dark">Képek kiválasztása</label>
-                <span>(Maximum 10)</span>
+    <div class="pt-2">
+        <div class="form-row">
+            <div class="col-2">
+                <label for="Images" class="font-weight-bold">Képek:</label>
+            </div>
+            <div class="col-4 row custom-file">
+                <label for="imgInput-multi" class="btn btn-dark col-10">Képek kiválasztása</label>
+            </div>
+            <div class="col-4 d-flex flex-column justify-content-center">
+                (Maximum 10)
+            </div>
+            <div class="col-4">
                 <input asp-for="Images" id="imgInput-multi" type="file" class="custom-file-input" multiple />
             </div>
-            <div class="form-row row-cols-5">
-                @for (int i = 0; i < 10; i++)
-                {
-                    <div class="col p-2">
-                        <div class="imgContainer d-flex justify-content-center">
-                            <img id="img-@i" src="~/images/image-placeholder.jpg" />
+        </div>
+        <div class="form-row">
+            <div class="col-2"></div>
+            <div class="col-10">
+                <div class="row row-cols-5" id="Images">
+                    @for (int i = 0; i < 10; i++)
+                    {
+                        <div class="col p-2">
+                            <div class="imgContainer d-flex justify-content-center">
+                                <img id="img-@i" src="~/images/image-placeholder.jpg" />
+                            </div>
                         </div>
-                    </div>
-                }
+                    }
+                </div>
             </div>
         </div>
     </div>
-    <div class="form-row">
-        <div class="col-2">
+    <div class="form-row pt-2">
+        <div class="col-2 d-flex flex-column justify-content-center">
             <label class="font-weight-bold">* Termék helye:</label>
         </div>
-        <div id="Place">
+        <div class="col-6 row" id="Place">
             <vc:city-county-select is-required="true"></vc:city-county-select>
         </div>
-        <span asp-validation-for="City"></span>
+        <span asp-validation-for="CityId"></span>
     </div>
-    <div class="form-row">
-        <div class="col-2">
+    <div class="form-row pt-2">
+        <div class="col-2 d-flex flex-column justify-content-center">
             <label for="TimeToLive" class="font-weight-bold">* Időtartam</label>
         </div>
-        <div class="col-2">
-            <select required asp-for="DaysToLive" id="TimeToLive">
+        <div class="row col-6">
+            <select class="form-control col-4" required asp-for="DaysToLive" id="TimeToLive">
                 <option value="15">15 nap</option>
                 <option value="30">30 nap</option>
                 <option value="60">60 nap</option>
                 <option value="90">90 nap</option>
                 <option value="120">120 nap</option>
             </select>
-            <span asp-validation-for="DaysToLive"></span>
+            <div class="col-4" asp-validation-for="DaysToLive"></div>
         </div>
     </div>
     <div class="form-row">

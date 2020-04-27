@@ -1,0 +1,87 @@
+﻿@model MarketX.ViewModels.RegisterViewModel
+
+<h1>Regisztráció</h1>
+
+<div class="container">
+    <form method="post" asp-controller="Account" asp-action="Register">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-row">
+            <div class="col-2 font-weight-bold d-flex flex-column justify-content-center">
+                <label for="FirstName">Vezetéknév: </label>
+            </div>
+            <div class="col-6 row">
+                <input class="form-control" type="text" id="FirstName" asp-for="FirstName" />
+            </div>
+        </div>
+        <div class="form-row pt-2">
+            <div class="col-2 font-weight-bold d-flex flex-column justify-content-center">
+                <label for="LastName">Keresztnév: </label>
+            </div>
+            <div class="col-6 row">
+                <input class="form-control" type="text" id="LastName" asp-for="LastName" />
+            </div>
+        </div>
+        <div class="form-row pt-2">
+            <div class="col-2 font-weight-bold d-flex flex-column justify-content-center">
+                <label for="Email">Email: </label>
+            </div>
+            <div class="col-6 row">
+                <input class="form-control" type="text" id="Email" asp-for="Email" />
+            </div>
+        </div>
+        <div class="form-row pt-2">
+            <div class="col-2 font-weight-bold d-flex flex-column justify-content-center">
+                <label for="Password">Jelszó: </label>
+            </div>
+            <div class="col-6 row">
+                <input type="password" class="form-control" id="Password" asp-for="Password" />
+            </div>
+        </div>
+        <div class="form-row pt-2">
+            <div class="col-2 font-weight-bold d-flex flex-column justify-content-center">
+                <label for="PasswordAgain">Jelszó megerősítése: </label>
+            </div>
+            <div class="col-6 row">
+                <input type="password" class="form-control" id="PasswordAgain" asp-for="ConfirmPassword" />
+            </div>
+        </div>
+        <div class="form-row pt-2">
+            <div class="col-2 font-weight-bold d-flex flex-column justify-content-center">
+                <label for="PhoneNumber">Telefonszám: </label>
+            </div>
+            <div class="col-6 row">
+                <input type="tel" class="form-control" id="PhoneNumber" asp-for="PhoneNumber" />
+            </div>
+        </div>
+        <div class="form-row pt-2">
+            <div class="col-2 font-weight-bold d-flex flex-column justify-content-center">
+                <label>Hely: </label>
+            </div>
+            <div class="col-6 row">
+                <vc:city-county-select is-required="false"></vc:city-county-select>
+            </div>
+        </div>
+        <div class="form-row pt-2">
+            <div class="col-2 font-weight-bold d-flex flex-column justify-content-center">
+                <label for="Image">Profilkép: </label>
+            </div>
+            <div class="col-4 row custom-file">
+                <label for="imgInput" class="btn btn-dark col-10">Kép kiválasztása</label>
+            </div>
+            <div class="col-4">
+                <input asp-for="ProfilePicture" id="imgInput" type="file" class="custom-file-input" />
+            </div>
+        </div>
+        <div class="form-row pt-2">
+            <div class="col-2"></div>
+            <div class="col-4 row">
+                <img id="img" class="img-fluid" src="~/images/image-placeholder.jpg" />
+            </div>
+        </div>
+        <input type="submit" class="btn btn-success" />
+    </form>
+</div>
+
+@section Scripts{
+    <script src="~/js/register.js"></script>
+}

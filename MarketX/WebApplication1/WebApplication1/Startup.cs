@@ -1,11 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MarketX.Data;
+using AutoMapper;
+using MarketX.BLL.Interfaces;
+using MarketX.BLL.Services;
+using MarketX.DAL;
+using MarketX.DAL.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +28,18 @@ namespace MarketX
             services.AddControllersWithViews();
             services.AddDbContext<MarketXContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MarketXContext")));
+            services.AddAutoMapper(typeof(Startup));
+            services.AddTransient<IAdvertisementService, AdvertisementService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<ICityCountyService, CityCountyService>();
+            services.AddTransient<IAccountService, AccountService>();
+            services.AddIdentity<User, Role>().AddEntityFrameworkStores<MarketXContext>();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.User.RequireUniqueEmail = false;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +58,8 @@ namespace MarketX
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseAuthentication();
 
             app.UseRouting();
 

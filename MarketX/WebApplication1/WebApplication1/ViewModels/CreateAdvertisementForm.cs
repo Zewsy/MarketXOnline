@@ -1,4 +1,4 @@
-﻿using MarketX.Models;
+﻿using MarketX.BLL.DTOs;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ namespace MarketX.ViewModels
     {
         public CreateAdvertisementForm()
         {
-            PropertyInputs = new List<PropertyInputField>();
+            PropertyInputs = new List<PropertyWithValue>();
             Images = new List<IFormFile>();
         }
 
@@ -20,18 +20,15 @@ namespace MarketX.ViewModels
         public string? Title { get; set; }
 
         [Required(ErrorMessage = "Kötelező")]
-        public string? Category { get; set; }
+        public int? CategoryId { get; set; }
 
         [Required(ErrorMessage = "Kötelező")]
         public bool? IsBuying { get; set; }
         public int? Price { get; set; }
-        public List<PropertyInputField> PropertyInputs { get; set; }
+        public List<PropertyWithValue> PropertyInputs { get; set; }
 
         [Required(ErrorMessage = "Kötelező")]
-        public string? County { get; set; }
-
-        [Required(ErrorMessage = "Kötelező")]
-        public string? City { get; set; }
+        public int? CityId { get; set; }
 
         [Required(ErrorMessage = "Kötelező")]
         public bool? IsUsed { get; set; }

@@ -1,4 +1,4 @@
-﻿@model MarketX.ViewModels.SearchFormModelWithMetadata
+﻿@model MarketX.ViewModels.SearchModelWithMetadata
 
 <form asp-action="Results" asp-controller="Home" method="get">
     <div class="form-row pb-2">
@@ -6,19 +6,19 @@
             <input asp-for="Name" class="form-control" type="text" placeholder="Termék keresése..." />
         </div>
         <div class="col-3">
-            <select asp-for="Category" class="form-control">
+            <select asp-for="CategoryId" class="form-control">
                 <option value="" selected disabled hidden>Főkategória</option>
                 @foreach (var category in Model.MainCategories)
                 {
-                    <option value="@category.Name">@category.Name</option>
+                    <option class="form-" value="@category.Id">@category.Name</option>
                 }
             </select>
         </div>
-        <div class="col-1 pl-5 custom-control custom-radio">
+        <div class="col-1 pl-5 custom-control custom-radio d-flex flex-column justify-content-center">
             <input asp-for="IsBuying" value="false" class="custom-control-input" id="sellingRadioSimple" type="radio" />
             <label class="custom-control-label" for="sellingRadioSimple">Kínál</label>
         </div>
-        <div class="col-1 pl-5 custom-control custom-radio">
+        <div class="col-1 pl-5 custom-control custom-radio d-flex flex-column justify-content-center">
             <input asp-for="IsBuying" value="true" class="custom-control-input" id="buyingRadioSimple" type="radio" />
             <label class="custom-control-label" for="buyingRadioSimple">Keres</label>
         </div>
@@ -38,24 +38,26 @@
         </div>
         <div class="collapse form-group border border-light bg-light" id="details">
             <div class="form-row pt-4">
-                <div class="col-2 pl-4">
+                <div class="col-2 pl-4 d-flex flex-column justify-content-center">
                     <label class="font-weight-bold">Termék neve:</label>
                 </div>
-                <div class="col">
+                <div class="col-8">
                     <input asp-for="Name" class="form-control" type="text" />
                 </div>
             </div>
             <div class="form-row pt-4">
-                <div class="col-2 pl-4">
+                <div class="col-2 pl-4 d-flex flex-column justify-content-center">
                     <label class="font-weight-bold">Hirdetés típus:</label>
                 </div>
-                <div class="col-1 pl-5 custom-control custom-radio">
-                    <input asp-for="IsBuying" value="false" class="custom-control-input" id="sellingRadioDetailed" type="radio" />
-                    <label class="custom-control-label" for="sellingRadioDetailed">Kínál</label>
-                </div>
-                <div class="col-1 pl-5 custom-control custom-radio">
-                    <input asp-for="IsBuying" value="true" class="custom-control-input" id="buyingRadioDetailed" type="radio" />
-                    <label class="custom-control-label" for="buyingRadioDetailed">Keres</label>
+                <div class="col-3">
+                    <div class="col-1 d-inline custom-control custom-radio">
+                        <input asp-for="IsBuying" value="false" class="custom-control-input" id="sellingRadioDetailed" type="radio" />
+                        <label class="custom-control-label" for="sellingRadioDetailed">Kínál</label>
+                    </div>
+                    <div class="col-1 d-inline custom-control custom-radio">
+                        <input asp-for="IsBuying" value="true" class="custom-control-input" id="buyingRadioDetailed" type="radio" />
+                        <label class="custom-control-label" for="buyingRadioDetailed">Keres</label>
+                    </div>
                 </div>
             </div>
             <div class="form-row pt-2">
@@ -72,11 +74,12 @@
                 </div>
             </div>
             <div class="form-row pb-3">
-                <div class="col-2 pl-4">
+                <div class="col-2 pl-4 d-flex flex-column justify-content-center">
                     <label class="font-weight-bold">Kategória:</label>
                 </div>
                 <div class="col-2">
-                    <input type="text" asp-for="Category" readonly placeholder="Kiválasztott kategória" class="font-italic form-control-plaintext" id="chosenCategory"/>
+                    <label for="chosenCategory" class="font-italic form-control-plaintext" id="chosenCategoryLabel">Kiválasztott kategória</label>
+                    <input type="hidden" asp-for="CategoryId" id="chosenCategory"/>
                 </div>
                 <div class="col">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#categoriesModal">Választás</button>
@@ -87,8 +90,8 @@
                                     <h2 class="modal-title">Kategória választása</h2>
                                 </div>
                                 <div class="modal-body">
-                                    <div id="treeview">
-                                        <vc:category-tree chosen-category-name="@Model.Category" is-required="false"></vc:category-tree>
+                                    <div class="pl-3" id="treeview">
+                                        <vc:category-tree chosen-category-id="@Model.CategoryId" is-required="false"></vc:category-tree>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -105,30 +108,34 @@
                 </div>
             </div>
             <div class="form-row pb-3">
-                <div class="col-2 pl-4">
+                <div class="col-2 pl-4 d-flex flex-column justify-content-center">
                     <label class="font-weight-bold">Hely:</label>
                 </div>
-                @await Component.InvokeAsync("CityCountySelect")
+                <div class="row pl-3">
+                    @await Component.InvokeAsync("CityCountySelect")
+                </div>
             </div>
             <div class="form-row">
                 <div class="col-2 pl-4">
                     <label class="font-weight-bold">Állapot:</label>
                 </div>
-                <div class="col-1 pl-4 custom-control custom-checkbox">
-                    <input asp-for="IsNew" checked type="checkbox" id="newCheck" class="custom-control-input">
-                    <label class="custom-control-label" for="newCheck">Új</label>
-                </div>
-                <div class="col-1 custom-control custom-checkbox">
-                    <input asp-for="IsUsed" checked type="checkbox" id="oldCheck" class="custom-control-input">
-                    <label class="custom-control-label" for="oldCheck">Használt</label>
+                <div class="col-3">
+                    <div class="col-1 pl-4 custom-control custom-checkbox d-inline">
+                        <input asp-for="IsNew" checked type="checkbox" id="newCheck" class="custom-control-input">
+                        <label class="custom-control-label" for="newCheck">Új</label>
+                    </div>
+                    <div class="col-1 custom-control custom-checkbox d-inline">
+                        <input asp-for="IsUsed" checked type="checkbox" id="oldCheck" class="custom-control-input">
+                        <label class="custom-control-label" for="oldCheck">Használt</label>
+                    </div>
                 </div>
             </div>
             <div class="form-row pt-2">
-                <div class="col-2 pl-4">
+                <div class="col-2 pl-4 d-flex flex-column justify-content-center">
                     <label class="font-weight-bold">Adott eladó:</label>
                 </div>
-                <div class="col">
-                    <input asp-for="UserName" type="text" />
+                <div class="col-8">
+                    <input asp-for="UserName" class="form-control" type="text" />
                 </div>
             </div>
             <div class="form-row pt-2">

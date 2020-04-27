@@ -1,4 +1,4 @@
-﻿using MarketX.Models;
+﻿
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -25,6 +25,6 @@ namespace MarketX.ViewModels
             public AdType AdType { get; set; }
 
             [Display(Name = "Állapot")]
-            public Condition Condition { get; set; }
+            public DAL.Entities.Condition Condition { get; set; }
         }
 }

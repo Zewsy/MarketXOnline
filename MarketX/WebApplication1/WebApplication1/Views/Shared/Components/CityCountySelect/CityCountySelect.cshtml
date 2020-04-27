@@ -1,38 +1,38 @@
 ﻿@model MarketX.ViewModels.CityCountySelect
 
-    <div class="col-auto py-2">
+    <div class="col-auto p-0">
         @if (Model.IsRequired)
         {
-            <select required asp-for="@Model.County" id="countySelect" class="form-control">
+            <select required asp-for="@Model.CountyId" id="countySelect" class="form-control">
                 <option value="" selected disabled hidden>Megye</option>
                 @foreach (var county in Model.Counties)
                 {
-                    <option value="@county.Name">@county.Name</option>
+                    <option value="@county.Id">@county.Name</option>
                 }
             </select>
         }
         else
         {
-            <select asp-for="@Model.County" id="countySelect" class="form-control">
+            <select asp-for="@Model.CountyId" id="countySelect" class="form-control">
                 <option value="" selected disabled hidden>Megye</option>
                 @foreach (var county in Model.Counties)
                 {
-                    <option value="@county.Name">@county.Name</option>
+                    <option value="@county.Id">@county.Name</option>
                 }
             </select>
         }
     </div>
     
-    <div class="col-auto py-2">
+    <div class="col-auto pl-2">
         @if (Model.IsRequired)
         {
-            <select required asp-for="@Model.City" class="form-control" id="citySelect">
+            <select required asp-for="@Model.CityId" class="form-control" id="citySelect">
                 <option value="" selected disabled hidden>Város</option>
             </select>
         }
         else
         {
-            <select asp-for="@Model.City" class="form-control" id="citySelect">
+            <select asp-for="@Model.CityId" class="form-control" id="citySelect">
                 <option value="" selected disabled hidden>Város</option>
             </select>
         }

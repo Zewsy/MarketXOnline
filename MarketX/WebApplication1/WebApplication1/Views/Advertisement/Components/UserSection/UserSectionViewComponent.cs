@@ -1,4 +1,4 @@
-﻿using MarketX.Models;
+﻿using MarketX.BLL.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

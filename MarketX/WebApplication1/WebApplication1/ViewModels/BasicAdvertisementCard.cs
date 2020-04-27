@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-
+public enum AdType
+{
+    Selling,
+    Buying
+}
 namespace MarketX.ViewModels
 {
-    public enum AdType
-    {
-        Selling,
-        Buying
-    }
     public class BasicAdvertisementCard
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string? Title { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:C0}")]

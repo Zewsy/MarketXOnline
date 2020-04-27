@@ -1,4 +1,4 @@
-﻿using MarketX.Models;
+﻿using MarketX.BLL.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +13,8 @@ namespace MarketX.ViewModels
             IsRequired = false;
             Categories = new List<Category>();
         }
-        public ICollection<Category> Categories { get; set; }
-        public string? ChosenCategoryName  { get; set; }
+        public List<Category> Categories { get; set; }
+        public int? ChosenCategoryId  { get; set; }
         public bool IsRequired { get; set; }
     }
 }

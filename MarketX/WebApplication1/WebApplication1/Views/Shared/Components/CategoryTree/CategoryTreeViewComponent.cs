@@ -1,5 +1,4 @@
-﻿using MarketX.Data;
-using MarketX.Models;
+﻿using MarketX.BLL.Interfaces;
 using MarketX.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,17 +11,17 @@ namespace MarketX.Views.Shared.Components
 {
     public class CategoryTreeViewComponent : ViewComponent
     {
-        private readonly MarketXContext context;
+        private readonly ICategoryService _categoryService;
 
-        public CategoryTreeViewComponent(MarketXContext _context)
+        public CategoryTreeViewComponent(ICategoryService categoryService)
         {
-            context = _context;
+            _categoryService = categoryService;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(string? chosenCategoryName, bool isRequired = false)
+        public async Task<IViewComponentResult> InvokeAsync(int? chosenCategoryId, bool isRequired = false)
         {
-            var Categories = await context.Categories.ToListAsync();
-            return View("CategoryTree", new CategoryListWithChosenCategory() { Categories = Categories, ChosenCategoryName = chosenCategoryName, IsRequired = isRequired});
+            var Categories = await _categoryService.GetCategoriesAsync();
+            return View("CategoryTree", new CategoryListWithChosenCategory() { Categories = Categories.ToList(), ChosenCategoryId = chosenCategoryId, IsRequired = isRequired});
         }
     }
 }

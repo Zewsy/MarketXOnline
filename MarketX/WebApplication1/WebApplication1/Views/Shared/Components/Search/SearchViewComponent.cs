@@ -1,28 +1,27 @@
-﻿using MarketX.Data;
-using MarketX.Models;
-using MarketX.ViewModels;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MarketX.BLL.Interfaces;
+using MarketX.ViewModels;
 
 namespace MarketX.Views.Shared.Components.DetailedSearch
 {
     public class SearchViewComponent : ViewComponent
     {
-        private readonly MarketXContext context;
+        private readonly ICategoryService _categoryService;
 
-        public SearchViewComponent(MarketXContext _context)
+        public SearchViewComponent(ICategoryService categoryService)
         {
-            context = _context;
+            _categoryService = categoryService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync(bool ShowDetailedSearch)
         {
-            var categories = await context.Categories.Where(c => c.ParentCategoryID == null).ToListAsync();
-            SearchFormModelWithMetadata model = new SearchFormModelWithMetadata() { MainCategories = categories, IsDetailed = ShowDetailedSearch };
+            var categories = await _categoryService.GetMainCategoriesAsync();
+            SearchModelWithMetadata model = new SearchModelWithMetadata() { MainCategories = categories.ToList(), IsDetailed = ShowDetailedSearch };
             
             return View("Search", model);
         }

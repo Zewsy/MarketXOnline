@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.29503.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketX", "WebApplication1\MarketX.csproj", "{DEF26C24-2D14-4785-B627-6DE6D858C591}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketX.DAL", "MarketXDAL\MarketX.DAL.csproj", "{1FAF943A-9BB1-4DDC-BC51-20AD5BDD2464}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketX.BLL", "MarketX.BLL\MarketX.BLL.csproj", "{F7C43A89-815D-4B4A-B42C-7F8E50C272CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{DEF26C24-2D14-4785-B627-6DE6D858C591}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEF26C24-2D14-4785-B627-6DE6D858C591}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEF26C24-2D14-4785-B627-6DE6D858C591}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FAF943A-9BB1-4DDC-BC51-20AD5BDD2464}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FAF943A-9BB1-4DDC-BC51-20AD5BDD2464}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FAF943A-9BB1-4DDC-BC51-20AD5BDD2464}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FAF943A-9BB1-4DDC-BC51-20AD5BDD2464}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7C43A89-815D-4B4A-B42C-7F8E50C272CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7C43A89-815D-4B4A-B42C-7F8E50C272CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7C43A89-815D-4B4A-B42C-7F8E50C272CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7C43A89-815D-4B4A-B42C-7F8E50C272CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

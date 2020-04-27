@@ -1,6 +1,7 @@
-﻿@model ICollection<City>
+﻿@model List<MarketX.BLL.DTOs.City>
 
+    <option value="">Nincs megadva</option>
     @foreach (var city in Model)
     {
-        <option value="@city.Name">@city.Name</option>
+        <option value="@city.Id">@city.Name</option>
     }

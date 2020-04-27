@@ -1,4 +1,4 @@
-﻿@model MarketX.ViewModels.ResultsWithSearchFormModel
+﻿@model MarketX.ViewModels.ResultsWithSearchModel
 @using X.PagedList.Mvc.Core;
 @using X.PagedList;
 
@@ -6,28 +6,7 @@
     <h1 class="col-7">Találatok listája</h1>
     <div class="col-3 pt-3">
         <div class="font-weight-bold">Rendezés:</div>
-        <form name="OrderForm" asp-route="@Url.Action("Results", new
-                                             {
-                                                 Model.SearchFormModel.Name,
-                                                 Model.SearchFormModel.Category,
-                                                 Model.SearchFormModel.City,
-                                                 Model.SearchFormModel.County,
-                                                 Model.SearchFormModel.FromPrice,
-                                                 Model.SearchFormModel.IsBuying,
-                                                 Model.SearchFormModel.IsNew,
-                                                 Model.SearchFormModel.IsUsed,
-                                                 Model.SearchFormModel.IsWithPhoto,
-                                                 Model.SearchFormModel.PropertyInputs,
-                                                 Model.SearchFormModel.ToPrice,
-                                                 Model.SearchFormModel.UserName
-                                             })">
-            <select id="orderSelect" asp-for="SearchFormModel.SortOrder">
-                <option value="@MarketX.Controllers.SortOrder.DescendingByPrice">Ár szerint csökkenő</option>
-                <option value="@MarketX.Controllers.SortOrder.AscendingByPrice">Ár szerint növekvő</option>
-                <option value="@MarketX.Controllers.SortOrder.Latest">Legújabbak elől</option>
-                <option value="@MarketX.Controllers.SortOrder.AscendingByABC">Név alapján ABC sorrendben</option>
-            </select>
-        </form>
+        <partial name="_OrderForm" model="Model.SearchModel" />
     </div>
 </div>
 
@@ -51,22 +30,22 @@
     }
 
     @Html.PagedListPager(Model.Results, page => Url.Action("Results", new
-    {
-        Model.SearchFormModel.Name,
-        Model.SearchFormModel.Category,
-        Model.SearchFormModel.City,
-        Model.SearchFormModel.County,
-        Model.SearchFormModel.FromPrice,
-        Model.SearchFormModel.IsBuying,
-        Model.SearchFormModel.IsNew,
-        Model.SearchFormModel.IsUsed,
-        Model.SearchFormModel.IsWithPhoto,
-        Model.SearchFormModel.PropertyInputs,
-        Model.SearchFormModel.ToPrice,
-        Model.SearchFormModel.UserName,
-        Model.SearchFormModel.SortOrder,
-        page
-    }))
+{
+    Model.SearchModel.Name,
+    Model.SearchModel.CategoryId,
+    Model.SearchModel.CityId,
+    Model.SearchModel.CountyId,
+    Model.SearchModel.FromPrice,
+    Model.SearchModel.IsBuying,
+    Model.SearchModel.IsNew,
+    Model.SearchModel.IsUsed,
+    Model.SearchModel.IsWithPhoto,
+    Model.SearchModel.PropertyInputs,
+    Model.SearchModel.ToPrice,
+    Model.SearchModel.UserName,
+    Model.SearchModel.SortOrder,
+    page
+}))
 }
 else
 {

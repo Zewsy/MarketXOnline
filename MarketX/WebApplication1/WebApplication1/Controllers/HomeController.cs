@@ -2,29 +2,24 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using MarketX.Models;
-using MarketX.Data;
-using MarketX.ViewModels;
+using MarketX.BLL.DTOs;
 using Microsoft.EntityFrameworkCore;
 using X.PagedList;
+using MarketX.BLL.Interfaces;
+using MarketX.ViewModels;
 
 namespace MarketX.Controllers
 {
-    public enum SortOrder
-    {
-        DescendingByPrice,
-        AscendingByPrice,
-        Latest,
-        AscendingByABC
-    }
-
     public class HomeController : Controller
     {
-        private readonly MarketXContext context;
-
-        public HomeController(MarketXContext _context)
+        private readonly ICategoryService _categoryService;
+        private readonly ICityCountyService _cityCountyService;
+        private readonly IAdvertisementService _advertisementService;
+        public HomeController(ICategoryService categoryService, ICityCountyService cityCountyService, IAdvertisementService advertisementService)
         {
-            context = _context;
+            _categoryService = categoryService;
+            _cityCountyService = cityCountyService;
+            _advertisementService = advertisementService;
         }
 
         public IActionResult Index()
@@ -32,100 +27,43 @@ namespace MarketX.Controllers
             return View();
         }
 
-        public IActionResult ChooseCategory(string CategoryName)
+        public async Task<IActionResult> ChooseCategory(int categoryId)
         {
-            var props = context.CategoryProperties.Include(cp => cp.Property)
-                                                    .ThenInclude(p => p.PropertyValues)
-                                                  .Where(cp => cp.Category.Name == CategoryName)
-                                                  .Select(cp => cp.Property)
-                                                  .OrderBy(p => p.ValueType).ToList();
-            PropertiesWithInputs model = new PropertiesWithInputs { Properties = props };
-            return PartialView("_Properties", model);
+            var props = await _categoryService.GetCategoryPropertiesAsync(categoryId);
+            List<PropertyWithValue> inputFields = await props.Select(p => new PropertyWithValue(p)).ToListAsync();
+            PropertyInputList inputs = new PropertyInputList { PropertyInputs = inputFields };
+            return PartialView("_Properties", inputs);
         }
 
-        public IActionResult ChooseCounty(string CountyName)
+        public async Task<IActionResult> ChooseCounty(int countyId)
         {
-            var cities = context.Counties.Where(c => c.Name == CountyName).Select(c => c.Cities).FirstOrDefault();
+            var cities = await _cityCountyService.GetCitiesInCountyAsync(countyId);
             return PartialView("/Views/Shared/Components/CityCountySelect/_CitySelect.cshtml", cities);
         }
 
-        public async Task<IActionResult> Results(SearchFormModel searchFormModel, int? page)
+        public async Task<IActionResult> Results(SearchModel searchModel, int? page)
         {
-            var advertisements = GetProperAdvertisements(searchFormModel);
-            advertisements = SortAdvertisements(advertisements, searchFormModel.SortOrder);
-
-            var PropertyInputs = searchFormModel.PropertyInputs.Where(pi => pi.Value != null && pi.Value != "false").ToList();
-            advertisements = await Advertisement.FilterAdvertisementsByProperties(advertisements, PropertyInputs).ToListAsync();
+            var advertisements = await _advertisementService.GetAdvertisementsAsync(searchModel);
 
             List<ResultAdvertisementCard> results = ParseAdvertisements(advertisements);
 
             int pageNumber = (page ?? 1);
             int pageSize = 5;
-            ResultsWithSearchFormModel model = new ResultsWithSearchFormModel(searchFormModel, results.ToPagedList(pageNumber, pageSize));
+            ResultsWithSearchModel model = new ResultsWithSearchModel(searchModel, results.ToPagedList(pageNumber, pageSize));
 
             return View(model);
         }
 
-        private IEnumerable<Advertisement> GetProperAdvertisements(SearchFormModel searchFormModel)
-        {
-            var dbCategories = context.Categories.ToList();
-            return context.Advertisements
-                                    .Include(a => a.Seller)
-                                    .Include(a => a.Customer)
-                                    .Include(a => a.City)
-                                        .ThenInclude(c => c.County)
-                                    .Include(a => a.AdvertisementPhotos)
-                                    .Include(a => a.AdvertisementProperties)
-                                        .ThenInclude(ap => ap.Property)
-                                    .Include(a => a.Category)
-                                    .Where(a =>
-                                    (a.Status == Status.Active) &&
-                                    (searchFormModel.Name == null || a.Title.Contains(searchFormModel.Name)) &&
-                                    (searchFormModel.Category == null || Category.GetProperCategoryNamesFor(searchFormModel.Category, dbCategories).Contains(a.Category.Name)) &&
-                                    (searchFormModel.County == null || a.City.County.Name == searchFormModel.County) &&
-                                    (searchFormModel.City == null || a.City.Name == searchFormModel.City) &&
-                                    (searchFormModel.IsBuying == null || (searchFormModel.IsBuying == true && a.Seller == null) || (searchFormModel.IsBuying == false && a.Customer == null)) &&
-                                    ((searchFormModel.IsNew && a.Condition == Condition.New) || (searchFormModel.IsUsed && a.Condition == Condition.Used)) &&
-                                    (searchFormModel.IsWithPhoto == false || a.AdvertisementPhotos.Any()) &&
-                                    (searchFormModel.UserName == null
-                                     || (a.Seller != null && (a.Seller.FirstName.Contains(searchFormModel.UserName) || (a.Seller.LastName.Contains(searchFormModel.UserName))))
-                                     || (a.Customer != null && (a.Customer.FirstName.Contains(searchFormModel.UserName) || (a.Customer.LastName.Contains(searchFormModel.UserName))))) &&
-                                    (searchFormModel.FromPrice == null || a.Price >= searchFormModel.FromPrice) &&
-                                    (searchFormModel.ToPrice == null || a.Price <= searchFormModel.ToPrice));
-        }
-
-        private IEnumerable<Advertisement> SortAdvertisements(IEnumerable<Advertisement> advertisements, SortOrder? order)
-        {
-            switch (order)
-            {
-                case SortOrder.DescendingByPrice:
-                    return advertisements.OrderByDescending(a => a.IsPriorized)
-                                    .ThenByDescending(a => a.Price);
-                case SortOrder.AscendingByPrice:
-                    return advertisements.OrderByDescending(a => a.IsPriorized)
-                                    .ThenBy(a => a.Price);
-                case SortOrder.Latest:
-                    return advertisements.OrderByDescending(a => a.IsPriorized)
-                                    .ThenByDescending(a => a.CreatedDate);
-                case SortOrder.AscendingByABC:
-                    return advertisements.OrderByDescending(a => a.IsPriorized)
-                                    .ThenBy(a => a.Title);
-                default:
-                    return advertisements.OrderByDescending(a => a.IsPriorized)
-                                    .ThenByDescending(a => a.Price);
-            }
-        }
-
-        private List<ResultAdvertisementCard> ParseAdvertisements(IEnumerable<Advertisement> advertisements)
+        private List<ResultAdvertisementCard> ParseAdvertisements(List<Advertisement> advertisements)
         {
             return advertisements.Select(a => new ResultAdvertisementCard
             {
-                ID = a.ID,
+                ID = a.Id,
                 AdType = a.Seller == null ? AdType.Buying : AdType.Selling,
-                County = a.City.County.Name,
+                County = a.City.County?.Name,
                 City = a.City.Name,
                 Condition = a.Condition,
-                ImagePath = a.AdvertisementPhotos.Any() ? a.AdvertisementPhotos.First().ImagePath : Url.Content("~/images/image-placeholder.jpg"),
+                ImagePath = a.AdvertisementImagePaths.Any() ? a.AdvertisementImagePaths.First() : Url.Content("~/images/image-placeholder.jpg"),
                 IsPriorized = a.IsPriorized,
                 Price = a.Price,
                 Title = a.Title,

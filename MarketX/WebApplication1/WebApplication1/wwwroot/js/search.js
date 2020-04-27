@@ -4,19 +4,20 @@
     })
 
     $('input[name="chosenCategoryRadio"]').change(() => {
+        var CategoryId = event.target.value;
         var CategoryName = event.target.id;
-        $("#properties").load('/Home/ChooseCategory', { CategoryName: CategoryName });
-        $("#chosenCategory").val(CategoryName);
+        $("#properties").load('/Home/ChooseCategory', { categoryId: CategoryId });
+        $("#chosenCategoryLabel").text(CategoryName);
+        $("#chosenCategory").val(CategoryId);
     })
 
     $("#countySelect").change(() => {
-        var CountyName = $("#countySelect").val();
+        var CountyId = $("#countySelect").val();
 
-        $("#citySelect").load('/Home/ChooseCounty', { CountyName: CountyName });
+        $("#citySelect").load('/Home/ChooseCounty', { countyId: CountyId });
     })
 
     $("#orderSelect").change(() => {
-        var order = $("#orderSelect").val();
         document.forms["OrderForm"].submit();
     })
 
