@@ -107,7 +107,9 @@ namespace MarketX.BLL.Services
             foreach (var image in dbImages)
             {
                 _context.AdvertisementPhotos.Remove(image);
-                File.Delete(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot/images/advertisementPhotos", Path.GetFileName(image.ImagePath)));
+                if (!advertisement.AdvertisementImagePaths.Contains(Path.Combine(@"~/images/advertisementPhotos", Path.GetFileName(image.ImagePath)))){
+                    File.Delete(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot/images/advertisementPhotos", Path.GetFileName(image.ImagePath)));
+                }
             }
 
             foreach (var dbAp in dbAdvertisement.AdvertisementProperties)

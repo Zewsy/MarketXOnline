@@ -1,8 +1,8 @@
 ﻿$(() => {
     function readURL(input) {
         if (input.files) {
+            $("img").attr('src', "/images/image-placeholder.jpg");
             if (input.files.length > 1) {
-                $("img").attr('src', "/images/image-placeholder.jpg");
                 for (var i = 0; i < input.files.length; i++) {
                     (function (file) {
                         var reader = new FileReader();
