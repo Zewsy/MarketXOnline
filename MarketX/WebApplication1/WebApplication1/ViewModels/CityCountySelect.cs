@@ -12,9 +12,11 @@ namespace MarketX.ViewModels
         public CityCountySelect(List<County> counties)
         {
             Counties = counties;
+            Cities = new List<City>();
             IsRequired = false;
         }
         public List<County> Counties { get; set; }
+        public List<City> Cities { get; set; }
         public int? CountyId { get; set; }
         public int? CityId { get; set; }
         public bool IsRequired { get; set; }

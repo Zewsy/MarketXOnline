@@ -26,7 +26,7 @@
         </div>
 
         <div class="col-3 p-0">
-            <a class="text-center">
+            <a class="text-center" href="@Url.Action("UserProfile", "Account", new { userName = Model.Email })">
                 <h3>
                     @Html.DisplayFor(model => model.LastName) @Html.DisplayFor(model => model.FirstName)
                 </h3>

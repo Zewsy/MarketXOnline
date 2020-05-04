@@ -5,6 +5,7 @@ using MarketX.BLL.Utils;
 using MarketX.DAL;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -38,12 +39,26 @@ namespace MarketX.BLL.Services
                                     .Include(a => a.AdvertisementPhotos)
                                     .Include(a => a.AdvertisementProperties)
                                         .ThenInclude(ap => ap.Property)
+                                            .ThenInclude(p => p.PropertyValues)
                                     .Include(a => a.City)
                                         .ThenInclude(c => c.County)
                                     .Where(a => a.Id == advertisementId)
                                     .SingleOrDefaultAsync();
+            var advertisement = _mapper.Map<Advertisement>(dbAdvertisement);
+            return advertisement;
+        }
 
-            return _mapper.Map<Advertisement>(dbAdvertisement);
+        public async Task<List<Advertisement>> GetAdvertisementsForUserAsync(string userName)
+        {
+            var dbAdvertisements = await _context.Advertisements
+                                    .Include(a => a.AdvertisementPhotos)
+                                    .Include(a => a.City)
+                                        .ThenInclude(a => a.County)
+                                    .Include(a => a.Seller)
+                                    .Include(a => a.Customer)
+                                    .Where(a => a.Seller.Email == userName || a.Customer.Email == userName)
+                                    .ToListAsync();
+            return _mapper.Map<List<Advertisement>>(dbAdvertisements);
         }
 
         public async Task<List<Advertisement>> GetAdvertisementsAsync(SearchModel searchModel, int? adsToTake = null)
@@ -63,12 +78,45 @@ namespace MarketX.BLL.Services
         public async Task<Advertisement> InsertAdvertisementAsync(Advertisement advertisement)
         {
             DAL.Entities.Advertisement dbAdvertisement = _mapper.Map<DAL.Entities.Advertisement>(advertisement);
-            //_context.AdvertisementProperties.AttachRange(dbAdvertisement.AdvertisementProperties);
             _context.Advertisements.Add(dbAdvertisement);
             
             await _context.SaveChangesAsync();
 
             return _mapper.Map<Advertisement>(dbAdvertisement);
+        }
+
+        public async Task DeleteAdvertisementAsync(int id)
+        {
+            DAL.Entities.Advertisement advertisement = _context.Advertisements.FirstOrDefault(a => a.Id == id);
+            if(advertisement != null)
+            {
+                _context.Advertisements.Remove(advertisement);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task UpdateAdvertisementAsync(int advertisementId, Advertisement advertisement)
+        {
+            advertisement.Id = advertisementId;
+            var dbAdvertisement = _mapper.Map<DAL.Entities.Advertisement>(advertisement);
+
+            var dbAdvertisementEntity = _context.Advertisements.Attach(dbAdvertisement);
+            dbAdvertisementEntity.State = EntityState.Modified;
+
+            var dbImages = await _context.AdvertisementPhotos.Where(ap => ap.AdvertisementID == advertisementId).ToListAsync();
+            foreach (var image in dbImages)
+            {
+                _context.AdvertisementPhotos.Remove(image);
+                File.Delete(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot/images/advertisementPhotos", Path.GetFileName(image.ImagePath)));
+            }
+
+            foreach (var dbAp in dbAdvertisement.AdvertisementProperties)
+            {
+                var dbEntity = _context.AdvertisementProperties.Attach(dbAp);
+                dbEntity.State = EntityState.Modified;
+            }
+
+            await _context.SaveChangesAsync();
         }
     }
 }

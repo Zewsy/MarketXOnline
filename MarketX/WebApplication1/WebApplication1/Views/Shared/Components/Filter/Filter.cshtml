@@ -1,7 +1,13 @@
 ﻿@model MarketX.ViewModels.SearchModelWithMetadata
 
     <form class="border border-dark" asp-action="Results" asp-controller="Home" method="get">
-        <div class="form-row pt-4 pl-5">
+        <div class="form-row pt-2 pl-5">
+            <label class="font-weight-bold">Név:</label>
+        </div>
+        <div class="form-row pl-5">
+            <input class="form-control mr-4" type="text" asp-for="Name" id="name" />
+        </div>
+        <div class="form-row pt-4 pl-5 ml-1">
             <div class="col-1 pl-3 custom-control custom-radio">
                 <input asp-for="IsBuying" value="false" class="custom-control-input" id="sellingRadioDetailed" type="radio" />
                 <label class="custom-control-label" for="sellingRadioDetailed">Kínál</label>
@@ -11,7 +17,7 @@
                 <label class="custom-control-label" for="buyingRadioDetailed">Keres</label>
             </div>
         </div>
-        <div class="form-row pt-2">
+        <div class="form-row pt-3">
             <label class="font-weight-bold col-2 pl-5">Ár:</label>
         </div>
         <div class="form-row form-group form-inline pl-5">
@@ -22,21 +28,24 @@
             <input asp-for="ToPrice" id="priceTo" type="number" class="form-control" min="0" />
             <label class="pl-2 font-weight-bold" for="priceFrom">Ft-ig</label>
         </div>
-        <div class="form-row pb-3 px-4 d-block">
-            <vc:city-county-select></vc:city-county-select>
+        <div class="form-row pt-2">
+            <label class="font-weight-bold col-2 pl-5">Hely:</label>
         </div>
-        <div class="form-row pb-3 pl-5">
+        <div class="form-row pb-3 pl-5 pr-2">
+            <vc:city-county-select is-required="false" city-id="null"></vc:city-county-select>
+        </div>
+        <div class="form-row pl-5">
             <label class="font-weight-bold">Kategória:</label>
         </div>
         <input type="hidden" asp-for="CategoryId" id="chosenCategory" />
-        <div class="form-row pl-5">
-           <div id="treeview">
-               <vc:category-tree chosen-category-id="@Model.CategoryId" is-required="false"></vc:category-tree>
-           </div>             
-        </div>
-            <div id="properties" class="pr-2">
-                <partial name="_Properties" model="@new MarketX.ViewModels.PropertyInputList {PropertyInputs = Model.PropertyInputs }" />
+        <div class="form-row pl-5 ml-2">
+            <div id="treeview">
+                <vc:category-tree chosen-category-id="@Model.CategoryId" is-required="false"></vc:category-tree>
             </div>
+        </div>
+        <div id="properties" class="pr-2">
+            <partial name="_Properties" model="@new MarketX.ViewModels.PropertyInputList {PropertyInputs = Model.PropertyInputs }" />
+        </div>
         <div class="form-row">
             <div class="col-2 pl-5">
                 <label class="font-weight-bold">Állapot:</label>
@@ -53,10 +62,10 @@
             </div>
         </div>
         <div class="form-row pt-2 pl-5">
-             <label class="font-weight-bold">Adott eladó:</label>
+            <label class="font-weight-bold">Adott eladó:</label>
         </div>
         <div class="form-row pl-5">
-            <input asp-for="UserName" type="text" />
+            <input class="form-control mr-4" asp-for="UserName" type="text" />
         </div>
         <div class="form-row pt-2 pl-5">
             <div class="custom-control custom-checkbox">

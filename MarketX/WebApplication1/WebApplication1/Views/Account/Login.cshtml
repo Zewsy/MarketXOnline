@@ -6,7 +6,7 @@
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-row">
         <div class="col-2 font-weight-bold d-flex flex-column justify-content-center">
-            <label asp-for="Email"></label>
+            <label asp-for="Email">@Html.DisplayNameFor(m => m.Email):</label>
         </div>
         <div class="col-4">
             <input id="Email" asp-for="Email" class="form-control" type="text" />
@@ -14,7 +14,7 @@
     </div>
     <div class="form-row pt-2">
         <div class="col-2 font-weight-bold d-flex flex-column justify-content-center">
-            <label asp-for="Password"></label>
+            <label asp-for="Password">@Html.DisplayNameFor(m => m.Password):</label>
         </div>
         <div class="col-4">
             <input id="Password" asp-for="Password" class="form-control" type="password" />
@@ -26,5 +26,5 @@
             <label class="custom-control-label" asp-for="RememberMe"></label>
         </div>
     </div>
-    <input class="btn btn-success" type="submit" />
+    <button class="btn btn-success" type="submit">Belépés</button>
 </form>

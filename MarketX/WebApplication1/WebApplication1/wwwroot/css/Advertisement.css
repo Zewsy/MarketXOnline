@@ -8,8 +8,12 @@
     height: 50px;
 }
 
+.carousel-inner{
+    margin-bottom: 80px;
+}
+
 .carousel-indicators {
-    bottom: -110px;
+    bottom: -80px;
 }
 
 .carousel-item{

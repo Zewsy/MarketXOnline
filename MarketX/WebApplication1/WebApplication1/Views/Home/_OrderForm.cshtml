@@ -15,7 +15,7 @@
                                                  Model.ToPrice,
                                                  Model.UserName
                                              })">
-        <select id="orderSelect" asp-for="SortOrder">
+        <select class="form-control" id="orderSelect" asp-for="SortOrder">
             <option value="@MarketX.BLL.Services.SortOrder.DescendingByPrice">Ár szerint csökkenő</option>
             <option value="@MarketX.BLL.Services.SortOrder.AscendingByPrice">Ár szerint növekvő</option>
             <option value="@MarketX.BLL.Services.SortOrder.Latest">Legújabbak elől</option>

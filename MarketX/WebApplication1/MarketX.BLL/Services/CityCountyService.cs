@@ -28,6 +28,14 @@ namespace MarketX.BLL.Services
             return _mapper.Map<List<City>>(dbCities);
         }
 
+        public async Task<City> GetCity(int id)
+        {
+            var dbCity = await _context.Cities
+                .Include(c => c.County)
+                .FirstOrDefaultAsync(c => c.Id == id);
+            return _mapper.Map<City>(dbCity);
+        }
+
         public async Task<IEnumerable<County>> GetCountiesAsync()
         {
             var dbCounties = await _context.Counties.ToListAsync();

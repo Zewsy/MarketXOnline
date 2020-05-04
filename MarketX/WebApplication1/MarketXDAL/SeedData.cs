@@ -524,12 +524,12 @@ namespace MarketX.DAL.Entities
                         AdvertisementId = context.Advertisements.Single(a => a.Title == "Audi A6").Id,
                         PropertyId = context.Properties.Single(p => p.Name == "Ajtók száma").Id
                     },
-                    new AdvertisementProperty(value: "van")
+                    new AdvertisementProperty(value: "true")
                     {
                         AdvertisementId = context.Advertisements.Single(a => a.Title == "Audi A6").Id,
                         PropertyId = context.Properties.Single(p => p.Name == "ABS").Id
                     },
-                    new AdvertisementProperty(value: "van")
+                    new AdvertisementProperty(value: "true")
                     {
                         AdvertisementId = context.Advertisements.Single(a => a.Title == "Audi A6").Id,
                         PropertyId = context.Properties.Single(p => p.Name == "Ködlámpa").Id

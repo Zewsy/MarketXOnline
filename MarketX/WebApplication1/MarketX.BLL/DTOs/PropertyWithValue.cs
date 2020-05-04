@@ -14,6 +14,8 @@ namespace MarketX.BLL.DTOs
         {
             Property = property;
         }
+        public int Id { get; set; }
+        public int PropertyId { get; set; }
         public Property Property { get; set; } = null!; //TODO
         public string? Value { get; set; }
     }

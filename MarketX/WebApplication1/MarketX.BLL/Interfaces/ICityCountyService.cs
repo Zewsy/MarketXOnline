@@ -10,5 +10,6 @@ namespace MarketX.BLL.Interfaces
     {
         Task<IEnumerable<City>> GetCitiesInCountyAsync(int countyId);
         Task<IEnumerable<County>> GetCountiesAsync();
+        Task<City> GetCity(int id);
     }
 }

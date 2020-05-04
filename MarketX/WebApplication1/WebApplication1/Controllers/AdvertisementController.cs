@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using MarketX.BLL.DTOs;
 using MarketX.BLL.Interfaces;
@@ -41,21 +42,32 @@ namespace MarketX.Controllers
 
         [Route("Create")]
         [HttpGet]
-        public IActionResult CreateAdvertisement()
+        public async Task<IActionResult> CreateAdvertisement()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                var userId = await _userService.GetUserIdByEmailAsync(User.Identity.Name!);
+                var user = await _userService.GetUserAsync(userId);
+                AdvertisementForm advertisementForm = new AdvertisementForm { CityId = user.City?.Id };
+                return View(advertisementForm);
+            }
+            else
+                return RedirectToAction("Login", "Account");
         }
 
         [Route("Create")]
         [HttpPost]
-        public async Task<IActionResult> CreateAdvertisement(CreateAdvertisementForm model)
+        public async Task<IActionResult> CreateAdvertisement(AdvertisementForm model)
         {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "Account");
+
             if (!ModelState.IsValid)
             {
                 return View("CreateAdvertisement",model);
             }
 
-            Advertisement advertisement = ParseAdvertisement(model);
+            Advertisement advertisement = await ParseAdvertisementAsync(model);
 
             advertisement = await _advertisementService.InsertAdvertisementAsync(advertisement);
             await UploadImages(model.Images);
@@ -63,7 +75,39 @@ namespace MarketX.Controllers
             return Redirect($"{advertisement.Id}");
         }
 
-        private Advertisement ParseAdvertisement(CreateAdvertisementForm model)
+        [HttpGet("EditAdvertisement/{id}")]
+        public async Task<IActionResult> EditAdvertisement(int id)
+        {
+            var advertisement = await _advertisementService.GetAdvertisementAsync(id);
+            EditAdvertisementForm model = new EditAdvertisementForm
+            {
+                Id = advertisement.Id,
+                Title = advertisement.Title,
+                Price = advertisement.Price,
+                DaysToLive = advertisement.DaysToLive,
+                Description = advertisement.Description,
+                IsBuying = advertisement.SellerId == null ? false : true,
+                IsUsed = advertisement.Condition == DAL.Entities.Condition.Used ? true : false,
+                CategoryId = advertisement.CategoryId,
+                CityId = advertisement.CityId,
+                PropertyInputs = advertisement.AdvertisementProperties,
+                OriginalImagePaths = advertisement.AdvertisementImagePaths
+            };
+            return View(model);
+        }
+
+        [HttpPost("UpdateAdvertisement")]
+        public async Task<IActionResult> UpdateAdvertisement(EditAdvertisementForm advertisementForm)
+        {
+            var advertisement = await ParseAdvertisementAsync(advertisementForm);
+
+            await UploadImages(advertisementForm.Images);
+
+            await _advertisementService.UpdateAdvertisementAsync(advertisementForm.Id, advertisement);
+            return Redirect($"{advertisement.Id}");
+        }
+
+        private async Task<Advertisement> ParseAdvertisementAsync(AdvertisementForm model)
         {
             Advertisement advertisement = new Advertisement(
                 title: model.Title!,
@@ -79,7 +123,8 @@ namespace MarketX.Controllers
                 Price = model.Price
             };
 
-            int userId = 1;   //TODO
+            string userName = User.Identity.Name!;
+            int userId = await _userService.GetUserIdByEmailAsync(userName);
 
             if ((bool)model.IsBuying!)
                 advertisement.CustomerId = userId;
@@ -88,10 +133,21 @@ namespace MarketX.Controllers
 
             SetPropertiesToAdvertisement(advertisement, model.PropertyInputs);
 
-            foreach (var image in model.Images)
+            if (model.Images.Any())
             {
-                var imagePath = Path.Combine(@"~/images/advertisementPhotos", Path.GetFileName(image.FileName));
-                advertisement.AdvertisementImagePaths.Add(imagePath);
+                foreach (var image in model.Images)
+                {
+                    var imagePath = Path.Combine(@"~/images/advertisementPhotos", Path.GetFileName(image.FileName));
+                    advertisement.AdvertisementImagePaths.Add(imagePath);
+                }
+            }
+            else
+            {
+                foreach (var image in model.OriginalImagePaths)
+                {
+                    var imagePath = Path.Combine(@"~/images/advertisementPhotos", Path.GetFileName(image));
+                    advertisement.AdvertisementImagePaths.Add(imagePath);
+                }
             }
 
             return advertisement;
@@ -101,7 +157,7 @@ namespace MarketX.Controllers
         {
             foreach (var prop in properties)
                 if(prop.Value != null)
-                    advertisement.AdvertisementProperties.Add(new PropertyWithValue(prop.Property) { Value = prop.Value });
+                    advertisement.AdvertisementProperties.Add(new PropertyWithValue(prop.Property) { Id = prop.Id, Value = prop.Value, PropertyId = prop.Property.Id });
         }
 
         private async Task UploadImages(List<IFormFile> images)

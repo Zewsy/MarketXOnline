@@ -1,5 +1,6 @@
 ﻿using MarketX.BLL.Services;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MarketX.BLL.DTOs
 {
@@ -16,7 +17,15 @@ namespace MarketX.BLL.DTOs
         public string? Name { get; set; }
         public int? CategoryId { get; set; }
         public bool? IsBuying { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:C0}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Currency)]
+        [Range(0, int.MaxValue, ErrorMessage = "Negatív érték nem adható meg minimum árnak!")]
         public int? FromPrice { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:C0}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Currency)]
+        [Range(0, int.MaxValue, ErrorMessage = "Negatív érték nem adható meg maximum árnak!")]
         public int? ToPrice { get; set; }
         public List<PropertyWithValue> PropertyInputs { get; set; }
         public int? CountyId { get; set; }
@@ -27,5 +36,8 @@ namespace MarketX.BLL.DTOs
         public bool IsWithPhoto { get; set; }
         public bool? IsPriorized { get; set; }
         public SortOrder? SortOrder { get; set; }
+        
+        [EmailAddress]
+        public string? Email { get; set; }
     }
 }

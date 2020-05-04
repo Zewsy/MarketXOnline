@@ -38,7 +38,8 @@ namespace MarketX.BLL.Utils
                                  .CheckCondition(searchModel.IsNew, searchModel.IsUsed)
                                  .CheckImages(searchModel.IsWithPhoto)
                                  .CheckUserName(searchModel.UserName)
-                                 .CheckPrice(searchModel.FromPrice, searchModel.ToPrice);
+                                 .CheckPrice(searchModel.FromPrice, searchModel.ToPrice)
+                                 .CheckEmail(searchModel.Email);
         }
 
         private static IQueryable<DAL.Entities.Advertisement> CheckIsPriorized(this IQueryable<DAL.Entities.Advertisement> advertisements, bool? IsPriorized)
@@ -83,6 +84,19 @@ namespace MarketX.BLL.Utils
 
         private static IQueryable<DAL.Entities.Advertisement> CheckUserName(this IQueryable<DAL.Entities.Advertisement> advertisements, string? UserName)
         {
+            if(UserName != null && UserName.Split(" ").Length >= 2)
+            {
+                string[] names = UserName.Split(" ");
+                string lastName = names[0];
+                StringBuilder firstNameSb = new StringBuilder();
+                for (int i = 1; i < names.Length; i++){
+                    firstNameSb.Append(names[i]);
+                }
+                string firstName = firstNameSb.ToString();
+                return advertisements.Where(a =>
+                                       (a.Seller != null && (a.Seller.FirstName.Contains(firstName) && (a.Seller.LastName.Contains(lastName)))) ||
+                                       (a.Customer != null && (a.Customer.FirstName.Contains(firstName) && (a.Customer.LastName.Contains(lastName)))));
+            }
             return advertisements.Where(a => UserName == null ||
                                        (a.Seller != null && (a.Seller.FirstName.Contains(UserName) || (a.Seller.LastName.Contains(UserName)))) ||
                                        (a.Customer != null && (a.Customer.FirstName.Contains(UserName) || (a.Customer.LastName.Contains(UserName)))));
@@ -93,6 +107,11 @@ namespace MarketX.BLL.Utils
             return advertisements.Where(a =>
                                        (FromPrice == null || a.Price >= FromPrice) &&
                                        (ToPrice == null || a.Price <= ToPrice));
+        }
+
+        private static IQueryable<DAL.Entities.Advertisement> CheckEmail(this IQueryable<DAL.Entities.Advertisement> advertisements, string? email)
+        {
+            return advertisements.Where(a => email == null || a.Seller.Email == email || a.Customer.Email == email);
         }
 
         private static IQueryable<DAL.Entities.Advertisement> SortAdvertisements(IQueryable<DAL.Entities.Advertisement> advertisements, SortOrder? order)

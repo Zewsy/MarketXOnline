@@ -1,0 +1,29 @@
+﻿@model MarketX.ViewModels.UserAdvertisementsViewModel
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/AdvertisementCard.css" />
+}
+
+<vc:search show-detailed-search="true"></vc:search>
+
+<h1 class="text-center pt-2">Saját hirdetések</h1>
+
+@if (Model.ActiveAdvertisements.Any())
+{
+    <h2 class="pt-2">Aktív hirdetések</h2>
+}
+<div class="container">
+    <partial name="_UserAdvertisementsList" model="Model.ActiveAdvertisements" />
+</div>
+
+@if (Model.NewAdvertisements.Any())
+{
+    <h2 class="pt-2">Még nem jóváhagyott hirdetések</h2>
+}
+<div class="container">
+    <partial name="_UserAdvertisementsList" model="Model.NewAdvertisements" />
+</div>
+
+@section Scripts{
+    <script src="~/js/userAdvertisements.js"></script>
+}

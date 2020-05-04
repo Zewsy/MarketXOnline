@@ -43,13 +43,20 @@ namespace MarketX.Controllers
 
         public async Task<IActionResult> Results(SearchModel searchModel, int? page)
         {
+            ResultsWithSearchModel model;
+            if (!ModelState.IsValid)
+            {
+                model = new ResultsWithSearchModel(searchModel, new PagedList<ResultAdvertisementCard>(new List<ResultAdvertisementCard>(),1,5));
+                return View(model);
+            }
+
             var advertisements = await _advertisementService.GetAdvertisementsAsync(searchModel);
 
             List<ResultAdvertisementCard> results = ParseAdvertisements(advertisements);
 
             int pageNumber = (page ?? 1);
             int pageSize = 5;
-            ResultsWithSearchModel model = new ResultsWithSearchModel(searchModel, results.ToPagedList(pageNumber, pageSize));
+            model = new ResultsWithSearchModel(searchModel, results.ToPagedList(pageNumber, pageSize));
 
             return View(model);
         }

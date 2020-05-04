@@ -1,0 +1,71 @@
+﻿@model MarketX.BLL.DTOs.User
+
+@section Styles{
+    <link rel="stylesheet" href="@Url.Content("~/css/userProfile.css")" />
+}
+
+<vc:search show-detailed-search="true"></vc:search>
+
+<h1 class="text-center">@Model.LastName @Model.FirstName profilja</h1>
+
+<div class="row pt-2">
+    <div class="col-4"></div>
+    <div class="border-dark col-4">
+        <div class="d-flex justify-content-center">
+            <img class="user-profile-picture" src="@Url.Content(Model.ProfilePicturePath)" />
+        </div>
+        <div class="row pt-2 d-flex justify-content-center">
+            <div class="col-6">
+                <b>@Html.DisplayNameFor(u => u.Email):</b>
+            </div>
+            <div class="col-6">
+                @Model.Email
+            </div>
+        </div>
+        <div class="row pt-2">
+            <div class="col-6">
+                <b>@Html.DisplayNameFor(u => u.PhoneNumber):</b>
+            </div>
+            <div class="col-6">
+                @if(Model.PhoneNumber == null)
+                {
+                    <span>Nincs megadva</span>
+                }
+                @Model.PhoneNumber
+            </div>
+        </div>
+        <div class="row pt-2">
+            <div class="col-6">
+                <b>Hely:</b>
+            </div>
+            <div class="col-6">
+                @if (Model.City != null)
+                {
+                    <span>@Model.County!.Name, @Model.City.Name</span>
+                }
+                else
+                {
+                    <span>@Model.County?.Name</span>
+                }
+            </div>
+        </div>
+        <div class="row pt-2">
+            <div class="col-6">
+                <b>@Html.DisplayNameFor(u => u.RegistrationDate):</b>
+            </div>
+            <div class="col-6">
+                @Html.DisplayFor(u => u.RegistrationDate)
+            </div>
+        </div>
+        <div class="row pt-2 pl-3">
+            <a href="@Url.Action("Results", "Home", new MarketX.BLL.DTOs.SearchModel { Email = Model.Email })">Összes hirdetés megtekintése</a>  @*TODO*@
+        </div>
+        <div class="row pt-2">
+            <div class="col-6">
+                <button class="btn btn-info">Email</button>
+                <button class="btn btn-info">Üzenet</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-4"></div>
+</div>

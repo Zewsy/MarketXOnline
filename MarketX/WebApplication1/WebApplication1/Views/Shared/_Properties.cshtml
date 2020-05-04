@@ -9,6 +9,7 @@
 {
 <div class="row pl-5 pt-2">
     <label class="font-weight-bold col-6" for="@Model.PropertyInputs[i].Property.Name">@Model.PropertyInputs[i].Property.Name:</label>
+    <input type="hidden" asp-for="PropertyInputs[i].Id" value="@Model.PropertyInputs[i].Id" />
     <input type="hidden" asp-for="PropertyInputs[i].Property.Id" value="@Model.PropertyInputs[i].Property.Id" />
     <input type="hidden" asp-for="PropertyInputs[i].Property.Name" value="@Model.PropertyInputs[i].Property.Name" />
     <input type="hidden" asp-for="PropertyInputs[i].Property.ValueType" value="@Model.PropertyInputs[i].Property.ValueType" />

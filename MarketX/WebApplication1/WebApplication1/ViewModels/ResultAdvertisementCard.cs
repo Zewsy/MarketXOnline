@@ -1,4 +1,5 @@
 ﻿
+using MarketX.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -23,6 +24,8 @@ namespace MarketX.ViewModels
             public string? County { get; set; }
             public string? City { get; set; }
             public AdType AdType { get; set; }
+
+            public Status? Status { get; set; }
 
             [Display(Name = "Állapot")]
             public DAL.Entities.Condition Condition { get; set; }

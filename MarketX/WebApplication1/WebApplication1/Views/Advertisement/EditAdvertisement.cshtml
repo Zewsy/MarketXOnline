@@ -1,0 +1,16 @@
+﻿@model MarketX.ViewModels.EditAdvertisementForm
+
+@section Styles{
+    <link rel="stylesheet" href="@Url.Content("~/css/adForm.css")" />
+}
+
+<h1>Hirdetés szerkesztése</h1>
+<form enctype="multipart/form-data" asp-controller="Advertisement" asp-action="UpdateAdvertisement" method="post">
+    <input type="hidden" value="@Model.Id" asp-for="Id" />
+    <partial name="_AdvertisementFormContent" model="Model" />
+</form>
+
+@section Scripts{
+    <script src="~/js/adImageSelect.js"></script>
+
+}

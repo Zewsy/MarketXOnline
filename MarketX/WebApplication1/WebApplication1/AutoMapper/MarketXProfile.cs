@@ -17,7 +17,12 @@ namespace MarketX
                     dbAd.AdvertisementPhotos = dto.AdvertisementImagePaths.Select(ip => new DAL.Entities.AdvertisementPhoto(ip)).ToList())
                 .ForMember(dbAd => dbAd.AdvertisementProperties, opt => opt.Ignore())
                 .AfterMap((dto, dbAd, ctx) =>
-                    dbAd.AdvertisementProperties = dto.AdvertisementProperties.Select(ap => new DAL.Entities.AdvertisementProperty(ap.Value!) { PropertyId = ap.Property.Id }).ToList());
+                    dbAd.AdvertisementProperties = dto.AdvertisementProperties.Select(ap => new DAL.Entities.AdvertisementProperty(ap.Value)
+                    {
+                        PropertyId = ap.PropertyId,
+                        Id = ap.Id
+                    }).ToList());
+
             CreateMap<DAL.Entities.AdvertisementProperty, BLL.DTOs.PropertyWithValue>().ReverseMap();
             CreateMap<DAL.Entities.Property, BLL.DTOs.Property>().ReverseMap();
             CreateMap<DAL.Entities.PropertyValue, BLL.DTOs.PropertyValue>().ReverseMap();

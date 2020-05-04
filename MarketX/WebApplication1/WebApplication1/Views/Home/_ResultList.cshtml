@@ -4,18 +4,20 @@
 
 <div class="row pb-2">
     <h1 class="col-7">Találatok listája</h1>
-    <div class="col-3 pt-3">
+    <div class="col-5 pt-3">
         <div class="font-weight-bold">Rendezés:</div>
         <partial name="_OrderForm" model="Model.SearchModel" />
     </div>
 </div>
+
+<div asp-validation-summary="All" class="text-danger"></div>
 
 @{ bool isPriorized = false; }
 @if (Model.Results.Any())
 {
     @if (Model.Results[0].IsPriorized)
     {
-        <h2>Kiemelt hirdetések</h2>
+        <h2 class="pb-2">Kiemelt hirdetések</h2>
         isPriorized = true;
     }
 
@@ -23,14 +25,15 @@
     {
         @if (isPriorized && !ad.IsPriorized)
         {
-            <h2>További hirdetések</h2>
+            <h2 class="py-2">További hirdetések</h2>
             isPriorized = false;
         }
         <partial name="_ResultAdvertisementCard" model="ad" />
     }
 
-    @Html.PagedListPager(Model.Results, page => Url.Action("Results", new
-{
+    <div class="pt-2">
+        @Html.PagedListPager(Model.Results, page => Url.Action("Results", new
+    {
     Model.SearchModel.Name,
     Model.SearchModel.CategoryId,
     Model.SearchModel.CityId,
@@ -45,7 +48,13 @@
     Model.SearchModel.UserName,
     Model.SearchModel.SortOrder,
     page
-}))
+    }), new X.PagedList.Web.Common.PagedListRenderOptionsBase
+    {
+    LiElementClasses = new string[] { "page-item" },
+    PageClasses = new string[] { "page-link" }
+    })
+    </div>
+
 }
 else
 {

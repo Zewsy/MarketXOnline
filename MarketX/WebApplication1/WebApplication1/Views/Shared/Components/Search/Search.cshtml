@@ -1,12 +1,12 @@
 ﻿@model MarketX.ViewModels.SearchModelWithMetadata
 
 <form asp-action="Results" asp-controller="Home" method="get">
-    <div class="form-row pb-2">
-        <div class="col-3">
-            <input asp-for="Name" class="form-control" type="text" placeholder="Termék keresése..." />
+    <div class="form-row form-group pb-2">
+        <div class="col-3 pl-0 pr-0 mr-0">
+            <input asp-for="Name" class="form-control rounded-0" type="text" placeholder="Termék keresése..." />
         </div>
-        <div class="col-3">
-            <select asp-for="CategoryId" class="form-control">
+        <div class="col-3 pl-0 pr-0 mr-0">
+            <select asp-for="CategoryId" class="form-control rounded-0">
                 <option value="" selected disabled hidden>Főkategória</option>
                 @foreach (var category in Model.MainCategories)
                 {
@@ -14,16 +14,16 @@
                 }
             </select>
         </div>
-        <div class="col-1 pl-5 custom-control custom-radio d-flex flex-column justify-content-center">
+        <div class="col-1 pl-0 ml-0">
+            <button type="submit" class="btn btn-success rounded-0"><i class="fas fa-search"></i></button>
+        </div>
+        <div class="col-1 custom-control custom-radio d-flex flex-column justify-content-center">
             <input asp-for="IsBuying" value="false" class="custom-control-input" id="sellingRadioSimple" type="radio" />
             <label class="custom-control-label" for="sellingRadioSimple">Kínál</label>
         </div>
-        <div class="col-1 pl-5 custom-control custom-radio d-flex flex-column justify-content-center">
+        <div class="col-1 custom-control custom-radio d-flex flex-column justify-content-center">
             <input asp-for="IsBuying" value="true" class="custom-control-input" id="buyingRadioSimple" type="radio" />
             <label class="custom-control-label" for="buyingRadioSimple">Keres</label>
-        </div>
-        <div class="col-2 pl-3">
-            <button type="submit" class="btn btn-primary">Keres</button>
         </div>
     </div>
 </form>
@@ -32,8 +32,8 @@
 {
     <form asp-action="Results" asp-controller="Home" method="get">
         <div class="form-row">
-            <button class="btn btn-light col-12" type="button" data-toggle="collapse" data-target="#details" aria-expanded="false" aria-controls="collapseExample">
-                Részletes keresés
+            <button class="btn btn-dark col-12" type="button" data-toggle="collapse" data-target="#details" aria-expanded="false" aria-controls="collapseExample">
+                <div>Részletes keresés  <i class="fas fa-chevron-down"></i></div>
             </button>
         </div>
         <div class="collapse form-group border border-light bg-light" id="details">
@@ -65,11 +65,11 @@
                     <label class="font-weight-bold">Ár:</label>
                 </div>
                 <div class="col-3 form-group form-inline">
-                    <input asp-for="FromPrice" id="priceFrom" type="number" class="form-control" min="0" />
+                    <input asp-format="{0:C}" asp-for="FromPrice" id="priceFrom" type="number" class="form-control" min="0" />
                     <label class="pl-2 font-weight-bold" for="priceFrom">Ft-tól</label>
                 </div>
                 <div class="col-3 form-group form-inline">
-                    <input asp-for="ToPrice" id="priceTo" type="number" class="form-control" min="0" />
+                    <input asp-format="{0:C}" asp-for="ToPrice" id="priceTo" type="number" class="form-control" min="0" />
                     <label class="pl-2 font-weight-bold" for="priceFrom">Ft-ig</label>
                 </div>
             </div>
@@ -108,14 +108,14 @@
                 </div>
             </div>
             <div class="form-row pb-3">
-                <div class="col-2 pl-4 d-flex flex-column justify-content-center">
+                <div class="col-2 pl-4 pt-2 d-flex flex-column justify-content-center">
                     <label class="font-weight-bold">Hely:</label>
                 </div>
-                <div class="row pl-3">
-                    @await Component.InvokeAsync("CityCountySelect")
+                <div class="ml-1 row">
+                    <vc:city-county-select city-id="null" is-required="false"></vc:city-county-select>
                 </div>
             </div>
-            <div class="form-row">
+            <div class="form-row pt-2">
                 <div class="col-2 pl-4">
                     <label class="font-weight-bold">Állapot:</label>
                 </div>
@@ -130,7 +130,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-row pt-2">
+            <div class="form-row pt-3">
                 <div class="col-2 pl-4 d-flex flex-column justify-content-center">
                     <label class="font-weight-bold">Adott eladó:</label>
                 </div>
@@ -145,7 +145,7 @@
                 </div>
             </div>
             <div class="col-2 pl-3 pt-2">
-                <button type="submit" class="btn btn-primary">Keres</button>
+                <button type="submit" class="btn btn-success">Keres</button>
             </div>
         </div>
     </form>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using MarketX.BLL.DTOs;
 using MarketX.BLL.Interfaces;
 using MarketX.ViewModels;
@@ -12,22 +13,29 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MarketX.Controllers
 {
+    [Route("Account")]
     public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
+        private readonly IAdvertisementService _advertisementService;
+        private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
-        public AccountController(IAccountService accountService)
+        public AccountController(IAccountService accountService, IAdvertisementService advertisementService, IUserService userService, IMapper mapper)
         {
             _accountService = accountService;
+            _advertisementService = advertisementService;
+            this._userService = userService;
+            this._mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet("Register")]
         public IActionResult Register()
         {
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("Register")]
         public async Task<IActionResult> RegisterAsync(RegisterViewModel registerViewModel)
         {
             if (ModelState.IsValid)
@@ -52,7 +60,6 @@ namespace MarketX.Controllers
 
                 if (result.Succeeded)
                 {
-                    // await signInManager.SignInAsync(user, isPersistent: false); TODO: Login
                     return RedirectToAction("Index", "Home");
                 }
 
@@ -64,13 +71,13 @@ namespace MarketX.Controllers
             return View();
         }
 
-        [HttpGet]
+        [HttpGet("Login")]
         public IActionResult Login()
         {
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("Login")]
         public async Task<IActionResult> LoginAsync(LoginUser loginUser)
         {
             if (ModelState.IsValid)
@@ -102,6 +109,58 @@ namespace MarketX.Controllers
             {
                 await image.CopyToAsync(fileStream);
             }
+        }
+
+        [HttpGet("{userName}/Advertisements")]
+        public async Task<IActionResult> UserAdvertisements(string userName)
+        {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "Account");
+
+            if (User.Identity.Name != userName)
+                return RedirectToAction("Index", "Home");
+
+
+            var advertisements = await _advertisementService.GetAdvertisementsForUserAsync(userName);
+            var advertisementCards = advertisements.Select(a => new ResultAdvertisementCard
+            {
+                ID = a.Id,
+                City = a.City.Name,
+                County = a.City.County!.Name,
+                AdType = a.SellerId == null ? AdType.Buying : AdType.Selling,
+                ImagePath = a.AdvertisementImagePaths.Any() ? a.AdvertisementImagePaths.First() : Url.Content("~/images/image-placeholder.jpg"),
+                Title = a.Title,
+                Price = a.Price,
+                Status = a.Status,
+                UserName = a.Seller == null ? a.Customer!.LastName + " " + a.Customer.FirstName : a.Seller.LastName + " " + a.Seller.FirstName
+            }).ToList();
+
+            var activeAdvertisements = advertisementCards.Where(a => a.Status == DAL.Entities.Status.Active).ToList();
+            var newAdvertisements = advertisementCards.Where(a => a.Status == DAL.Entities.Status.New).ToList();
+
+            var result = new UserAdvertisementsViewModel()
+            {
+                ActiveAdvertisements = activeAdvertisements,
+                NewAdvertisements = newAdvertisements
+            };
+
+            return View(result);
+        }
+
+        [HttpGet("{userName}")]
+        public async Task<IActionResult> UserProfile(string userName)
+        {
+            int userId = await _userService.GetUserIdByEmailAsync(userName);
+            var dbUser = await _userService.GetUserAsync(userId);
+            var user = _mapper.Map<User>(dbUser);
+            return View(user);
+        }
+
+        [HttpDelete("DeleteAdvertisement/{id}")]
+        public async Task<IActionResult> DeleteAdvertisement(int id)
+        {
+            await _advertisementService.DeleteAdvertisementAsync(id);
+            return NoContent();
         }
     }
 }

@@ -23,11 +23,6 @@ namespace MarketX.Views.Shared.Filter
         public async Task<IViewComponentResult> InvokeAsync(SearchModel actualSearchModel)
         {
             var categories = await _categoryService.GetMainCategoriesAsync();
-            //var properties = actualSearchModel.CategoryId != null
-            //    ? (await _categoryService.GetCategoryPropertiesAsync((int)actualSearchModel.CategoryId)).OrderBy(p => p.ValueType).ToList()
-            //    : new List<Property>();
-
-            //var propertyInputs = properties.Select(p => new BLL.DTOs.PropertyWithValue() { Property = p }).ToList();
 
             SearchModelWithMetadata model = new SearchModelWithMetadata(actualSearchModel) {PropertyInputs = actualSearchModel.PropertyInputs, MainCategories = categories.ToList() };
 
