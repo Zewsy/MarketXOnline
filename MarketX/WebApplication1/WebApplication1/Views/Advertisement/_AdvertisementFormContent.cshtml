@@ -1,114 +1,130 @@
 ﻿@model MarketX.ViewModels.AdvertisementForm
 
-<div class="form-row">
-    <div class="col-2 d-flex flex-column justify-content-center">
-        <label for="Title" class="font-weight-bold">* Termék neve:</label>
-    </div>
-    <div class="col-6 row">
-        <input class="form-control col-8" required asp-for="Title" type="text" id="Title" />
-        <span class="col-4" asp-validation-for="Title"></span>
-    </div>
-</div>
-<div class="form-row pt-2">
-    <div class="col-2 d-flex flex-column justify-content-center">
-        <label for="Price" class="font-weight-bold">Ár:</label>
-    </div>
-    <div class="col-6 row">
-        <input asp-format="{0:C}" class="form-control col-4" asp-for="Price" type="number" id="Price" />
-        <div class="col-4 d-flex flex-column justify-content-center">Ft</div>
-        <span class="col-4" asp-validation-for="Price"></span>
-    </div>
-</div>
-<div class="form-row pt-2">
-    <div class="col-2">
-        <label for="AdType" class="font-weight-bold">* Hirdetés típusa:</label>
-    </div>
-    <div id="AdType" class="col-10 row pl-1">
-        <div class="col-2 pl-0">
-            <div class="custom-control custom-radio">
-                <input required asp-for="IsBuying" value="true" class="custom-control-input" type="radio" id="IsBuying" />
-                <label class="custom-control-label" for="IsBuying">Keres</label>
+<div class="row pt-2">
+    <div class="col-6">
+        <div class="form-row">
+            <div class="col-4 d-flex flex-column justify-content-center">
+                <label for="Title" class="font-weight-bold">* Termék neve:</label>
+            </div>
+            <div class="col-8 row pl-4">
+                <input class="form-control" required asp-for="Title" type="text" id="Title" />
+                <span asp-validation-for="Title"></span>
             </div>
         </div>
-        <div class="col-2">
-            <div class="custom-control custom-radio">
-                <input required asp-for="IsBuying" value="false" class="custom-control-input" type="radio" id="IsSelling" />
-                <label class="custom-control-label" for="IsSelling">Kínál</label>
+        <div class="form-row pt-2">
+            <div class="col-4 d-flex flex-column justify-content-center">
+                <label for="Price" class="font-weight-bold">Ár:</label>
+            </div>
+            <div class="col-8 row pl-4">
+                <input class="form-control col-7" asp-for="Price" type="number" id="Price" />
+                <div class="col-1 d-flex flex-column justify-content-center">Ft</div>
+                <span class="col-4" asp-validation-for="Price"></span>
             </div>
         </div>
-        <span class="col-4" asp-validation-for="IsBuying"></span>
-    </div>
-</div>
-<div class="form-row">
-    <div class="col-2">
-        <label class="font-weight-bold">* Termék állapota:</label>
-    </div>
-    <div id="AdStatus" class="col-10 row pl-1">
-        <div class="col-2 pl-0">
-            <div class="custom-control custom-radio">
-                <input required asp-for="IsUsed" value="true" class="custom-control-input" type="radio" id="IsUsed" />
-                <label class="custom-control-label" for="IsUsed">Használt</label>
+        <div class="form-row pt-3">
+            <div class="col-4">
+                <label for="AdType" class="font-weight-bold">* Hirdetés típusa:</label>
+            </div>
+            <div id="AdType" class="col-8 row pl-4">
+                <div class="col-4 pl-0">
+                    <div class="custom-control custom-radio">
+                        <input required asp-for="IsBuying" value="true" class="custom-control-input" type="radio" id="IsBuying" />
+                        <label class="custom-control-label" for="IsBuying">Keres</label>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="custom-control custom-radio">
+                        <input required asp-for="IsBuying" value="false" class="custom-control-input" type="radio" id="IsSelling" />
+                        <label class="custom-control-label" for="IsSelling">Kínál</label>
+                    </div>
+                </div>
+                <span class="col-4" asp-validation-for="IsBuying"></span>
             </div>
         </div>
-        <div class="col-2">
-            <div class="custom-control custom-radio">
-                <input required asp-for="IsUsed" value="false" class="custom-control-input" type="radio" id="IsNew" />
-                <label class="custom-control-label" for="IsNew">Új</label>
+        <div class="form-row pt-3">
+            <div class="col-4">
+                <label class="font-weight-bold">* Termék állapota:</label>
+            </div>
+            <div id="AdStatus" class="col-8 row pl-4">
+                <div class="col-4 pl-0">
+                    <div class="custom-control custom-radio">
+                        <input required asp-for="IsUsed" value="true" class="custom-control-input" type="radio" id="IsUsed" />
+                        <label class="custom-control-label" for="IsUsed">Használt</label>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="custom-control custom-radio">
+                        <input required asp-for="IsUsed" value="false" class="custom-control-input" type="radio" id="IsNew" />
+                        <label class="custom-control-label" for="IsNew">Új</label>
+                    </div>
+                </div>
+                <span asp-validation-for="IsUsed"></span>
             </div>
         </div>
-        <span asp-validation-for="IsUsed"></span>
+        <div class="form-row pt-3">
+            <div class="col-4">
+                <label for="Category" class="font-weight-bold">* Kategória:</label>
+            </div>
+            <div id="Category" class="pl-4 col">
+                <input type="hidden" asp-for="CategoryId" id="chosenCategory" />
+                <vc:category-tree chosen-category-id="@Model?.CategoryId" is-required="true" is-editable="false"></vc:category-tree>
+            </div>
+            <span asp-validation-for="CategoryId"></span>
+        </div>
+        <div class="form-row">
+            <div class="col-4">
+                <label class="font-weight-bold">* Termék helye:</label>
+            </div>
+            <div class="col-8 pl-2" id="Place">
+                <vc:city-county-select is-required="true" city-id="@Model?.CityId"></vc:city-county-select>
+            </div>
+            <span asp-validation-for="CityId"></span>
+        </div>
+    </div>
+    <div class="col-5 ml-5">
+        <div class="form-row">
+            <div id="properties">
+                <partial name="_Properties" model="@new MarketX.ViewModels.PropertyInputList { PropertyInputs = Model?.PropertyInputs ?? new List<MarketX.BLL.DTOs.PropertyWithValue>()}" />
+            </div>
+        </div>
     </div>
 </div>
-<div class="form-row">
-    <div class="col-2">
-        <label for="Category" class="font-weight-bold">* Kategória:</label>
-    </div>
-    <div id="Category" class="pl-1">
-        <input type="hidden" asp-for="CategoryId" id="chosenCategory" />
-        <vc:category-tree chosen-category-id="@Model?.CategoryId" is-required="true"></vc:category-tree>
-    </div>
-    <span asp-validation-for="CategoryId"></span>
-</div>
-<div class="form-row">
-    <div class="col-5" id="properties">
-        <partial name="_Properties" model="@new MarketX.ViewModels.PropertyInputList { PropertyInputs = Model?.PropertyInputs ?? new List<MarketX.BLL.DTOs.PropertyWithValue>()}" />
-    </div>
-</div>
+
 <div class="form-row pt-2">
     <div class="col-2">
         <label for="Description" class="font-weight-bold">* Leírás:</label>
     </div>
-    <div class="col-6 row">
-        <textarea class="form-control col-8" required minlength="20" rows="15" cols="75" asp-for="Description" id="Description" placeholder="Minimum 20 karakter hosszú"></textarea>
-        <span class="col-4" asp-validation-for="Description"></span>
+    <div class="col-6">
+        <textarea class="form-control" required minlength="20" rows="15" cols="75" asp-for="Description" id="Description" placeholder="Minimum 20 karakter hosszú"></textarea>
     </div>
+    <span class="col-4" asp-validation-for="Description"></span>
 </div>
-<div class="pt-2">
+<div class="pt-3">
     <div class="form-row">
-        <div class="col-2">
+        <div class="col-2 pr-2 d-flex flex-column justify-content-center">
             <label for="Images" class="font-weight-bold">Képek:</label>
         </div>
-        <div class="col-4 row custom-file">
+        <div class="col-4 pl-1 custom-file">
             <label for="imgInput-multi" class="btn btn-dark col-10">Képek kiválasztása</label>
         </div>
         <div class="col-4 d-flex flex-column justify-content-center">
             (Maximum 10)
         </div>
-        <div class="col-4">
-            <input asp-for="Images" id="imgInput-multi" type="file" class="custom-file-input" multiple />
-            @for(int i = 0; i < (Model?.OriginalImagePaths.Count ?? 0); i++)
+        <div class="col-2">
+            <input asp-for="Images" id="imgInput-multi" type="file" class="custom-file-input hide" multiple />
+            @for (int i = 0; i < (Model?.OriginalImagePaths.Count ?? 0); i++)
             {
-                <input type="hidden" asp-for="OriginalImagePaths[i]" value="@Model!.OriginalImagePaths[i]" />
+                <input type="hidden" class="hide disabled" asp-for="OriginalImagePaths[i]" value="@Model!.OriginalImagePaths[i]" />
             }
         </div>
     </div>
-    <div class="form-row">
-        <span asp-validation-for="Images" class="col-2"></span>
+    <div class="form-row pt-2">
+        <span asp-validation-for="Images" class="col-2 pr-2"></span>
         <div class="col-10">
-            <div class="row row-cols-5" id="Images">
+            <div class="row row-cols-5 pl-3" id="Images">
                 @for (int i = 0; i < (Model?.OriginalImagePaths.Count ?? 0); i++)
                 {
-                    <div class="col p-2">
+                    <div class="col pr-2 py-3 pl-0">
                         <div class="imgContainer d-flex justify-content-center">
                             <img id="img-@i" src="@Url.Content(Model!.OriginalImagePaths[i])" />
                         </div>
@@ -116,7 +132,7 @@
                 }
                 @for (int i = Model?.OriginalImagePaths.Count ?? 0; i < 10; i++)
                 {
-                    <div class="col p-2">
+                    <div class="col pr-2 py-3 pl-0">
                         <div class="imgContainer d-flex justify-content-center">
                             <img id="img-@i" src="~/images/image-placeholder.jpg" />
                         </div>
@@ -126,20 +142,11 @@
         </div>
     </div>
 </div>
-<div class="form-row pt-2">
+<div class="form-row pt-3">
     <div class="col-2 d-flex flex-column justify-content-center">
-        <label class="font-weight-bold">* Termék helye:</label>
+        <label for="TimeToLive" class="font-weight-bold">* Időtartam:</label>
     </div>
-    <div class="col-6 row" id="Place">
-        <vc:city-county-select is-required="true" city-id="@Model?.CityId"></vc:city-county-select>
-    </div>
-    <span asp-validation-for="CityId"></span>
-</div>
-<div class="form-row pt-2">
-    <div class="col-2 d-flex flex-column justify-content-center">
-        <label for="TimeToLive" class="font-weight-bold">* Időtartam</label>
-    </div>
-    <div class="row col-6">
+    <div class="col-6">
         <select class="form-control col-4" required asp-for="DaysToLive" id="TimeToLive">
             <option value="15">15 nap</option>
             <option value="30">30 nap</option>
@@ -147,9 +154,9 @@
             <option value="90">90 nap</option>
             <option value="120">120 nap</option>
         </select>
-        <span class="col-4" asp-validation-for="DaysToLive"></span>
     </div>
+    <span class="col-4" asp-validation-for="DaysToLive"></span>
 </div>
-<div class="form-row">
+<div class="form-row pt-3">
     <button type="submit" class="btn btn-success">Küldés</button>
 </div>

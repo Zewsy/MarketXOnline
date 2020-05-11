@@ -1,0 +1,19 @@
+﻿img.card-img {
+    max-height: 145px;
+    width: auto;
+    height: auto;
+    margin: auto;
+    max-width: 160px;
+}
+
+.corner-ribbon-green {
+    background: green;
+    text-align: center;
+    color: #f0f0f0;
+}
+
+.corner-ribbon-red {
+    background: red;
+    text-align: center;
+    color: #f0f0f0;
+}

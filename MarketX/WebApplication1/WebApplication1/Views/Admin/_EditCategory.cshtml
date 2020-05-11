@@ -1,0 +1,28 @@
+﻿@model MarketX.BLL.DTOs.Category
+
+<div class="row px-3">
+    <label for="categoryNewNameInput">Kategória neve:</label>
+    <input id="categoryNewNameInput" type="text" class="form-control col-10" asp-for="Name" />
+    <button id="btn-save-category" class="btn btn-success col-2"><i class="fas fa-save"></i></button>
+</div>
+<div class="row px-3 pt-3">
+    <label for="newPropertyInput">Új tulajdonság hozzáadása:</label>
+    <input id="newPropertyInput" type="text" class="form-control col-10" />
+    <button id="btn-save-new-property" class="btn btn-success col-2"><i class="fas fa-plus"></i></button>
+</div>
+
+<div class="pt-2 px-3">
+    @foreach (var prop in Model.Properties)
+    {
+        <div class="row pt-2">
+            <div class="custom-control custom-radio col-10">
+                <input class="custom-control-input" type="radio" name="chosenPropertyRadio" value="@prop.Id" id="@prop.Name">
+                <label for="@prop.Name" class="custom-control-label">@prop.Name</label>
+            </div>
+            <div class="col-2">
+                <button value="@prop.Id" name="delete-category-property" class="btn"><i value="@prop.Id" class="fas fa-times"></i></button>
+            </div>
+        </div>
+
+    }
+</div>

@@ -3,23 +3,8 @@
 @foreach (var advertisement in Model)
 {
     <div class="row" id="ad-@advertisement.ID">
-        <div class="col-8">
-            <partial name="_ResultAdvertisementCard" model="advertisement" />
-        </div>
-        <div class="col-4 d-flex flex-column justify-content-center">
-            <div class="d-flex flex-row justify-content-start">
-                <a asp-controller="Advertisement" asp-action="EditAdvertisement" asp-route-id="@advertisement.ID" class="btn"><i class="fas fa-pen fa-2x"></i></a>
-                <button class="btnDeleteAd btn"><i class="fas fa-trash fa-2x"></i></button>
-                <input id="adId" type="hidden" value="@advertisement.ID" />
-            </div>
-            @if (advertisement.AdType == AdType.Selling)
-            {
-                <button class="btn btn-success">Megjelölés eladottként</button>
-            }
-            else
-            {
-                <button class="btn btn-success">Megjelölés megvásároltként</button>
-            }
+        <div class="col-12">
+            <partial name="_EditableResultAdvertisementCard" model="advertisement" />
         </div>
     </div>
 }

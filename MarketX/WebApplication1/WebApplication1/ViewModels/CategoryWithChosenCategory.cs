@@ -9,5 +9,7 @@ namespace MarketX.ViewModels
         public Category Category { get; set; } = null!;
         public int? ChosenCategoryId { get; set; }
         public bool IsRequired { get; set; }
+
+        public bool IsEditable { get; set; }
     }
 }

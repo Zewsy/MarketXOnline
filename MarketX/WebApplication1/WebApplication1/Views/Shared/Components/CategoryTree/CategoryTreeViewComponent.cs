@@ -18,10 +18,10 @@ namespace MarketX.Views.Shared.Components
             _categoryService = categoryService;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(int? chosenCategoryId, bool isRequired = false)
+        public async Task<IViewComponentResult> InvokeAsync(int? chosenCategoryId, bool isRequired = false, bool isEditable = false)
         {
             var Categories = await _categoryService.GetCategoriesAsync();
-            return View("CategoryTree", new CategoryListWithChosenCategory() { Categories = Categories.ToList(), ChosenCategoryId = chosenCategoryId, IsRequired = isRequired});
+            return View("CategoryTree", new CategoryListWithChosenCategory() { Categories = Categories.ToList(), ChosenCategoryId = chosenCategoryId, IsRequired = isRequired, IsEditable = isEditable });
         }
     }
 }

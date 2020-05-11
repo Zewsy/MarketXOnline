@@ -1,0 +1,17 @@
+﻿@model List<MarketX.ViewModels.ResultAdvertisementCard>
+
+@section Styles{
+    <link rel="stylesheet" href="@Url.Content("~/css/editableResultCard.css")" />
+}
+
+<h1 class="pb-3">Új hirdetések</h1>
+
+@foreach (var ad in Model)
+{
+    <partial name="_ApprovableResultAdvertisementCard" model=@ad />
+}
+
+@section Scripts{
+    <script src="~/js/userAdvertisements.js"></script>
+    <script src="~/js/approveAd.js"></script>
+}

@@ -1,9 +1,9 @@
 ﻿$(() => {
-    $(".btnDeleteAd").click(() => {
+    $(".btnApproveAd").click(() => {
         var adId = $(event.target).attr("value");
         $.ajax({
-            url: `/Account/DeleteAdvertisement/${adId}`,
-            type: 'DELETE',
+            url: `/Admin/ApproveAdvertisement/${adId}`,
+            type: 'PUT',
             success: () => {
                 var adRow = $(`#ad-${adId}`);
                 adRow.remove();

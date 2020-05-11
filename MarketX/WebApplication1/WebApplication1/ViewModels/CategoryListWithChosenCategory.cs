@@ -16,5 +16,7 @@ namespace MarketX.ViewModels
         public List<Category> Categories { get; set; }
         public int? ChosenCategoryId  { get; set; }
         public bool IsRequired { get; set; }
+
+        public bool IsEditable { get; set; }
     }
 }

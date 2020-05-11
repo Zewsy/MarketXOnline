@@ -1,7 +1,12 @@
 ﻿@model MarketX.ViewModels.CategoryWithChosenCategory
 
-    <li class="list-item">
+    <li class="list-item mb-2" id="li-@Model.Category.Id">
         <div class="row">
+            @if (Model.IsEditable)
+            {
+                <button value="@Model.Category.Name-@Model.Category.Id" name="addCategory" class="btn d-flex flex-column justify-content-center" data-toggle="modal" data-target="#addCategoryModal"><i value="@Model.Category.Name-@Model.Category.Id" class="fas fa-plus"></i></button>
+                <button value="@Model.Category.Name-@Model.Category.Id" name="deleteCategory"  class="btn d-flex flex-column justify-content-center"><i value="@Model.Category.Name-@Model.Category.Id" class="fas fa-trash"></i></button>
+            }
             <div class="custom-control custom-radio">
 
                 @if (Model.Category.Id == Model.ChosenCategoryId)
@@ -48,7 +53,7 @@
             <ul class="collapse pl-4 list-unstyled" id="category-@Model.Category.Id">
                 @foreach (var category in Model.Category.ChildCategories)
                 {
-                    <partial name="/Views/Shared/Components/CategoryTree/_SubCategoryTree.cshtml" model="new MarketX.ViewModels.CategoryWithChosenCategory { Category = category, ChosenCategoryId = Model.ChosenCategoryId }" />
+                    <partial name="/Views/Shared/Components/CategoryTree/_SubCategoryTree.cshtml" model="new MarketX.ViewModels.CategoryWithChosenCategory { Category = category, ChosenCategoryId = Model.ChosenCategoryId, IsEditable = Model.IsEditable }" />
                 }
             </ul>
         }

@@ -12,5 +12,7 @@ namespace MarketX.BLL.Interfaces
         Task<IdentityResult> RegisterUser(User user);
         Task<SignInResult> LoginUser(LoginUser user);
         Task LogoutUser();
+        Task UpdateUserAsync(int userId, User user, string oldPassword);
+        Task<bool> CheckPassword(int userId, string password);
     }
 }

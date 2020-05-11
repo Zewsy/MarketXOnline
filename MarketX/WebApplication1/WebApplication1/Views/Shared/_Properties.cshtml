@@ -3,12 +3,12 @@
 
 @if (Model.PropertyInputs.Any())
 {
-    <div class="font-weight-bold pl-3">Tulajdonságok:</div>
+    <div class="font-weight-bold pl-3 pb-2">Tulajdonságok:</div>
 }
 @for (var i = 0; i < Model.PropertyInputs.Count; i++)
 {
-<div class="row pl-5 pt-2">
-    <label class="font-weight-bold col-6" for="@Model.PropertyInputs[i].Property.Name">@Model.PropertyInputs[i].Property.Name:</label>
+<div class="row pl-4 pt-2">
+    <label class="font-weight-bold col-6 d-flex flex-column justify-content-center" for="@Model.PropertyInputs[i].Property.Name">@Model.PropertyInputs[i].Property.Name:</label>
     <input type="hidden" asp-for="PropertyInputs[i].Id" value="@Model.PropertyInputs[i].Id" />
     <input type="hidden" asp-for="PropertyInputs[i].Property.Id" value="@Model.PropertyInputs[i].Property.Id" />
     <input type="hidden" asp-for="PropertyInputs[i].Property.Name" value="@Model.PropertyInputs[i].Property.Name" />
@@ -21,7 +21,7 @@
         @switch (Model.PropertyInputs[i].Property.ValueType)
         {
             case PropertyValueType.Bool:
-                <input class="form-control h-50 w-50" asp-for="PropertyInputs[i].Value" id="@Model.PropertyInputs[i].Property.Name" type="checkbox" />
+                <input class="form-control h-50" asp-for="PropertyInputs[i].Value" id="@Model.PropertyInputs[i].Property.Name" type="checkbox" />
                 break;
 
             case PropertyValueType.Integer:

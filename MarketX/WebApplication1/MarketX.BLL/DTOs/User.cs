@@ -8,7 +8,7 @@ namespace MarketX.BLL.DTOs
 {
     public class User
     {
-        public User(string firstName, string lastName, string password, string email, DateTime registrationDate)
+        public User(string firstName, string lastName, string password, string email, DateTime? registrationDate = null)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -18,11 +18,15 @@ namespace MarketX.BLL.DTOs
         }
         public int Id { get; set; }
         [Required]
+        [DisplayName("Keresztnév")]
         public string FirstName { get; set; }
         [Required]
+        [DisplayName("Vezetéknév")]
         public string LastName { get; set; }
+
+        [Required]
         public string Email { get; set; }
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
         [DisplayName("Telefonszám")]
         public string? PhoneNumber { get; set; }
@@ -30,10 +34,12 @@ namespace MarketX.BLL.DTOs
         [Required]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
         [DisplayName("Regisztráció ideje")]
-        public DateTime RegistrationDate { get; set; }
+        public DateTime? RegistrationDate { get; set; }
         public string? ProfilePicturePath { get; set; }
         public County? County { get; set; }
         public City? City { get; set; }
+        public int? CityId { get; set; }
+        public int? CountyId { get; set; }
 
     }
 }

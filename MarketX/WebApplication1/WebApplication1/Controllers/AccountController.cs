@@ -8,7 +8,6 @@ using MarketX.BLL.DTOs;
 using MarketX.BLL.Interfaces;
 using MarketX.ViewModels;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MarketX.Controllers
@@ -73,6 +72,12 @@ namespace MarketX.Controllers
 
         [HttpGet("Login")]
         public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpGet("AccessDenied")]
+        public IActionResult AccessDenied()
         {
             return View();
         }
@@ -150,9 +155,7 @@ namespace MarketX.Controllers
         [HttpGet("{userName}")]
         public async Task<IActionResult> UserProfile(string userName)
         {
-            int userId = await _userService.GetUserIdByEmailAsync(userName);
-            var dbUser = await _userService.GetUserAsync(userId);
-            var user = _mapper.Map<User>(dbUser);
+            var user = await _userService.GetUserByEmailAsync(userName);
             return View(user);
         }
 
@@ -161,6 +164,75 @@ namespace MarketX.Controllers
         {
             await _advertisementService.DeleteAdvertisementAsync(id);
             return NoContent();
+        }
+
+        [HttpGet("{userName}/edit")]
+        public async Task<IActionResult> EditProfile(string userName)
+        {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "Account");
+
+            if (User.Identity.Name != userName)
+                return RedirectToAction("Index", "Home");
+
+            var user = await _userService.GetUserByEmailAsync(userName);
+            EditProfileViewModel profileViewModel = new EditProfileViewModel
+            {
+                CityId = user.City?.Id,
+                CountyId = user.County?.Id,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Id = user.Id,
+                PhoneNumber = user.PhoneNumber,
+                OriginalProfilePicture = user.ProfilePicturePath
+            };
+            return View(profileViewModel);
+        }
+
+        [HttpPost("{userName}/edit")]
+        public async Task<IActionResult> EditProfile(EditProfileViewModel editedProfile)
+        {
+            if (!ModelState.IsValid)
+                return View(editedProfile);
+
+            var user = await _userService.GetUserAsync(editedProfile.Id);
+            if (!await _accountService.CheckPassword(user.Id, editedProfile.OldPassword!))
+            {
+                ModelState.AddModelError("OldPassword", "Rossz régi jelszót adtál meg!");
+                return View(editedProfile);
+            }
+                
+
+            string? profilePicturePath = null;
+            if(editedProfile.ProfilePicture != null)
+            {
+                profilePicturePath = Path.Combine(@"~/images/profilePictures", editedProfile.ProfilePicture.FileName);
+                await UploadProfilePicture(editedProfile.ProfilePicture);
+                if(user.ProfilePicturePath != null)
+                    System.IO.File.Delete(user.ProfilePicturePath);
+            }
+
+            user.LastName = editedProfile.LastName!;
+            user.FirstName = editedProfile.FirstName!;
+            user.Email = editedProfile.Email!;
+            user.CityId = editedProfile.CityId;
+            user.CountyId = editedProfile.CountyId;
+            user.PhoneNumber = editedProfile.PhoneNumber;
+            user.ProfilePicturePath = profilePicturePath ?? user.ProfilePicturePath;
+            user.Password = editedProfile.Password;
+
+            await _accountService.UpdateUserAsync(editedProfile.Id, user, editedProfile.OldPassword!);
+            return RedirectToAction("UserProfile", "Account", new { userName = editedProfile.Email});
+        }
+
+        private async Task UploadProfilePicture(IFormFile image)
+        {
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot/images/profilePictures", image.FileName);
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await image.CopyToAsync(fileStream);
+            }
         }
     }
 }

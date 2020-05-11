@@ -41,12 +41,12 @@
                 @if (Model.AdvertisementImagePaths.Count >= 2)
                 {
                     <ol class="carousel-indicators list-unstyled">
-                        <li data-target="#carousel" class="h-auto" data-slide-to="0">
+                        <li data-target="#carousel" class="h-auto bg-light d-flex flex-column justify-content-center" data-slide-to="0">
                             <img class="d-block img-fluid" src="@Url.Content(Model.AdvertisementImagePaths.ElementAt(0))" />
                         </li>
                         @for (int i = 1; i < Model.AdvertisementImagePaths.Count; i++)
                         {
-                            <li class="h-auto" data-target="#carousel" data-slide-to="@i">
+                            <li class="h-auto bg-light d-flex flex-column justify-content-center" data-target="#carousel" data-slide-to="@i">
                                 <img class="d-block img-fluid" src="@Url.Content(Model.AdvertisementImagePaths.ElementAt(i))" />
                             </li>
                         }
@@ -189,6 +189,6 @@
         </div>
 
         @section Scripts{
-            <script src="~/js/advertisement.js"></script>
+            <script src="~/js/showPhoneNumber.js"></script>
         }
     </div>

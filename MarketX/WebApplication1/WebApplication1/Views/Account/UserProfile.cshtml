@@ -6,11 +6,23 @@
 
 <vc:search show-detailed-search="true"></vc:search>
 
-<h1 class="text-center">@Model.LastName @Model.FirstName profilja</h1>
+<div class="row mt-2">
+    <div class="col-3"></div>
+    <div class="col-6 bg-light">
+        <div class="row pt-2">
+            @if (User.Identity.Name == Model.Email)
+            {
+                <h1 class="col-10">@Model.LastName @Model.FirstName profilja</h1>
+                <div class="col-1">
+                    <a asp-controller="Account" asp-action="EditProfile" asp-route-userName="@Model.Email" class="btn"><i class="fas fa-pen fa-2x"></i></a>
+                </div>
+            }
+            else
+            {
+                <h1 class="col-12 text-center">@Model.LastName @Model.FirstName profilja</h1>
+            }
+        </div>
 
-<div class="row pt-2">
-    <div class="col-4"></div>
-    <div class="border-dark col-4">
         <div class="d-flex justify-content-center">
             <img class="user-profile-picture" src="@Url.Content(Model.ProfilePicturePath)" />
         </div>
@@ -27,11 +39,19 @@
                 <b>@Html.DisplayNameFor(u => u.PhoneNumber):</b>
             </div>
             <div class="col-6">
-                @if(Model.PhoneNumber == null)
+                @if (Model.PhoneNumber == null)
                 {
                     <span>Nincs megadva</span>
                 }
-                @Model.PhoneNumber
+                else if (User.Identity.Name == Model.Email)
+                {
+                    @Model.PhoneNumber
+                }
+                else
+                {
+                    <button id="btn-phone" type="button" class="btn btn-dark">Mutat</button>
+                    <div id="phone-number" data-id="@Model.Id"></div>
+                }
             </div>
         </div>
         <div class="row pt-2">
@@ -45,7 +65,14 @@
                 }
                 else
                 {
-                    <span>@Model.County?.Name</span>
+                    @if (Model.County != null)
+                    {
+                        <span>@Model.County?.Name</span>
+                    }
+                    else
+                    {
+                        <span>Nincs megadva</span>
+                    }
                 }
             </div>
         </div>
@@ -57,15 +84,19 @@
                 @Html.DisplayFor(u => u.RegistrationDate)
             </div>
         </div>
-        <div class="row pt-2 pl-3">
+        <div class="row pt-3 pl-3">
             <a href="@Url.Action("Results", "Home", new MarketX.BLL.DTOs.SearchModel { Email = Model.Email })">Összes hirdetés megtekintése</a>  @*TODO*@
         </div>
-        <div class="row pt-2">
+        <div class="row py-3">
             <div class="col-6">
                 <button class="btn btn-info">Email</button>
                 <button class="btn btn-info">Üzenet</button>
             </div>
         </div>
     </div>
-    <div class="col-4"></div>
+    <div class="col-3"></div>
 </div>
+
+@section Scripts{
+    <script src="~/js/showPhoneNumber.js"></script>
+}

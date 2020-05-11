@@ -30,9 +30,13 @@ namespace MarketX.BLL.Services
             return _mapper.Map<User>(dbUser);
         }
 
-        public async Task<int> GetUserIdByEmailAsync(string email)
+        public async Task<User> GetUserByEmailAsync(string email)
         {
-            return await _context.Users.Where(u => u.Email == email).Select(u => u.Id).FirstOrDefaultAsync();
+            var dbUser = await _context.Users
+                .Include(u => u.City)
+                .Include(u => u.County)
+                .Where(u => u.Email == email).FirstOrDefaultAsync();
+            return _mapper.Map<User>(dbUser);
         }
 
         public async Task<string?> GetUserPhoneNumberAsync(int userId)

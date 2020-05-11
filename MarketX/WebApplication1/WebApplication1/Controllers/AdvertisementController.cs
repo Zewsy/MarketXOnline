@@ -46,8 +46,7 @@ namespace MarketX.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                var userId = await _userService.GetUserIdByEmailAsync(User.Identity.Name!);
-                var user = await _userService.GetUserAsync(userId);
+                var user = await _userService.GetUserByEmailAsync(User.Identity.Name!);
                 AdvertisementForm advertisementForm = new AdvertisementForm { CityId = user.City?.Id };
                 return View(advertisementForm);
             }
@@ -124,12 +123,12 @@ namespace MarketX.Controllers
             };
 
             string userName = User.Identity.Name!;
-            int userId = await _userService.GetUserIdByEmailAsync(userName);
+            var user = await _userService.GetUserByEmailAsync(userName);
 
             if ((bool)model.IsBuying!)
-                advertisement.CustomerId = userId;
+                advertisement.CustomerId = user.Id;
             else
-                advertisement.SellerId = userId;
+                advertisement.SellerId = user.Id;
 
             SetPropertiesToAdvertisement(advertisement, model.PropertyInputs);
 

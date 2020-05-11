@@ -1,0 +1,56 @@
+﻿@model MarketX.BLL.DTOs.Property
+
+<form id="prop-form">
+    <input type="hidden" value="@Model.Id" asp-for="Id" />
+    <div class="row px-3">
+        <label for="@Model.Name">Tulajdonság neve:</label>
+        <input id="prop-@Model.Name" type="text" class="form-control col-12" asp-for="Name" />
+    </div>
+    <div class="row pr-3 pl-2 py-3 d-flex justify-content-center align-items-center">
+        <label for="IsImportant" class="col-4">Fontos:</label>
+        <input id="IsImportant" type="checkbox" class="form-control col-8 d-flex justify-content-center" asp-for="IsImportant" />
+    </div>
+    <div class="row pr-3 pl-2 py-3">
+        <label class="col-4 d-flex flex-column justify-content-center" for="ValueType">Típusa:</label>
+        <select asp-for="ValueType" id="PropertyValueType" class="col-8 form-control">
+            <option value="@MarketX.DAL.Entities.PropertyValueType.Bool">Igaz/Hamis</option>
+            <option value="@MarketX.DAL.Entities.PropertyValueType.Integer">Számérték</option>
+            <option value="@MarketX.DAL.Entities.PropertyValueType.String">Szöveges</option>
+            <option value="@MarketX.DAL.Entities.PropertyValueType.SelectableFromList">Listából választható</option>
+        </select>
+    </div>
+    <div id="prop-values-list-div">
+        <div class="row pr-3 pl-2 pt-3 pb-1">
+            <div class="col-10 pl-3">Lista lehetséges értékei:</div>
+        </div>
+        <div class="row pr-3 pl-3 pt-3 pb-1">
+            <input id="new-property-value-name" type="text" class="form-control col-10 pl-3" />
+            <button id="add-property-value" class="col-2 btn btn-success"><i class="fas fa-plus"></i></button>
+        </div>
+        <div id="property-values">
+            @if (Model.PropertyValues.Count > 0)
+            {
+                @for (int i = 0; i < Model.PropertyValues.Count; i++)
+                {
+                    <partial name="_PropertyValueRow" model="@Model.PropertyValues[i]" />
+                }
+            }
+        </div>
+    </div>
+    <div class="row pr-3 pl-4 py-3">
+        <button type="submit" class="btn btn-success">Mentés</button>
+    </div>
+</form>
+
+<div class="modal" id="successful-save" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="pb-2 row d-flex justify-content-center">Sikeres mentés!</div>
+                <div class="row d-flex justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

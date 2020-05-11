@@ -1,6 +1,6 @@
 ﻿@model MarketX.ViewModels.CityCountySelect
 
-    <div class="col-auto pl-0 pt-2">
+    <div class="col-auto pl-0 pb-2">
         @if (Model.IsRequired)
         {
             <select required asp-for="@Model.CountyId" id="countySelect" class="form-control">
@@ -23,7 +23,7 @@
         }
     </div>
     
-    <div class="col-auto pl-0 pt-2">
+    <div class="col-auto pl-0">
         @if (Model.IsRequired)
         {
             <select required asp-for="@Model.CityId" class="form-control" id="citySelect">

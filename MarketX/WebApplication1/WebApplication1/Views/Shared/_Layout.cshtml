@@ -27,10 +27,10 @@
                             <a class="nav-link text-dark btn btn-outline-success" asp-area="" asp-controller="Advertisement" asp-action="CreateAdvertisement">Hirdetésfeladás</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Rólunk</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AboutUs">Rólunk</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Kapcsolat</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ContactUs">Kapcsolat</a>
                         </li>
                     </ul>
                 </div>
@@ -58,6 +58,16 @@
                                                 </button>
                                             </form>
                                         </div>
+                                        @if (User.IsInRole("Administrator"))
+                                        {
+                                            <div class="dropdown-item">
+                                                <form method="get" asp-controller="Admin" asp-action="AdminPanel">
+                                                    <button type="submit" class="nav-link btn btn-link">
+                                                        Admin Panel
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        }
                                         <div class="dropdown-item">
                                             <form method="post" asp-controller="Account" asp-action="Logout">
                                                 <button type="submit" class="nav-link btn btn-link">

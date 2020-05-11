@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MarketX.BLL.DTOs;
 using MarketX.BLL.Interfaces;
+using MarketX.DAL;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -14,11 +15,13 @@ namespace MarketX.BLL.Services
         private readonly UserManager<DAL.Entities.User> userManager;
         private readonly SignInManager<DAL.Entities.User> signInManager;
         private readonly IMapper _mapper;
+        private readonly MarketXContext _context;
 
-        public AccountService(UserManager<DAL.Entities.User> userManager, SignInManager<DAL.Entities.User> signInManager, IMapper mapper)
+        public AccountService(UserManager<DAL.Entities.User> userManager, SignInManager<DAL.Entities.User> signInManager, IMapper mapper, MarketXContext context)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            _context = context;
             _mapper = mapper;
         }
 
@@ -41,6 +44,34 @@ namespace MarketX.BLL.Services
             dbUser.CityId = user.City?.Id;
             dbUser.CountyId = user.County?.Id;
             return await userManager.CreateAsync(dbUser, user.Password);
+        }
+
+        public async Task<bool> CheckPassword(int userId, string password)
+        {
+            var dbUser = await userManager.FindByIdAsync(userId.ToString());
+            return await userManager.CheckPasswordAsync(dbUser, password);
+        }
+
+        public async Task UpdateUserAsync(int userId, User user, string oldPassword)
+        {
+            var dbUser = await userManager.FindByIdAsync(userId.ToString());
+            if(user.Password != null && user.Password != oldPassword)
+                await userManager.ChangePasswordAsync(dbUser, oldPassword, user.Password);
+
+            dbUser.FirstName = user.FirstName;
+            dbUser.LastName = user.LastName;
+            dbUser.Email = user.Email;
+            dbUser.CityId = user.CityId;
+            dbUser.CountyId = user.CountyId;
+            dbUser.PhoneNumber = user.PhoneNumber;
+            dbUser.UserName = user.Email;
+            dbUser.ProfilePicturePath = user.ProfilePicturePath;
+
+            if (user.ProfilePicturePath != null)
+                dbUser.ProfilePicturePath = user.ProfilePicturePath;
+
+            await userManager.UpdateAsync(dbUser);
+            await signInManager.RefreshSignInAsync(dbUser);
         }
     }
 }

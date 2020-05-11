@@ -1,0 +1,22 @@
+﻿@model MarketX.ViewModels.CategoryListWithChosenCategory
+
+<div class="row">
+    <div class="col-4 px-3">
+        <h2 class="text-center pb-3">Kategóriák</h2>
+        <div id="edit-list">
+            <partial name="_EditCategoryList" model="@Model" />
+        </div>
+    </div>
+    <div class="col-4 px-3">
+        <h2 class="text-center pb-3">Kategória tulajdonságai</h2>
+        <div id="edit-category"></div>
+    </div>
+    <div class="col-4 px-3">
+        <h2 class="text-center pb-3">Tulajdonság</h2>
+        <div id="edit-property"></div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/editCategories.js"></script>
+}

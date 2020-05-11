@@ -26,7 +26,7 @@ namespace MarketX.ViewModels
         [Required(ErrorMessage = "Kötelező")]
         public bool? IsBuying { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:C0}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:C0}", ApplyFormatInEditMode = false)]
         [Range(0, int.MaxValue, ErrorMessage = "Negatív érték nem adható meg árnak!")]
         public int? Price { get; set; }
         public List<PropertyWithValue> PropertyInputs { get; set; }

@@ -61,6 +61,16 @@ namespace MarketX.Controllers
             return View(model);
         }
 
+        public IActionResult AboutUs()
+        {
+            return View();
+        }
+
+        public IActionResult ContactUs()
+        {
+            return View();
+        }
+
         private List<ResultAdvertisementCard> ParseAdvertisements(List<Advertisement> advertisements)
         {
             return advertisements.Select(a => new ResultAdvertisementCard

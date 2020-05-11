@@ -10,7 +10,6 @@ namespace MarketX.BLL.Interfaces
     {
         Task<string?> GetUserPhoneNumberAsync(int userId);
         Task<User> GetUserAsync(int userId);
-
-        Task<int> GetUserIdByEmailAsync(string email);
+        Task<User> GetUserByEmailAsync(string email);
     }
 }

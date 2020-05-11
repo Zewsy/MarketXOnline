@@ -34,6 +34,7 @@ namespace MarketX
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<ICityCountyService, CityCountyService>();
             services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IPropertyService, PropertyService>();
             services.AddIdentity<User, Role>().AddEntityFrameworkStores<MarketXContext>();
 
             services.Configure<IdentityOptions>(options =>

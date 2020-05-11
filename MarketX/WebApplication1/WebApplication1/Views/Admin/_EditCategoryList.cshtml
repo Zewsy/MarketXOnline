@@ -1,0 +1,24 @@
+﻿@model MarketX.ViewModels.CategoryListWithChosenCategory
+
+<button class="btn btn-primary" name="addCategory" data-toggle="modal" data-target="#addCategoryModal">Új főkategória</button>
+<div class="pt-3">
+    <vc:category-tree chosen-category-id="@Model.ChosenCategoryId" is-required="@Model.IsRequired" is-editable="true"></vc:category-tree>
+</div>
+<div class="modal" id="addCategoryModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Új kategória hozzáadása</h2>
+            </div>
+            <div class="modal-body">
+                <div class="pb-3" id="chosenCategory"></div>
+                <label for="newCategoryName">Új kategória neve:</label>
+                <input id="newCategoryName" type="text" class="form-control" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Mégse</button>
+                <button id="btnChooseCategory" type="button" class="btn btn-primary">OK</button>
+            </div>
+        </div>
+    </div>
+</div>

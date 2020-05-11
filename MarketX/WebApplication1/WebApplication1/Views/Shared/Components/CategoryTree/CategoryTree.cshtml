@@ -4,6 +4,6 @@
         @foreach (var category in Model.Categories)
         {
             if (category.ParentCategoryId == null)
-            {<partial name="/Views/Shared/Components/CategoryTree/_SubCategoryTree.cshtml" model="new MarketX.ViewModels.CategoryWithChosenCategory { Category = category, ChosenCategoryId = Model.ChosenCategoryId }" />}
+            {<partial name="/Views/Shared/Components/CategoryTree/_SubCategoryTree.cshtml" model="new MarketX.ViewModels.CategoryWithChosenCategory { Category = category, ChosenCategoryId = Model.ChosenCategoryId, IsEditable = Model.IsEditable }" />}
         }
     </ul>

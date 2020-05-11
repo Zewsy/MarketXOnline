@@ -120,5 +120,25 @@ namespace MarketX.BLL.Services
 
             await _context.SaveChangesAsync();
         }
+
+        public async Task<List<Advertisement>> GetNewAdvertisementsAsync()
+        {
+            var dbAdvertisements = await _context.Advertisements
+                                    .Include(a => a.AdvertisementPhotos)
+                                    .Include(a => a.City)
+                                        .ThenInclude(a => a.County)
+                                    .Include(a => a.Seller)
+                                    .Include(a => a.Customer)
+                                    .Where(a => a.Status == DAL.Entities.Status.New)
+                                    .ToListAsync();
+            return _mapper.Map<List<Advertisement>>(dbAdvertisements);
+        }
+
+        public async Task ApproveAdvertisementAsync(int advertisementId)
+        {
+            var dbAd = await _context.Advertisements.FirstAsync(a => a.Id == advertisementId);
+            dbAd.Status = DAL.Entities.Status.Active;
+            await _context.SaveChangesAsync();
+        }
     }
 }
