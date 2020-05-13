@@ -12,11 +12,11 @@
                         @if (advertisement.ImagePath != null)
                         {
 
-                            <img class="card-img" src="@Url.Content(advertisement.ImagePath)">
+                            <img class="d-block card-img" src="@Url.Content(advertisement.ImagePath)">
                         }
                         else
                         {
-                            <img class="card-img" src="~/images/image-placeholder.jpg">
+                            <img class="d-block card-img" src="~/images/image-placeholder.jpg">
                         }
                         <div class="p-0 card-img-overlay d-flex justify-content-end">
                             @if (advertisement.AdType == AdType.Buying)
