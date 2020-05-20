@@ -44,7 +44,10 @@ namespace MarketX.Controllers
                     registerViewModel.LastName!,
                     registerViewModel.Password!,
                     registerViewModel.Email!,
-                    registrationDate: DateTime.Now);
+                    registrationDate: DateTime.Now)
+                {
+                    PhoneNumber = registerViewModel.PhoneNumber
+                };
 
                 if (registerViewModel.CountyId != null) user.County = new County { Id = (int)registerViewModel.CountyId };
                 if (registerViewModel.CityId != null) user.City = new City { Id = (int)registerViewModel.CityId };
