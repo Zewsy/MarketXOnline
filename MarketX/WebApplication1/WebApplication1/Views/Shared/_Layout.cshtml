@@ -52,6 +52,13 @@
                                             </form>
                                         </div>
                                         <div class="dropdown-item">
+                                            <form method="get" asp-controller="Account" asp-action="ChangePassword" asp-route-userName="@User.Identity.Name">
+                                                <button type="submit" class="nav-link btn btn-link">
+                                                    Jelszóváltás
+                                                </button>
+                                            </form>
+                                        </div>
+                                        <div class="dropdown-item">
                                             <form method="get" asp-controller="Account" asp-action="UserAdvertisements" asp-route-userName="@User.Identity.Name">
                                                 <button type="submit" class="nav-link btn btn-link">
                                                     Saját hirdetések

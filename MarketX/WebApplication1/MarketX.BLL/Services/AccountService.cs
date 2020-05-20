@@ -52,11 +52,9 @@ namespace MarketX.BLL.Services
             return await userManager.CheckPasswordAsync(dbUser, password);
         }
 
-        public async Task UpdateUserAsync(int userId, User user, string oldPassword)
+        public async Task UpdateUserAsync(int userId, User user)
         {
             var dbUser = await userManager.FindByIdAsync(userId.ToString());
-            if(user.Password != null && user.Password != oldPassword)
-                await userManager.ChangePasswordAsync(dbUser, oldPassword, user.Password);
 
             dbUser.FirstName = user.FirstName;
             dbUser.LastName = user.LastName;
@@ -72,6 +70,13 @@ namespace MarketX.BLL.Services
 
             await userManager.UpdateAsync(dbUser);
             await signInManager.RefreshSignInAsync(dbUser);
+        }
+
+        public async Task ChangeUserPasswordAsync(int userId, string oldPassword, string newPassword)
+        {
+            var dbUser = await userManager.FindByIdAsync(userId.ToString());
+            if (newPassword != oldPassword)
+                await userManager.ChangePasswordAsync(dbUser, oldPassword, newPassword);
         }
     }
 }

@@ -207,7 +207,7 @@ namespace MarketX.Controllers
                 profilePicturePath = Path.Combine(@"~/images/profilePictures", editedProfile.ProfilePicture.FileName);
                 await UploadProfilePicture(editedProfile.ProfilePicture);
                 if(user.ProfilePicturePath != null)
-                    System.IO.File.Delete(user.ProfilePicturePath);
+                    System.IO.File.Delete(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot/images/advertisementPhotos", Path.GetFileName(user.ProfilePicturePath)));
             }
 
             user.LastName = editedProfile.LastName!;

@@ -1,8 +1,5 @@
 ﻿using MarketX.BLL.DTOs;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MarketX.BLL.Interfaces
@@ -12,7 +9,8 @@ namespace MarketX.BLL.Interfaces
         Task<IdentityResult> RegisterUser(User user);
         Task<SignInResult> LoginUser(LoginUser user);
         Task LogoutUser();
-        Task UpdateUserAsync(int userId, User user, string oldPassword);
+        Task UpdateUserAsync(int userId, User user);
+        Task ChangeUserPasswordAsync(int userId, string oldPassword, string newPassword);
         Task<bool> CheckPassword(int userId, string password);
     }
 }
