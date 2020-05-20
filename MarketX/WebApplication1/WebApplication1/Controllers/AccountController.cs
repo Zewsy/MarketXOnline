@@ -196,13 +196,7 @@ namespace MarketX.Controllers
             if (!ModelState.IsValid)
                 return View(editedProfile);
 
-            var user = await _userService.GetUserAsync(editedProfile.Id);
-            if (!await _accountService.CheckPassword(user.Id, editedProfile.OldPassword!))
-            {
-                ModelState.AddModelError("OldPassword", "Rossz régi jelszót adtál meg!");
-                return View(editedProfile);
-            }
-                
+            var user = await _userService.GetUserAsync(editedProfile.Id);                
 
             string? profilePicturePath = null;
             if(editedProfile.ProfilePicture != null)
@@ -220,10 +214,42 @@ namespace MarketX.Controllers
             user.CountyId = editedProfile.CountyId;
             user.PhoneNumber = editedProfile.PhoneNumber;
             user.ProfilePicturePath = profilePicturePath ?? user.ProfilePicturePath;
-            user.Password = editedProfile.Password;
 
-            await _accountService.UpdateUserAsync(editedProfile.Id, user, editedProfile.OldPassword!);
+            await _accountService.UpdateUserAsync(editedProfile.Id, user);
             return RedirectToAction("UserProfile", "Account", new { userName = editedProfile.Email});
+        }
+
+        [HttpGet("{userName}/changePassword")]
+        public async Task<IActionResult> ChangePassword(string userName)
+        {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "Account");
+
+            if (User.Identity.Name != userName)
+                return RedirectToAction("Index", "Home");
+
+            var user = await _userService.GetUserByEmailAsync(userName);
+            ChangePasswordViewModel passwordViewModel = new ChangePasswordViewModel { Id = user.Id };
+            return View(passwordViewModel);
+        }
+
+        [HttpPost("{userName}/changePassword")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel changePasswordViewModel)
+        {
+            if (!ModelState.IsValid)
+                return View(changePasswordViewModel);
+
+            var user = await _userService.GetUserAsync(changePasswordViewModel.Id);
+            if (!await _accountService.CheckPassword(user.Id, changePasswordViewModel.OldPassword!))
+            {
+                ModelState.AddModelError("OldPassword", "Rossz régi jelszót adtál meg!");
+                return View(changePasswordViewModel);
+            }
+
+            user.Password = changePasswordViewModel.Password;
+
+            await _accountService.ChangeUserPasswordAsync(user.Id, changePasswordViewModel.OldPassword!, changePasswordViewModel.Password!);
+            return RedirectToAction("UserProfile", "Account", new { userName = user.Email });
         }
 
         private async Task UploadProfilePicture(IFormFile image)
